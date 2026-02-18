@@ -6,18 +6,18 @@
 - [x] Nuxt 3 жоба құру
 - [x] Tailwind CSS орнату
 - [x] GSAP орнату
-- [ ] Nuxt Content конфигурациялау
+- [x] Nuxt Content конфигурациялау
 
 ### Негізгі компоненттер
-- [ ] DocsLayout.vue — негізгі layout
-- [ ] DocsSidebar.vue — сол жақ навигация
-- [ ] DocsContent.vue — контент аймағы
-- [ ] MobileMenu.vue — мобильді меню
+- [x] DocsLayout.vue — негізгі layout
+- [x] DocsSidebar.vue — сол жақ навигация
+- [x] DocsContent.vue — контент аймағы (docs/[...slug].vue)
+- [x] MobileMenu.vue — мобильді меню (DocsSidebar ішінде)
 
 ### Стильдер
-- [ ] GSAP түстер палитрасы (tailwind.config)
-- [ ] Типография
-- [ ] Dark theme (негізгі)
+- [x] GSAP түстер палитрасы (tailwind.config)
+- [x] Типография
+- [x] Dark theme (негізгі)
 
 ### Навигация
 - [ ] Барлық бөлімдер тізімі

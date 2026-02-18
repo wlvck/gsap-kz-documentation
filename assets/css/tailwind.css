@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-gsap-bg-primary text-gsap-text-primary font-sans antialiased;
+  }
+
+  ::selection {
+    @apply bg-gsap-green/30 text-gsap-text-primary;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gsap-bg-secondary;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gsap-border rounded-full hover:bg-gsap-text-muted;
+  }
+}
