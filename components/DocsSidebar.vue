@@ -100,17 +100,24 @@ const isActive = (path: string) => route.path === path;
   >
     <!-- Logo -->
     <div class="flex items-center gap-3 px-6 py-6 border-b border-gsap-border">
-      <div class="w-10 h-10 rounded-lg bg-gsap-green flex items-center justify-center">
-        <span class="text-gsap-bg-primary font-bold text-lg">G</span>
-      </div>
-      <div>
-        <h1 class="text-gsap-text-primary font-semibold">GSAP</h1>
-        <p class="text-xs text-gsap-text-secondary">Қазақша құжаттама</p>
-      </div>
+      <NuxtLink to="/" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-gsap-green flex items-center justify-center">
+          <span class="text-gsap-bg-primary font-bold text-lg">G</span>
+        </div>
+        <div>
+          <h1 class="text-gsap-text-primary font-semibold">GSAP</h1>
+          <p class="text-xs text-gsap-text-secondary">Қазақша құжаттама</p>
+        </div>
+      </NuxtLink>
+    </div>
+
+    <!-- Search -->
+    <div class="px-4 py-4 border-b border-gsap-border">
+      <DocsSearch />
     </div>
 
     <!-- Navigation -->
-    <nav class="px-4 py-6 overflow-y-auto h-[calc(100%-88px-60px)]">
+    <nav class="px-4 py-4 overflow-y-auto h-[calc(100%-88px-72px-60px)]">
       <div v-for="group in navigation" :key="group.title" class="mb-6">
         <h2 class="px-2 mb-2 text-xs font-semibold text-gsap-text-muted uppercase tracking-wider">
           {{ group.title }}
