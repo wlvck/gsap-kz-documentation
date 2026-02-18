@@ -12,6 +12,7 @@ const closeSidebar = () => {
 
 <template>
   <div class="flex min-h-screen">
+    <ScrollProgress />
     <!-- Mobile menu button -->
     <button
       class="fixed top-4 left-4 z-50 p-2 rounded-lg bg-gsap-bg-secondary border border-gsap-border lg:hidden"
