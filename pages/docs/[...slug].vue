@@ -20,11 +20,50 @@ const { data: page } = await useAsyncData(`docs-${slug.value}`, () =>
 const { version: gsapVersion, fetchVersion } = useGsapVersion();
 const isOrnatuPage = computed(() => slug.value === "kirisspe/ornatu");
 
+// Add copy buttons to code blocks
+const addCopyButtons = () => {
+  const preElements = document.querySelectorAll(".prose pre");
+  preElements.forEach((pre) => {
+    if (pre.querySelector(".copy-btn")) return;
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "relative group";
+    pre.parentNode?.insertBefore(wrapper, pre);
+    wrapper.appendChild(pre);
+
+    const btn = document.createElement("button");
+    btn.className =
+      "copy-btn absolute top-2 right-2 px-2 py-1 text-xs rounded bg-gsap-bg-tertiary text-gsap-text-muted hover:text-gsap-text-primary opacity-0 group-hover:opacity-100 transition-opacity";
+    btn.textContent = "Көшіру";
+    btn.onclick = async () => {
+      const code = pre.querySelector("code")?.textContent || "";
+      await navigator.clipboard.writeText(code);
+      btn.textContent = "Көшірілді!";
+      setTimeout(() => {
+        btn.textContent = "Көшіру";
+      }, 2000);
+    };
+    wrapper.appendChild(btn);
+  });
+};
+
 onMounted(() => {
   if (isOrnatuPage.value) {
     fetchVersion();
   }
+  nextTick(() => {
+    addCopyButtons();
+  });
 });
+
+watch(
+  () => route.path,
+  () => {
+    nextTick(() => {
+      addCopyButtons();
+    });
+  }
+);
 </script>
 
 <template>

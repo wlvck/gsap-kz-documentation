@@ -57,26 +57,17 @@
 
 ---
 
-## 🎨 3-кезең: UI компоненттер
+## 🎨 3-кезең: UI компоненттер (Орындалуда)
 
 ### Код блоктары
 
-- [ ] Syntax highlighting (Shiki)
-- [ ] Copy button
+- [x] Copy button
+- [ ] Syntax highlighting (Shiki) — Nuxt Content v3 әдепкі
 - [ ] Filename көрсету
-
-### Интерактивті элементтер
-
-- [ ] Live code demo
-- [ ] CodePen embed
-- [ ] Easing визуализация
 
 ### Арнайы блоктар
 
-- [ ] Tip (кеңес)
-- [ ] Warning (ескерту)
-- [ ] Info (ақпарат)
-- [ ] PropsTable (параметрлер)
+- [x] Callout компоненті (Tip, Warning, Info, Danger)
 
 ---
 
