@@ -208,6 +208,13 @@ gsap.to(".box", {
 });
 ```
 
+## Интерактивті салыстыру
+
+Барлық ease түрлерін интерактивті түрде салыстырыңыз:
+
+::EasingVisualizer{ease="power2.out" showControls showComparison}
+::
+
 ## Салыстыру кестесі
 
 | Ease      | Күш         | Қолданылуы              |

@@ -41,6 +41,13 @@ gsap.to(".box", {
 
 GreenSock-тың [Ease Visualizer](https://greensock.com/ease-visualizer/) құралын қолданыңыз. Онда қисықты визуалды түрде жасап, SVG path-ын көшіруге болады.
 
+### Ease қисықтарын салыстыру
+
+Стандартты ease түрлерін интерактивті түрде қараңыз:
+
+::EasingVisualizer{ease="back.out" showControls showComparison}
+::
+
 ## Функция арқылы
 
 Өзіңіздің ease функцияңызды жазуға болады:
