@@ -69,6 +69,7 @@ export default defineNuxtConfig({
   },
   pwa: {
     registerType: "autoUpdate",
+    includeAssets: ["favicon.ico", "apple-touch-icon.png", "pwa-192x192.png", "pwa-512x512.png"],
     manifest: {
       name: "GSAP Қазақша Құжаттама",
       short_name: "GSAP KZ",
@@ -82,17 +83,17 @@ export default defineNuxtConfig({
       scope: "/",
       icons: [
         {
-          src: "/pwa-192x192.png",
+          src: "pwa-192x192.png",
           sizes: "192x192",
           type: "image/png",
         },
         {
-          src: "/pwa-512x512.png",
+          src: "pwa-512x512.png",
           sizes: "512x512",
           type: "image/png",
         },
         {
-          src: "/pwa-512x512.png",
+          src: "pwa-512x512.png",
           sizes: "512x512",
           type: "image/png",
           purpose: "maskable",
@@ -100,8 +101,8 @@ export default defineNuxtConfig({
       ],
     },
     workbox: {
-      navigateFallback: "/offline",
       globPatterns: ["**/*.{js,css,html,png,svg,ico,woff,woff2}"],
+      navigateFallback: null,
       runtimeCaching: [
         {
           urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
@@ -110,7 +111,7 @@ export default defineNuxtConfig({
             cacheName: "google-fonts-cache",
             expiration: {
               maxEntries: 10,
-              maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+              maxAgeSeconds: 60 * 60 * 24 * 365,
             },
             cacheableResponse: {
               statuses: [0, 200],
@@ -124,7 +125,7 @@ export default defineNuxtConfig({
             cacheName: "gstatic-fonts-cache",
             expiration: {
               maxEntries: 10,
-              maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+              maxAgeSeconds: 60 * 60 * 24 * 365,
             },
             cacheableResponse: {
               statuses: [0, 200],
@@ -137,7 +138,7 @@ export default defineNuxtConfig({
       installPrompt: true,
     },
     devOptions: {
-      enabled: false,
+      enabled: true,
       type: "module",
     },
   },
