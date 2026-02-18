@@ -1,33 +1,39 @@
 # GSAP Қазақша Құжаттама — TODO
 
-## 🚀 1-кезең: Инфрақұрылым (Қазір)
+## ✅ 1-кезең: Инфрақұрылым (Аяқталды)
 
 ### Орнату
 
 - [x] Nuxt 3 жоба құру
 - [x] Tailwind CSS орнату
 - [x] GSAP орнату
-- [x] Nuxt Content конфигурациялау
+- [x] Nuxt Content v3 конфигурациялау
+- [x] ESLint + @nuxt/eslint орнату
+- [x] Prettier орнату
+- [x] Husky + lint-staged орнату
+- [x] TypeScript + vue-tsc орнату
 
 ### Негізгі компоненттер
 
 - [x] DocsLayout.vue — негізгі layout
-- [x] DocsSidebar.vue — сол жақ навигация
-- [x] DocsContent.vue — контент аймағы (docs/[...slug].vue)
-- [x] MobileMenu.vue — мобильді меню (DocsSidebar ішінде)
+- [x] DocsSidebar.vue — сол жақ навигация + мобильді меню
+- [x] pages/docs/[...slug].vue — құжаттама беттері
+- [x] pages/index.vue — басты бет (hero + features)
+- [x] layouts/docs.vue — құжаттама layout
 
 ### Стильдер
 
-- [x] GSAP түстер палитрасы (tailwind.config)
-- [x] Типография
+- [x] GSAP түстер палитрасы (tailwind.config.ts)
+- [x] Типография (@tailwindcss/typography)
 - [x] Dark theme (негізгі)
+- [x] Prose стильдер (pages/docs/[...slug].vue)
 
 ### Навигация
 
-- [ ] Барлық бөлімдер тізімі
-- [ ] Ашылатын суб-тақырыптар
-- [ ] Белсенді бет белгіленуі
-- [ ] URL routing
+- [x] Негізгі бөлімдер тізімі (DocsSidebar)
+- [x] Белсенді бет белгіленуі (isActive)
+- [x] URL routing ([...slug].vue)
+- [ ] Ашылатын суб-тақырыптар (collapsible)
 
 ---
 
@@ -35,20 +41,24 @@
 
 ### Markdown файлдар құру
 
-- [ ] 01-кіріспе/ (4 файл)
-- [ ] 02-негіздер/ (5 файл)
-- [ ] 03-easing/ (4 файл)
-- [ ] 04-timeline/ (6 файл)
-- [ ] 05-scrolltrigger/ (10 файл)
-- [ ] 06-svg-анимация/ (5 файл)
-- [ ] 07-плагиндер/ (7 файл)
-- [ ] 08-утилиталар/ (8 файл)
-- [ ] 09-жетілдірілген/ (7 файл)
-- [ ] 10-практика/ (10 файл)
-- [ ] 11-фреймворктар/ (4 файл)
-- [ ] 12-оңтайландыру/ (5 файл)
-- [ ] 13-анықтамалық/ (4 файл)
-- [ ] 14-қосымша/ (3 файл)
+- [x] kirisspe/ — Кіріспе (4 файл)
+  - [x] gsap-degen-ne.md
+  - [x] ornatu.md
+  - [x] algashky-animatsiya.md
+  - [x] nege-gsap.md
+- [ ] negizderi/ — Негіздер (5 файл)
+- [ ] easing/ — Easing (4 файл)
+- [ ] timeline/ — Timeline (6 файл)
+- [ ] scrolltrigger/ — ScrollTrigger (10 файл)
+- [ ] svg-animatsiya/ — SVG Анимация (5 файл)
+- [ ] plaginder/ — Плагиндер (7 файл)
+- [ ] utilitalar/ — Утилиталар (8 файл)
+- [ ] zhetildirіlgen/ — Жетілдірілген (7 файл)
+- [ ] praktika/ — Практика (10 файл)
+- [ ] freimworktar/ — Фреймворктар (4 файл)
+- [ ] optailandyru/ — Оңтайландыру (5 файл)
+- [ ] anyktamalyk/ — Анықтамалық (4 файл)
+- [ ] kosymsha/ — Қосымша (3 файл)
 
 ---
 
@@ -56,7 +66,7 @@
 
 ### Код блоктары
 
-- [ ] Syntax highlighting
+- [ ] Syntax highlighting (Shiki)
 - [ ] Copy button
 - [ ] Filename көрсету
 
@@ -77,8 +87,9 @@
 
 ## 📱 4-кезең: Responsive
 
-- [ ] Mobile навигация
-- [ ] Tablet layout
+- [x] Mobile навигация (DocsSidebar)
+- [x] Mobile menu toggle
+- [ ] Tablet layout оңтайландыру
 - [ ] Touch interactions
 
 ---
@@ -89,31 +100,11 @@
 - [ ] Тақырып ауыстыру (dark/light)
 - [ ] Прогресс индикаторы
 - [ ] GitHub сілтемелер
+- [ ] Table of Contents (оң жақ)
 
 ---
 
-## 📚 6-кезең: Контент жазу
-
-### Кіріспе бөлімі
-
-- [ ] GSAP деген не
-- [ ] Орнату нұсқаулығы
-- [ ] Алғашқы анимация
-- [ ] Неге GSAP
-
-### Негіздер бөлімі
-
-- [ ] to, from, fromTo
-- [ ] Қасиеттер
-- [ ] Ұзақтық және кідіріс
-- [ ] Callback функциялар
-- [ ] Tween басқару
-
-(қалған бөлімдер кейін қосылады)
-
----
-
-## 🚢 7-кезең: Деплой
+## 🚢 6-кезең: Деплой
 
 - [ ] Vercel/Netlify конфигурация
 - [ ] Domain орнату
