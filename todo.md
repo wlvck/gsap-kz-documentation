@@ -86,7 +86,7 @@
 - [ ] Тақырып ауыстыру (dark/light)
 - [ ] Прогресс индикаторы
 - [ ] GitHub сілтемелер
-- [ ] Table of Contents (оң жақ)
+- [x] Table of Contents (оң жақ)
 
 ---
 

@@ -53,8 +53,11 @@ const closeSidebar = () => {
 
     <!-- Main content -->
     <main class="flex-1 lg:ml-72">
-      <div class="max-w-4xl mx-auto px-6 py-12 lg:py-16">
-        <slot />
+      <div class="max-w-7xl mx-auto px-6 py-12 lg:py-16 flex gap-8">
+        <div class="flex-1 min-w-0 max-w-4xl">
+          <slot />
+        </div>
+        <DocsToc />
       </div>
     </main>
   </div>
