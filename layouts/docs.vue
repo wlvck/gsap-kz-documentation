@@ -3,5 +3,6 @@
     <DocsLayout>
       <slot />
     </DocsLayout>
+    <ScrollToTop />
   </div>
 </template>
