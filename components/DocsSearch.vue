@@ -195,6 +195,197 @@ const pages: SearchResult[] = [
     path: "/docs/freimworktar/vue",
     section: "Фреймворктар",
   },
+  // SVG Анимация
+  {
+    title: "SVG негіздері",
+    description: "SVG анимацияның негіздері",
+    path: "/docs/svg/negizderi",
+    section: "SVG Анимация",
+  },
+  {
+    title: "Path анимация",
+    description: "SVG path анимациялары",
+    path: "/docs/svg/path-animacia",
+    section: "SVG Анимация",
+  },
+  {
+    title: "MorphSVG",
+    description: "SVG морфинг плагині",
+    path: "/docs/svg/morphsvg",
+    section: "SVG Анимация",
+  },
+  {
+    title: "DrawSVG",
+    description: "SVG сызу анимациясы",
+    path: "/docs/svg/drawsvg",
+    section: "SVG Анимация",
+  },
+  {
+    title: "MotionPath (SVG)",
+    description: "SVG жолы бойынша қозғалыс",
+    path: "/docs/svg/motionpath",
+    section: "SVG Анимация",
+  },
+  // Жетілдірілген
+  {
+    title: "Stagger",
+    description: "Кезекті анимациялар",
+    path: "/docs/jetildirilgen/stagger",
+    section: "Жетілдірілген",
+  },
+  {
+    title: "Keyframes",
+    description: "Keyframe анимациялар",
+    path: "/docs/jetildirilgen/keyframes",
+    section: "Жетілдірілген",
+  },
+  {
+    title: "Responsive",
+    description: "Адаптивті анимациялар",
+    path: "/docs/jetildirilgen/responsive",
+    section: "Жетілдірілген",
+  },
+  {
+    title: "Context",
+    description: "GSAP context қолдану",
+    path: "/docs/jetildirilgen/context",
+    section: "Жетілдірілген",
+  },
+  {
+    title: "matchMedia()",
+    description: "Экран өлшеміне байланысты",
+    path: "/docs/jetildirilgen/matchmedia",
+    section: "Жетілдірілген",
+  },
+  {
+    title: "registerPlugin()",
+    description: "Плагин тіркеу",
+    path: "/docs/jetildirilgen/registerplugin",
+    section: "Жетілдірілген",
+  },
+  {
+    title: "Ticker",
+    description: "GSAP ticker қолдану",
+    path: "/docs/jetildirilgen/ticker",
+    section: "Жетілдірілген",
+  },
+  // Практика
+  {
+    title: "Navbar анимация",
+    description: "Навигация анимациялары",
+    path: "/docs/praktika/navbar",
+    section: "Практика",
+  },
+  {
+    title: "Hero секция",
+    description: "Hero блок анимациялары",
+    path: "/docs/praktika/hero",
+    section: "Практика",
+  },
+  {
+    title: "Card hover",
+    description: "Карточка hover эффекттері",
+    path: "/docs/praktika/card-hover",
+    section: "Практика",
+  },
+  {
+    title: "Page transition",
+    description: "Бет ауысу анимациялары",
+    path: "/docs/praktika/page-transition",
+    section: "Практика",
+  },
+  {
+    title: "Parallax",
+    description: "Параллакс эффекттер",
+    path: "/docs/praktika/parallax",
+    section: "Практика",
+  },
+  {
+    title: "Text reveal",
+    description: "Мәтін пайда болу эффекттері",
+    path: "/docs/praktika/text-reveal",
+    section: "Практика",
+  },
+  {
+    title: "Image gallery",
+    description: "Сурет галереясы",
+    path: "/docs/praktika/image-gallery",
+    section: "Практика",
+  },
+  {
+    title: "Loading",
+    description: "Жүктеу анимациялары",
+    path: "/docs/praktika/loading",
+    section: "Практика",
+  },
+  {
+    title: "Scroll progress",
+    description: "Скролл прогресс бары",
+    path: "/docs/praktika/scroll-progress",
+    section: "Практика",
+  },
+  {
+    title: "Landing page",
+    description: "Толық landing бет",
+    path: "/docs/praktika/landing",
+    section: "Практика",
+  },
+  // Оңтайландыру
+  {
+    title: "Performance",
+    description: "Өнімділік кеңестері",
+    path: "/docs/optimization/performance",
+    section: "Оңтайландыру",
+  },
+  {
+    title: "will-change",
+    description: "CSS will-change қасиеті",
+    path: "/docs/optimization/will-change",
+    section: "Оңтайландыру",
+  },
+  {
+    title: "force3D",
+    description: "GPU acceleration",
+    path: "/docs/optimization/force3d",
+    section: "Оңтайландыру",
+  },
+  {
+    title: "Lazy rendering",
+    description: "Lazy render оптимизация",
+    path: "/docs/optimization/lazy-rendering",
+    section: "Оңтайландыру",
+  },
+  {
+    title: "Жиі қателер",
+    description: "Қателер мен шешімдері",
+    path: "/docs/optimization/errors",
+    section: "Оңтайландыру",
+  },
+  // Анықтамалық
+  {
+    title: "Қасиеттер",
+    description: "Барлық GSAP қасиеттері",
+    path: "/docs/reference/properties",
+    section: "Анықтамалық",
+  },
+  {
+    title: "Easing анықтамалық",
+    description: "Барлық easing түрлері",
+    path: "/docs/reference/easing",
+    section: "Анықтамалық",
+  },
+  {
+    title: "Callbacks",
+    description: "Барлық callback функциялар",
+    path: "/docs/reference/callbacks",
+    section: "Анықтамалық",
+  },
+  {
+    title: "Терминдер сөздігі",
+    description: "Анимация терминдері",
+    path: "/docs/reference/glossary",
+    section: "Анықтамалық",
+  },
 ];
 
 const search = () => {

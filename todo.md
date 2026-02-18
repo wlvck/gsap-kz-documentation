@@ -121,53 +121,53 @@
 
 ---
 
-## 🔄 8-кезең: Контентті толықтыру
+## ✅ 8-кезең: Контентті толықтыру (Аяқталды)
 
 ### SVG анимация (5 файл)
 
-- [ ] svg/negizderi.md — SVG негіздері
-- [ ] svg/path-animacia.md — Path анимация
-- [ ] svg/morphsvg.md — MorphSVG плагині
-- [ ] svg/drawsvg.md — DrawSVG плагині
-- [ ] svg/motionpath.md — MotionPath плагині
+- [x] svg/negizderi.md — SVG негіздері
+- [x] svg/path-animacia.md — Path анимация
+- [x] svg/morphsvg.md — MorphSVG плагині
+- [x] svg/drawsvg.md — DrawSVG плагині
+- [x] svg/motionpath.md — MotionPath плагині
 
 ### Жетілдірілген техникалар (7 файл)
 
-- [ ] jetildirilgen/stagger.md — Stagger анимациялар
-- [ ] jetildirilgen/keyframes.md — Keyframes
-- [ ] jetildirilgen/responsive.md — Responsive анимация
-- [ ] jetildirilgen/context.md — GSAP Context
-- [ ] jetildirilgen/matchmedia.md — matchMedia()
-- [ ] jetildirilgen/registerplugin.md — registerPlugin()
-- [ ] jetildirilgen/ticker.md — GSAP Ticker
+- [x] jetildirilgen/stagger.md — Stagger анимациялар
+- [x] jetildirilgen/keyframes.md — Keyframes
+- [x] jetildirilgen/responsive.md — Responsive анимация
+- [x] jetildirilgen/context.md — GSAP Context
+- [x] jetildirilgen/matchmedia.md — matchMedia()
+- [x] jetildirilgen/registerplugin.md — registerPlugin()
+- [x] jetildirilgen/ticker.md — GSAP Ticker
 
 ### Практикалық жобалар (10 файл)
 
-- [ ] praktika/navbar.md — Navbar анимация
-- [ ] praktika/hero.md — Hero секция
-- [ ] praktika/card-hover.md — Карточка hover эффекті
-- [ ] praktika/page-transition.md — Бет ауысу анимациясы
-- [ ] praktika/parallax.md — Parallax эффект
-- [ ] praktika/text-reveal.md — Мәтін reveal
-- [ ] praktika/image-gallery.md — Сурет галереясы
-- [ ] praktika/loading.md — Loading анимация
-- [ ] praktika/scroll-progress.md — Скролл прогресс
-- [ ] praktika/landing.md — Толық лендинг
+- [x] praktika/navbar.md — Navbar анимация
+- [x] praktika/hero.md — Hero секция
+- [x] praktika/card-hover.md — Карточка hover эффекті
+- [x] praktika/page-transition.md — Бет ауысу анимациясы
+- [x] praktika/parallax.md — Parallax эффект
+- [x] praktika/text-reveal.md — Мәтін reveal
+- [x] praktika/image-gallery.md — Сурет галереясы
+- [x] praktika/loading.md — Loading анимация
+- [x] praktika/scroll-progress.md — Скролл прогресс
+- [x] praktika/landing.md — Толық лендинг
 
 ### Оңтайландыру (5 файл)
 
-- [ ] optimization/performance.md — Performance кеңестер
-- [ ] optimization/will-change.md — will-change қасиеті
-- [ ] optimization/force3d.md — force3D параметрі
-- [ ] optimization/lazy-rendering.md — Lazy rendering
-- [ ] optimization/errors.md — Жиі кездесетін қателер
+- [x] optimization/performance.md — Performance кеңестер
+- [x] optimization/will-change.md — will-change қасиеті
+- [x] optimization/force3d.md — force3D параметрі
+- [x] optimization/lazy-rendering.md — Lazy rendering
+- [x] optimization/errors.md — Жиі кездесетін қателер
 
 ### Анықтамалық (4 файл)
 
-- [ ] reference/properties.md — Барлық қасиеттер
-- [ ] reference/easing.md — Барлық easing түрлері
-- [ ] reference/callbacks.md — Барлық callbacks
-- [ ] reference/glossary.md — Терминдер сөздігі
+- [x] reference/properties.md — Барлық қасиеттер
+- [x] reference/easing.md — Барлық easing түрлері
+- [x] reference/callbacks.md — Барлық callbacks
+- [x] reference/glossary.md — Терминдер сөздігі
 
 ---
 

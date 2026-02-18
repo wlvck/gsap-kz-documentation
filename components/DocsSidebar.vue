@@ -99,6 +99,67 @@ const navigation: NavGroup[] = [
       { title: "Vue", to: "/docs/freimworktar/vue" },
     ],
   },
+  {
+    title: "SVG Анимация",
+    key: "svg",
+    items: [
+      { title: "SVG негіздері", to: "/docs/svg/negizderi" },
+      { title: "Path анимация", to: "/docs/svg/path-animacia" },
+      { title: "MorphSVG", to: "/docs/svg/morphsvg" },
+      { title: "DrawSVG", to: "/docs/svg/drawsvg" },
+      { title: "MotionPath", to: "/docs/svg/motionpath" },
+    ],
+  },
+  {
+    title: "Жетілдірілген",
+    key: "jetildirilgen",
+    items: [
+      { title: "Stagger", to: "/docs/jetildirilgen/stagger" },
+      { title: "Keyframes", to: "/docs/jetildirilgen/keyframes" },
+      { title: "Responsive", to: "/docs/jetildirilgen/responsive" },
+      { title: "Context", to: "/docs/jetildirilgen/context" },
+      { title: "matchMedia()", to: "/docs/jetildirilgen/matchmedia" },
+      { title: "registerPlugin()", to: "/docs/jetildirilgen/registerplugin" },
+      { title: "Ticker", to: "/docs/jetildirilgen/ticker" },
+    ],
+  },
+  {
+    title: "Практика",
+    key: "praktika",
+    items: [
+      { title: "Navbar", to: "/docs/praktika/navbar" },
+      { title: "Hero секция", to: "/docs/praktika/hero" },
+      { title: "Card hover", to: "/docs/praktika/card-hover" },
+      { title: "Page transition", to: "/docs/praktika/page-transition" },
+      { title: "Parallax", to: "/docs/praktika/parallax" },
+      { title: "Text reveal", to: "/docs/praktika/text-reveal" },
+      { title: "Image gallery", to: "/docs/praktika/image-gallery" },
+      { title: "Loading", to: "/docs/praktika/loading" },
+      { title: "Scroll progress", to: "/docs/praktika/scroll-progress" },
+      { title: "Landing page", to: "/docs/praktika/landing" },
+    ],
+  },
+  {
+    title: "Оңтайландыру",
+    key: "optimization",
+    items: [
+      { title: "Performance", to: "/docs/optimization/performance" },
+      { title: "will-change", to: "/docs/optimization/will-change" },
+      { title: "force3D", to: "/docs/optimization/force3d" },
+      { title: "Lazy rendering", to: "/docs/optimization/lazy-rendering" },
+      { title: "Қателер", to: "/docs/optimization/errors" },
+    ],
+  },
+  {
+    title: "Анықтамалық",
+    key: "reference",
+    items: [
+      { title: "Қасиеттер", to: "/docs/reference/properties" },
+      { title: "Easing", to: "/docs/reference/easing" },
+      { title: "Callbacks", to: "/docs/reference/callbacks" },
+      { title: "Терминдер", to: "/docs/reference/glossary" },
+    ],
+  },
 ];
 
 // Track expanded groups
