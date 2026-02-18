@@ -101,7 +101,7 @@ onMounted(() => {
                 class="absolute right-0 mt-2 w-56 bg-gsap-bg-secondary border border-gsap-border rounded-xl shadow-xl overflow-hidden"
               >
                 <a
-                  href="mailto:hello@gsap.kz"
+                  href="mailto:zhumagalievkanagat@gmail.com"
                   class="flex items-center gap-3 px-4 py-3 text-sm text-gsap-text-secondary hover:text-gsap-text-primary hover:bg-gsap-bg-tertiary transition-colors"
                 >
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,11 +114,11 @@ onMounted(() => {
                   </svg>
                   <div>
                     <div class="font-medium text-gsap-text-primary">Email</div>
-                    <div class="text-xs text-gsap-text-muted">hello@gsap.kz</div>
+                    <div class="text-xs text-gsap-text-muted">zhumagalievkanagat@gmail.com</div>
                   </div>
                 </a>
                 <a
-                  href="https://t.me/gsap_kz"
+                  href="https://t.me/coffee_w_milk"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="flex items-center gap-3 px-4 py-3 text-sm text-gsap-text-secondary hover:text-gsap-text-primary hover:bg-gsap-bg-tertiary transition-colors"
@@ -130,7 +130,7 @@ onMounted(() => {
                   </svg>
                   <div>
                     <div class="font-medium text-gsap-text-primary">Telegram</div>
-                    <div class="text-xs text-gsap-text-muted">@gsap_kz</div>
+                    <div class="text-xs text-gsap-text-muted">@coffee_w_milk</div>
                   </div>
                 </a>
               </div>
@@ -210,7 +210,7 @@ onMounted(() => {
             <div class="mt-2 pt-2 border-t border-gsap-border">
               <p class="px-4 py-2 text-xs font-semibold text-gsap-text-muted uppercase">Байланыс</p>
               <a
-                href="mailto:hello@gsap.kz"
+                href="mailto:zhumagalievkanagat@gmail.com"
                 class="flex items-center gap-3 px-4 py-3 text-sm text-gsap-text-secondary hover:text-gsap-text-primary transition-colors"
               >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -224,7 +224,7 @@ onMounted(() => {
                 Email
               </a>
               <a
-                href="https://t.me/gsap_kz"
+                href="https://t.me/coffee_w_milk"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="flex items-center gap-3 px-4 py-3 text-sm text-gsap-text-secondary hover:text-gsap-text-primary transition-colors"

@@ -41,9 +41,9 @@
 - **Docs** — /docs (құжаттама)
 - **Showcases** — /showcases (сайттар галереясы)
 - **Байланыс** — dropdown:
-  - Email: [почта мекенжайы]
-  - Telegram: [telegram сілтемесі]
-- **GitHub** — репозиторий сілтемесі
+  - Email: zhumagalievkanagat@gmail.com
+  - Telegram: @coffee_w_milk
+- **GitHub** — https://github.com/wlvck/gsap-kz-documentation
 - **Іздеу** — ⌘K
 
 ### Негізгі беттер
@@ -182,6 +182,6 @@ pnpm format   # Prettier форматтау
 
 ## Байланыс
 
-- **Email:** [почта мекенжайы]
-- **Telegram:** [telegram сілтемесі]
-- **GitHub:** [репозиторий сілтемесі]
+- **Email:** zhumagalievkanagat@gmail.com
+- **Telegram:** @coffee_w_milk
+- **GitHub:** https://github.com/wlvck/gsap-kz-documentation
