@@ -6,6 +6,9 @@ definePageMeta({
 
 <template>
   <div class="min-h-screen bg-gsap-bg-primary">
+    <AppHeader />
+    <ScrollToTop />
+
     <!-- Hero Section -->
     <div class="relative overflow-hidden">
       <!-- Background gradient -->

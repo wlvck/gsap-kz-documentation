@@ -89,12 +89,107 @@
 
 ---
 
-## 🚢 6-кезең: Деплой
+## ✅ 6-кезең: Деплой (Аяқталды)
 
 - [x] Vercel конфигурация
-- [ ] Domain орнату
 - [x] SEO мета тегтер
 - [x] Open Graph мета тегтер
+
+---
+
+## ✅ 7-кезең: UI жақсартулар (Аяқталды)
+
+### Header жаңарту
+
+- [x] Жаңа навигация элементтері:
+  - [x] Docs сілтемесі
+  - [x] Showcases сілтемесі
+  - [x] Байланыс dropdown (Email + Telegram)
+- [x] Header дизайнын жақсарту
+
+### Showcases бөлімі
+
+- [x] pages/showcases.vue — негізгі бет
+- [x] Сайт карточкалары (сурет, атау, сипаттама, сілтеме)
+- [x] Категориялар/тегтер бойынша фильтр
+- [x] Showcases деректер файлы (TypeScript)
+
+### Қосымша UI элементтер
+
+- [x] ScrollToTop батырмасы (жоғары көтерілу)
+- [x] Lenis smooth scroll интеграциясы
+
+---
+
+## 🔄 8-кезең: Контентті толықтыру
+
+### SVG анимация (5 файл)
+
+- [ ] svg/negizderi.md — SVG негіздері
+- [ ] svg/path-animacia.md — Path анимация
+- [ ] svg/morphsvg.md — MorphSVG плагині
+- [ ] svg/drawsvg.md — DrawSVG плагині
+- [ ] svg/motionpath.md — MotionPath плагині
+
+### Жетілдірілген техникалар (7 файл)
+
+- [ ] jetildirilgen/stagger.md — Stagger анимациялар
+- [ ] jetildirilgen/keyframes.md — Keyframes
+- [ ] jetildirilgen/responsive.md — Responsive анимация
+- [ ] jetildirilgen/context.md — GSAP Context
+- [ ] jetildirilgen/matchmedia.md — matchMedia()
+- [ ] jetildirilgen/registerplugin.md — registerPlugin()
+- [ ] jetildirilgen/ticker.md — GSAP Ticker
+
+### Практикалық жобалар (10 файл)
+
+- [ ] praktika/navbar.md — Navbar анимация
+- [ ] praktika/hero.md — Hero секция
+- [ ] praktika/card-hover.md — Карточка hover эффекті
+- [ ] praktika/page-transition.md — Бет ауысу анимациясы
+- [ ] praktika/parallax.md — Parallax эффект
+- [ ] praktika/text-reveal.md — Мәтін reveal
+- [ ] praktika/image-gallery.md — Сурет галереясы
+- [ ] praktika/loading.md — Loading анимация
+- [ ] praktika/scroll-progress.md — Скролл прогресс
+- [ ] praktika/landing.md — Толық лендинг
+
+### Оңтайландыру (5 файл)
+
+- [ ] optimization/performance.md — Performance кеңестер
+- [ ] optimization/will-change.md — will-change қасиеті
+- [ ] optimization/force3d.md — force3D параметрі
+- [ ] optimization/lazy-rendering.md — Lazy rendering
+- [ ] optimization/errors.md — Жиі кездесетін қателер
+
+### Анықтамалық (4 файл)
+
+- [ ] reference/properties.md — Барлық қасиеттер
+- [ ] reference/easing.md — Барлық easing түрлері
+- [ ] reference/callbacks.md — Барлық callbacks
+- [ ] reference/glossary.md — Терминдер сөздігі
+
+---
+
+## 🔄 9-кезең: Интерактивті элементтер
+
+### Easing визуализаторы
+
+- [ ] EasingVisualizer.vue компоненті
+- [ ] Canvas/SVG арқылы қисық сызу
+- [ ] "Ойнату" батырмасы — анимация preview
+- [ ] Барлық easing түрлерін салыстыру
+- [ ] Easing бетіне интеграция
+
+---
+
+## 🔄 10-кезең: PWA / Offline режим
+
+- [ ] @vite-pwa/nuxt орнату
+- [ ] Service Worker конфигурация
+- [ ] Manifest.json (иконкалар, түстер)
+- [ ] Offline fallback бет
+- [ ] Cache стратегиясы (контент, assets)
 
 ---
 
