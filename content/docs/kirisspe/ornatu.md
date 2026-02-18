@@ -24,7 +24,7 @@ import gsap from "gsap";
 HTML файлыңызға мына тегті қосыңыз:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@latest/dist/gsap.min.js"></script>
 ```
 
 ## PNPM немесе Yarn
@@ -59,7 +59,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 ```javascript
 console.log(gsap.version);
-// "3.12.5" сияқты нұсқа нөмірі шығуы керек
+// Консольде GSAP нұсқа нөмірі шығуы керек
 ```
 
 ## Келесі қадам

@@ -55,6 +55,31 @@ const navigation = [
       { title: "Scrub анимация", to: "/docs/scrolltrigger/scrub" },
     ],
   },
+  {
+    title: "Плагиндер",
+    items: [
+      { title: "Плагиндер туралы", to: "/docs/plaginder/kirisspe" },
+      { title: "Draggable", to: "/docs/plaginder/draggable" },
+      { title: "Flip", to: "/docs/plaginder/flip" },
+      { title: "MotionPath", to: "/docs/plaginder/motionpath" },
+      { title: "TextPlugin", to: "/docs/plaginder/text" },
+    ],
+  },
+  {
+    title: "Утилиталар",
+    items: [
+      { title: "gsap.utils", to: "/docs/utilitalar/utils" },
+      { title: "gsap.context()", to: "/docs/utilitalar/context" },
+      { title: "gsap.matchMedia()", to: "/docs/utilitalar/matchmedia" },
+    ],
+  },
+  {
+    title: "Фреймворктар",
+    items: [
+      { title: "React", to: "/docs/freimworktar/react" },
+      { title: "Vue", to: "/docs/freimworktar/vue" },
+    ],
+  },
 ];
 
 const isActive = (path: string) => route.path === path;

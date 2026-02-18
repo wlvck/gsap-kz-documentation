@@ -13,12 +13,36 @@ const slug = computed(() => {
 });
 
 const { data: page } = await useAsyncData(`docs-${slug.value}`, () =>
-  queryContent(`/docs/${slug.value}`).findOne()
+  queryCollection("content").path(`/docs/${slug.value}`).first()
 );
+
+// GSAP version for ornatu page
+const { version: gsapVersion, fetchVersion } = useGsapVersion();
+const isOrnatuPage = computed(() => slug.value === "kirisspe/ornatu");
+
+onMounted(() => {
+  if (isOrnatuPage.value) {
+    fetchVersion();
+  }
+});
 </script>
 
 <template>
   <article class="prose prose-invert max-w-none">
+    <!-- GSAP Version Banner for ornatu page -->
+    <div
+      v-if="isOrnatuPage"
+      class="flex items-center gap-3 px-4 py-3 mb-6 rounded-lg bg-gsap-green/10 border border-gsap-green/20"
+    >
+      <span class="text-gsap-green text-lg">&#9889;</span>
+      <span class="text-gsap-text-secondary">
+        GSAP соңғы нұсқасы:
+        <code class="bg-gsap-bg-tertiary text-gsap-green px-2 py-1 rounded text-sm font-mono ml-1">
+          {{ gsapVersion }}
+        </code>
+      </span>
+    </div>
+
     <template v-if="page">
       <ContentRenderer :value="page" />
     </template>
@@ -29,7 +53,7 @@ const { data: page } = await useAsyncData(`docs-${slug.value}`, () =>
         <p class="text-gsap-text-secondary mb-8">Сіз іздеген құжаттама беті жоқ немесе жойылған.</p>
         <NuxtLink
           to="/docs/kirisspe/gsap-degen-ne"
-          class="inline-flex items-center px-6 py-3 rounded-lg bg-gsap-green text-gsap-bg-primary font-semibold hover:bg-gsap-green-light transition-colors"
+          class="inline-flex items-center px-6 py-3 rounded-lg bg-gsap-green !text-gsap-bg-primary font-semibold hover:bg-gsap-green-light transition-colors !no-underline"
         >
           Басты бетке оралу
         </NuxtLink>

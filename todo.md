@@ -37,28 +37,23 @@
 
 ---
 
-## 📝 2-кезең: Контент құрылымы
+## ✅ 2-кезең: Контент құрылымы (Аяқталды)
 
-### Markdown файлдар құру
+### Markdown файлдар құру (30 файл)
 
 - [x] kirisspe/ — Кіріспе (4 файл)
-  - [x] gsap-degen-ne.md
-  - [x] ornatu.md
-  - [x] algashky-animatsiya.md
-  - [x] nege-gsap.md
-- [ ] negizderi/ — Негіздер (5 файл)
-- [ ] easing/ — Easing (4 файл)
-- [ ] timeline/ — Timeline (6 файл)
-- [ ] scrolltrigger/ — ScrollTrigger (10 файл)
-- [ ] svg-animatsiya/ — SVG Анимация (5 файл)
-- [ ] plaginder/ — Плагиндер (7 файл)
-- [ ] utilitalar/ — Утилиталар (8 файл)
-- [ ] zhetildirіlgen/ — Жетілдірілген (7 файл)
-- [ ] praktika/ — Практика (10 файл)
-- [ ] freimworktar/ — Фреймворктар (4 файл)
-- [ ] optailandyru/ — Оңтайландыру (5 файл)
-- [ ] anyktamalyk/ — Анықтамалық (4 файл)
-- [ ] kosymsha/ — Қосымша (3 файл)
+- [x] negizderi/ — Негіздер (5 файл)
+- [x] easing/ — Easing (3 файл)
+- [x] timeline/ — Timeline (3 файл)
+- [x] scrolltrigger/ — ScrollTrigger (4 файл)
+- [x] plaginder/ — Плагиндер (5 файл)
+- [x] utilitalar/ — Утилиталар (3 файл)
+- [x] freimworktar/ — Фреймворктар (2 файл)
+
+### Қосымша функционал
+
+- [x] useGsapVersion composable — динамикалық GSAP нұсқасы
+- [x] content.config.ts — Nuxt Content v3 конфигурация
 
 ---
 

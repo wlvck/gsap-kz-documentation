@@ -4,5 +4,11 @@ import prettier from "eslint-plugin-prettier/recommended";
 export default withNuxt(prettier, {
   rules: {
     "no-undef": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        endOfLine: "auto",
+      },
+    ],
   },
 });

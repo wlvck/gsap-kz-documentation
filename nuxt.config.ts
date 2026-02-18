@@ -7,9 +7,19 @@ export default defineNuxtConfig({
   tailwindcss: {},
   ssr: false,
   content: {
-    highlight: {
-      theme: "github-dark",
+    build: {
+      markdown: {
+        highlight: {
+          theme: "github-dark",
+        },
+      },
     },
+    renderer: {
+      anchorLinks: false,
+    },
+  },
+  components: {
+    dirs: ["~/components", "~/components/content"],
   },
   app: {
     head: {
