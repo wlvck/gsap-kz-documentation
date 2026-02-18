@@ -21,13 +21,14 @@ gsap.to(".particle", {
   x: "random(-500, 500)",
   y: "random(-500, 500)",
   duration: 2,
-  stagger: 0.01
+  stagger: 0.01,
 });
 ```
 
 ## 2. Кроссбраузерлік
 
 GSAP барлық браузерлерде бірдей жұмыс істейді:
+
 - Chrome, Firefox, Safari, Edge
 - iOS Safari, Android Chrome
 - Тіпті IE11 (ескі жобалар үшін)
@@ -35,28 +36,29 @@ GSAP барлық браузерлерде бірдей жұмыс істейд�
 ## 3. Қуатты мүмкіндіктер
 
 ### Timeline
+
 Күрделі анимация тізбектерін оңай құру:
 
 ```javascript
 const tl = gsap.timeline();
 
-tl.to(".box1", { x: 100 })
-  .to(".box2", { y: 100 })
-  .to(".box3", { rotation: 360 });
+tl.to(".box1", { x: 100 }).to(".box2", { y: 100 }).to(".box3", { rotation: 360 });
 ```
 
 ### ScrollTrigger
+
 Скролл негізіндегі анимациялар:
 
 ```javascript
 gsap.to(".element", {
   scrollTrigger: ".element",
   x: 500,
-  duration: 3
+  duration: 3,
 });
 ```
 
 ### Плагиндер
+
 - **MorphSVG** — SVG формаларын морфтау
 - **DrawSVG** — SVG сызу анимациясы
 - **SplitText** — мәтінді әріптерге бөлу
@@ -83,9 +85,9 @@ gsap.to(".box", { x: 200, duration: 2, ease: "power2.inOut" });
 const anim = gsap.to(".box", { x: 200, duration: 2 });
 
 // Кез келген уақытта бақылау
-anim.pause();      // тоқтату
-anim.play();       // жалғастыру
-anim.reverse();    // кері айналдыру
+anim.pause(); // тоқтату
+anim.play(); // жалғастыру
+anim.reverse(); // кері айналдыру
 anim.progress(0.5); // 50%-ға өту
 anim.timeScale(2); // 2x жылдамдату
 ```
@@ -100,6 +102,7 @@ anim.timeScale(2); // 2x жылдамдату
 ## Кім қолданады?
 
 GSAP-ты әлемдегі ең үздік компаниялар қолданады:
+
 - Google
 - Netflix
 - Apple

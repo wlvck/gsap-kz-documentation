@@ -73,17 +73,18 @@ definePageMeta({
 
     <!-- Features Section -->
     <div class="max-w-6xl mx-auto px-6 py-16">
-      <h2 class="text-2xl font-bold text-gsap-text-primary text-center mb-12">
-        Не үйренесіз?
-      </h2>
+      <h2 class="text-2xl font-bold text-gsap-text-primary text-center mb-12">Не үйренесіз?</h2>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Feature Card -->
         <div class="p-6 rounded-2xl bg-gsap-bg-secondary border border-gsap-border">
-          <div
-            class="w-12 h-12 rounded-xl bg-gsap-green/10 flex items-center justify-center mb-4"
-          >
-            <svg class="w-6 h-6 text-gsap-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="w-12 h-12 rounded-xl bg-gsap-green/10 flex items-center justify-center mb-4">
+            <svg
+              class="w-6 h-6 text-gsap-green"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -99,10 +100,13 @@ definePageMeta({
         </div>
 
         <div class="p-6 rounded-2xl bg-gsap-bg-secondary border border-gsap-border">
-          <div
-            class="w-12 h-12 rounded-xl bg-gsap-green/10 flex items-center justify-center mb-4"
-          >
-            <svg class="w-6 h-6 text-gsap-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="w-12 h-12 rounded-xl bg-gsap-green/10 flex items-center justify-center mb-4">
+            <svg
+              class="w-6 h-6 text-gsap-green"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -118,10 +122,13 @@ definePageMeta({
         </div>
 
         <div class="p-6 rounded-2xl bg-gsap-bg-secondary border border-gsap-border">
-          <div
-            class="w-12 h-12 rounded-xl bg-gsap-green/10 flex items-center justify-center mb-4"
-          >
-            <svg class="w-6 h-6 text-gsap-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="w-12 h-12 rounded-xl bg-gsap-green/10 flex items-center justify-center mb-4">
+            <svg
+              class="w-6 h-6 text-gsap-green"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -137,10 +144,13 @@ definePageMeta({
         </div>
 
         <div class="p-6 rounded-2xl bg-gsap-bg-secondary border border-gsap-border">
-          <div
-            class="w-12 h-12 rounded-xl bg-gsap-green/10 flex items-center justify-center mb-4"
-          >
-            <svg class="w-6 h-6 text-gsap-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="w-12 h-12 rounded-xl bg-gsap-green/10 flex items-center justify-center mb-4">
+            <svg
+              class="w-6 h-6 text-gsap-green"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -150,16 +160,17 @@ definePageMeta({
             </svg>
           </div>
           <h3 class="text-lg font-semibold text-gsap-text-primary mb-2">SVG анимация</h3>
-          <p class="text-gsap-text-secondary text-sm">
-            SVG элементтерін анимациялау техникалары
-          </p>
+          <p class="text-gsap-text-secondary text-sm">SVG элементтерін анимациялау техникалары</p>
         </div>
 
         <div class="p-6 rounded-2xl bg-gsap-bg-secondary border border-gsap-border">
-          <div
-            class="w-12 h-12 rounded-xl bg-gsap-green/10 flex items-center justify-center mb-4"
-          >
-            <svg class="w-6 h-6 text-gsap-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="w-12 h-12 rounded-xl bg-gsap-green/10 flex items-center justify-center mb-4">
+            <svg
+              class="w-6 h-6 text-gsap-green"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -175,10 +186,13 @@ definePageMeta({
         </div>
 
         <div class="p-6 rounded-2xl bg-gsap-bg-secondary border border-gsap-border">
-          <div
-            class="w-12 h-12 rounded-xl bg-gsap-green/10 flex items-center justify-center mb-4"
-          >
-            <svg class="w-6 h-6 text-gsap-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="w-12 h-12 rounded-xl bg-gsap-green/10 flex items-center justify-center mb-4">
+            <svg
+              class="w-6 h-6 text-gsap-green"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -188,9 +202,7 @@ definePageMeta({
             </svg>
           </div>
           <h3 class="text-lg font-semibold text-gsap-text-primary mb-2">Фреймворктар</h3>
-          <p class="text-gsap-text-secondary text-sm">
-            React, Vue, Nuxt-пен интеграция
-          </p>
+          <p class="text-gsap-text-secondary text-sm">React, Vue, Nuxt-пен интеграция</p>
         </div>
       </div>
     </div>
@@ -199,8 +211,8 @@ definePageMeta({
     <footer class="border-t border-gsap-border">
       <div class="max-w-6xl mx-auto px-6 py-8">
         <p class="text-center text-gsap-text-secondary text-sm">
-          GSAP — GreenSock компаниясының сауда белгісі. Бұл құжаттама қазақстандық
-          әзірлеушілер қауымдастығы үшін жасалған.
+          GSAP — GreenSock компаниясының сауда белгісі. Бұл құжаттама қазақстандық әзірлеушілер
+          қауымдастығы үшін жасалған.
         </p>
       </div>
     </footer>

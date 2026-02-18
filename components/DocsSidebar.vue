@@ -1,11 +1,12 @@
 <script setup lang="ts">
-defineProps<{
-  isOpen: boolean;
-}>();
+defineProps({
+  isOpen: {
+    type: Boolean,
+    required: true,
+  },
+});
 
-const emit = defineEmits<{
-  close: [];
-}>();
+const emit = defineEmits(["close"]);
 
 const route = useRoute();
 
@@ -61,11 +62,7 @@ const isActive = (path: string) => route.path === path;
 
 <template>
   <!-- Backdrop -->
-  <div
-    v-if="isOpen"
-    @click="emit('close')"
-    class="fixed inset-0 bg-black/50 z-30 lg:hidden"
-  />
+  <div v-if="isOpen" class="fixed inset-0 bg-black/50 z-30 lg:hidden" @click="emit('close')" />
 
   <!-- Sidebar -->
   <aside
@@ -97,13 +94,13 @@ const isActive = (path: string) => route.path === path;
           <li v-for="item in group.items" :key="item.to">
             <NuxtLink
               :to="item.to"
-              @click="emit('close')"
               :class="[
                 'block px-3 py-2 rounded-lg text-sm transition-colors',
                 isActive(item.to)
                   ? 'bg-gsap-green/10 text-gsap-green'
                   : 'text-gsap-text-secondary hover:text-gsap-text-primary hover:bg-gsap-bg-tertiary',
               ]"
+              @click="emit('close')"
             >
               {{ item.title }}
             </NuxtLink>

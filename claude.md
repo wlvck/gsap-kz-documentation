@@ -6,50 +6,65 @@
 
 ## Tech Stack
 
-- **Framework:** Nuxt 3
+- **Framework:** Nuxt 4
 - **Styling:** Tailwind CSS
 - **Animation:** GSAP
-- **Content:** Markdown файлдар `content/` папкасында
+- **Content:** @nuxt/content v3 (Markdown файлдар `content/` папкасында)
+- **Linting:** ESLint v9 + @nuxt/eslint
+- **Formatting:** Prettier
+- **Git Hooks:** Husky + lint-staged
+- **Type Checking:** TypeScript + vue-tsc
 
 ## Жоба құрылымы
 
 ```
-gsap-docs/
-├── app/
-│   ├── components/
-│   │   ├── DocsLayout.vue      # Негізгі layout
-│   │   ├── DocsSidebar.vue     # Сол жақ навигация
-│   │   ├── DocsContent.vue     # Контент аймағы
-│   │   ├── CodeBlock.vue       # Код блоктары
-│   │   └── TableOfContents.vue # Оң жақ мазмұны
-│   ├── pages/
-│   │   ├── index.vue           # Басты бет
-│   │   └── docs/
-│   │       └── [...slug].vue   # Динамикалық құжаттама беттері
-│   └── layouts/
-│       └── docs.vue            # Құжаттама layout
+gsap-documentation/
+├── components/
+│   ├── DocsLayout.vue      # Негізгі layout (sidebar + content)
+│   └── DocsSidebar.vue     # Сол жақ навигация + мобильді меню
+├── pages/
+│   ├── index.vue           # Басты бет
+│   └── docs/
+│       └── [...slug].vue   # Динамикалық құжаттама беттері
+├── layouts/
+│   └── docs.vue            # Құжаттама layout
 ├── content/
-│   └── docs/                   # Markdown құжаттама файлдары
+│   └── docs/
+│       └── kirisspe/       # Кіріспе бөлімі (4 файл)
+├── assets/
+│   └── css/
+│       └── tailwind.css    # Tailwind стильдер
 ├── public/
+│   ├── favicon.ico
+│   └── robots.txt
+├── .husky/
+│   └── pre-commit          # Git hook (lint-staged)
 ├── nuxt.config.ts
 ├── tailwind.config.ts
-├── claude.md                   # Осы файл
-└── todo.md                     # Тапсырмалар тізімі
+├── eslint.config.mjs
+├── .prettierrc
+├── tsconfig.json
+├── CLAUDE.md               # Осы файл
+└── todo.md                 # Тапсырмалар тізімі
 ```
 
 ## Дизайн жүйесі
 
 ### Түстер (GSAP стилі)
 
+Tailwind config-те анықталған:
+
 ```
---gsap-bg-primary: #0e100f       # Негізгі фон
---gsap-bg-secondary: #161817     # Екінші фон
---gsap-bg-tertiary: #1c1e1d      # Карточка фоны
---gsap-green: #0ae448            # Жасыл акцент
---gsap-green-dark: #0ba934       # Қою жасыл
---gsap-text-primary: #fffce1     # Негізгі мәтін
---gsap-text-secondary: #a1a1a6   # Екінші мәтін
---gsap-border: #2a2d2b           # Жиектер
+gsap-bg-primary: #0e100f       # Негізгі фон
+gsap-bg-secondary: #161817     # Екінші фон
+gsap-bg-tertiary: #1c1e1d      # Карточка фоны
+gsap-green: #0ae448            # Жасыл акцент
+gsap-green-dark: #0ba934       # Қою жасыл
+gsap-green-light: #3eff7a      # Ашық жасыл
+gsap-text-primary: #fffce1     # Негізгі мәтін
+gsap-text-secondary: #a1a1a6   # Екінші мәтін
+gsap-text-muted: #6b6b70       # Өшірілген мәтін
+gsap-border: #2a2d2b           # Жиектер
 ```
 
 ### Типография
@@ -60,16 +75,24 @@ gsap-docs/
 
 ## Компоненттер
 
-### DocsSidebar
-- Барлық бөлімдер тізімі
-- Ашылатын суб-тақырыптар
-- Белсенді бет белгіленуі
-- Мобильді toggle
+### DocsLayout.vue
 
-### DocsContent
-- Markdown рендеринг
-- Код блоктары syntax highlighting
-- Кеңес/ескерту блоктары
+- Sidebar + main content wrapper
+- Mobile menu toggle button
+- Responsive layout (lg:ml-72)
+
+### DocsSidebar.vue
+
+- Навигация тізімі (navigation array)
+- Белсенді бет белгіленуі (isActive)
+- Мобильді toggle + backdrop
+- Logo + branding
+
+### pages/docs/[...slug].vue
+
+- Nuxt Content v3 API (queryContent + ContentRenderer)
+- Prose стильдер (typography)
+- 404 fallback
 
 ## Құжаттама бөлімдері
 
@@ -98,7 +121,30 @@ gsap-docs/
 ## Командалар
 
 ```bash
-pnpm dev      # Development server
-pnpm build    # Production build
-pnpm preview  # Preview production
+# Development
+pnpm dev          # Development server (localhost:3000)
+pnpm build        # Production build
+pnpm generate     # Static site generation
+pnpm preview      # Preview production build
+
+# Code Quality
+pnpm lint         # ESLint тексеру
+pnpm lint:fix     # ESLint автотүзету
+pnpm format       # Prettier форматтау
+pnpm typecheck    # TypeScript тексеру
+
+# Git hooks (автоматты)
+# pre-commit: lint-staged (eslint + prettier)
+```
+
+## Nuxt Content API
+
+```typescript
+// pages/docs/[...slug].vue
+const { data: page } = await useAsyncData(`docs-${slug.value}`, () =>
+  queryContent(`/docs/${slug.value}`).findOne()
+);
+
+// Template
+<ContentRenderer :value="page" />
 ```

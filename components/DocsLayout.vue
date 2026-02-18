@@ -14,9 +14,9 @@ const closeSidebar = () => {
   <div class="flex min-h-screen">
     <!-- Mobile menu button -->
     <button
-      @click="toggleSidebar"
       class="fixed top-4 left-4 z-50 p-2 rounded-lg bg-gsap-bg-secondary border border-gsap-border lg:hidden"
       aria-label="Toggle menu"
+      @click="toggleSidebar"
     >
       <svg
         v-if="!isSidebarOpen"

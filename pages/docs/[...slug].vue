@@ -25,12 +25,8 @@ const { data: page } = await useAsyncData(`docs-${slug.value}`, () =>
     <template v-else>
       <div class="text-center py-12">
         <div class="text-6xl mb-4">404</div>
-        <h1 class="text-2xl font-bold text-gsap-text-primary mb-4">
-          Бет табылмады
-        </h1>
-        <p class="text-gsap-text-secondary mb-8">
-          Сіз іздеген құжаттама беті жоқ немесе жойылған.
-        </p>
+        <h1 class="text-2xl font-bold text-gsap-text-primary mb-4">Бет табылмады</h1>
+        <p class="text-gsap-text-secondary mb-8">Сіз іздеген құжаттама беті жоқ немесе жойылған.</p>
         <NuxtLink
           to="/docs/kirisspe/gsap-degen-ne"
           class="inline-flex items-center px-6 py-3 rounded-lg bg-gsap-green text-gsap-bg-primary font-semibold hover:bg-gsap-green-light transition-colors"

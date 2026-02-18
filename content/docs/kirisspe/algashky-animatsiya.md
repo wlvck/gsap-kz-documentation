@@ -31,11 +31,12 @@ CSS стильдері:
 ```javascript
 gsap.to(".box", {
   x: 200,
-  duration: 1
+  duration: 1,
 });
 ```
 
 Бұл код:
+
 - `.box` элементін таңдайды
 - x осі бойынша 200px жылжытады
 - 1 секунд ішінде
@@ -49,11 +50,12 @@ gsap.to(".box", {
   rotation: 360,
   scale: 1.5,
   backgroundColor: "#ff0000",
-  duration: 2
+  duration: 2,
 });
 ```
 
 Бұл код:
+
 - Элементті жылжытады (x, y)
 - Айналдырады (rotation)
 - Масштабтайды (scale)
@@ -67,7 +69,7 @@ gsap.to(".box", {
 gsap.from(".box", {
   x: -200,
   opacity: 0,
-  duration: 1
+  duration: 1,
 });
 ```
 
@@ -78,9 +80,10 @@ gsap.from(".box", {
 Бастапқы және соңғы мәндерді нақты көрсету үшін:
 
 ```javascript
-gsap.fromTo(".box",
-  { x: 0, opacity: 0 },     // бастапқы мән
-  { x: 200, opacity: 1, duration: 1 }  // соңғы мән
+gsap.fromTo(
+  ".box",
+  { x: 0, opacity: 0 }, // бастапқы мән
+  { x: 200, opacity: 1, duration: 1 } // соңғы мән
 );
 ```
 
@@ -92,7 +95,7 @@ gsap.from(".logo", {
   y: -50,
   opacity: 0,
   duration: 1,
-  ease: "power2.out"
+  ease: "power2.out",
 });
 ```
 
