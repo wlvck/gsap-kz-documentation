@@ -24,13 +24,37 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: "GSAP Қазақша Құжаттама",
+      htmlAttrs: {
+        lang: "kk",
+      },
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
         {
           name: "description",
           content:
-            "GSAP (GreenSock Animation Platform) кітапханасының қазақ тіліндегі толық құжаттамасы",
+            "GSAP (GreenSock Animation Platform) кітапханасының қазақ тіліндегі толық құжаттамасы. Анимациялар, Timeline, ScrollTrigger, плагиндер.",
+        },
+        { name: "author", content: "GSAP KZ Documentation" },
+        {
+          name: "keywords",
+          content:
+            "GSAP, анимация, JavaScript, қазақша, құжаттама, GreenSock, ScrollTrigger, Timeline",
+        },
+        // Open Graph
+        { property: "og:type", content: "website" },
+        { property: "og:title", content: "GSAP Қазақша Құжаттама" },
+        {
+          property: "og:description",
+          content: "GSAP кітапханасының қазақ тіліндегі толық құжаттамасы",
+        },
+        { property: "og:locale", content: "kk_KZ" },
+        // Twitter
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: "GSAP Қазақша Құжаттама" },
+        {
+          name: "twitter:description",
+          content: "GSAP кітапханасының қазақ тіліндегі толық құжаттамасы",
         },
       ],
       link: [

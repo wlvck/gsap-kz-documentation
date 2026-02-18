@@ -16,6 +16,27 @@ const { data: page } = await useAsyncData(`docs-${slug.value}`, () =>
   queryCollection("content").path(`/docs/${slug.value}`).first()
 );
 
+// Dynamic SEO
+useHead({
+  title: computed(() =>
+    page.value?.title ? `${page.value.title} | GSAP Қазақша` : "GSAP Қазақша Құжаттама"
+  ),
+  meta: [
+    {
+      name: "description",
+      content: computed(() => page.value?.description || "GSAP құжаттамасы қазақ тілінде"),
+    },
+    {
+      property: "og:title",
+      content: computed(() => page.value?.title || "GSAP Қазақша Құжаттама"),
+    },
+    {
+      property: "og:description",
+      content: computed(() => page.value?.description || "GSAP құжаттамасы қазақ тілінде"),
+    },
+  ],
+});
+
 // GSAP version for ornatu page
 const { version: gsapVersion, fetchVersion } = useGsapVersion();
 const isOrnatuPage = computed(() => slug.value === "kirisspe/ornatu");
