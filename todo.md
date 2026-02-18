@@ -33,7 +33,7 @@
 - [x] Негізгі бөлімдер тізімі (DocsSidebar)
 - [x] Белсенді бет белгіленуі (isActive)
 - [x] URL routing ([...slug].vue)
-- [ ] Ашылатын суб-тақырыптар (collapsible)
+- [x] Ашылатын суб-тақырыптар (collapsible)
 
 ---
 
@@ -57,13 +57,13 @@
 
 ---
 
-## 🎨 3-кезең: UI компоненттер (Орындалуда)
+## ✅ 3-кезең: UI компоненттер (Аяқталды)
 
 ### Код блоктары
 
 - [x] Copy button
-- [ ] Syntax highlighting (Shiki) — Nuxt Content v3 әдепкі
-- [ ] Filename көрсету
+- [x] Syntax highlighting (Shiki) — Nuxt Content v3 әдепкі
+- [x] Filename көрсету
 
 ### Арнайы блоктар
 
@@ -71,12 +71,12 @@
 
 ---
 
-## 📱 4-кезең: Responsive
+## ✅ 4-кезең: Responsive (Аяқталды)
 
 - [x] Mobile навигация (DocsSidebar)
 - [x] Mobile menu toggle
-- [ ] Tablet layout оңтайландыру
-- [ ] Touch interactions
+- [x] Tablet layout оңтайландыру
+- [x] Touch interactions
 
 ---
 

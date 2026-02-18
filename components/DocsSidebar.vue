@@ -10,9 +10,21 @@ const emit = defineEmits(["close"]);
 
 const route = useRoute();
 
-const navigation = [
+interface NavItem {
+  title: string;
+  to: string;
+}
+
+interface NavGroup {
+  title: string;
+  key: string;
+  items: NavItem[];
+}
+
+const navigation: NavGroup[] = [
   {
     title: "Кіріспе",
+    key: "kirisspe",
     items: [
       { title: "GSAP деген не?", to: "/docs/kirisspe/gsap-degen-ne" },
       { title: "Орнату", to: "/docs/kirisspe/ornatu" },
@@ -22,6 +34,7 @@ const navigation = [
   },
   {
     title: "Негіздер",
+    key: "negizderi",
     items: [
       { title: "gsap.to()", to: "/docs/negizderi/gsap-to" },
       { title: "gsap.from()", to: "/docs/negizderi/gsap-from" },
@@ -32,6 +45,7 @@ const navigation = [
   },
   {
     title: "Easing",
+    key: "easing",
     items: [
       { title: "Easing негіздері", to: "/docs/easing/negizderi" },
       { title: "Ease түрлері", to: "/docs/easing/turleri" },
@@ -40,6 +54,7 @@ const navigation = [
   },
   {
     title: "Timeline",
+    key: "timeline",
     items: [
       { title: "Timeline негіздері", to: "/docs/timeline/negizderi" },
       { title: "Position параметрі", to: "/docs/timeline/position" },
@@ -48,6 +63,7 @@ const navigation = [
   },
   {
     title: "ScrollTrigger",
+    key: "scrolltrigger",
     items: [
       { title: "Кіріспе", to: "/docs/scrolltrigger/kirisspe" },
       { title: "Негізгі параметрлер", to: "/docs/scrolltrigger/parametrler" },
@@ -57,6 +73,7 @@ const navigation = [
   },
   {
     title: "Плагиндер",
+    key: "plaginder",
     items: [
       { title: "Плагиндер туралы", to: "/docs/plaginder/kirisspe" },
       { title: "Draggable", to: "/docs/plaginder/draggable" },
@@ -67,6 +84,7 @@ const navigation = [
   },
   {
     title: "Утилиталар",
+    key: "utilitalar",
     items: [
       { title: "gsap.utils", to: "/docs/utilitalar/utils" },
       { title: "gsap.context()", to: "/docs/utilitalar/context" },
@@ -75,6 +93,7 @@ const navigation = [
   },
   {
     title: "Фреймворктар",
+    key: "freimworktar",
     items: [
       { title: "React", to: "/docs/freimworktar/react" },
       { title: "Vue", to: "/docs/freimworktar/vue" },
@@ -82,7 +101,49 @@ const navigation = [
   },
 ];
 
+// Track expanded groups
+const expandedGroups = ref<Set<string>>(new Set());
+
+// Check if group contains active page
+const groupHasActivePage = (group: NavGroup) => {
+  return group.items.some((item) => route.path === item.to);
+};
+
+// Initialize expanded state based on current route
+const initExpandedState = () => {
+  navigation.forEach((group) => {
+    if (groupHasActivePage(group)) {
+      expandedGroups.value.add(group.key);
+    }
+  });
+};
+
+// Toggle group expansion
+const toggleGroup = (key: string) => {
+  if (expandedGroups.value.has(key)) {
+    expandedGroups.value.delete(key);
+  } else {
+    expandedGroups.value.add(key);
+  }
+};
+
+const isExpanded = (key: string) => expandedGroups.value.has(key);
+
 const isActive = (path: string) => route.path === path;
+
+// Initialize on mount and watch route changes
+onMounted(initExpandedState);
+
+watch(
+  () => route.path,
+  () => {
+    navigation.forEach((group) => {
+      if (groupHasActivePage(group)) {
+        expandedGroups.value.add(group.key);
+      }
+    });
+  }
+);
 </script>
 
 <template>
@@ -118,26 +179,60 @@ const isActive = (path: string) => route.path === path;
 
     <!-- Navigation -->
     <nav class="px-4 py-4 overflow-y-auto h-[calc(100%-88px-72px-60px)]">
-      <div v-for="group in navigation" :key="group.title" class="mb-6">
-        <h2 class="px-2 mb-2 text-xs font-semibold text-gsap-text-muted uppercase tracking-wider">
-          {{ group.title }}
-        </h2>
-        <ul class="space-y-1">
-          <li v-for="item in group.items" :key="item.to">
-            <NuxtLink
-              :to="item.to"
-              :class="[
-                'block px-3 py-2 rounded-lg text-sm transition-colors',
-                isActive(item.to)
-                  ? 'bg-gsap-green/10 text-gsap-green'
-                  : 'text-gsap-text-secondary hover:text-gsap-text-primary hover:bg-gsap-bg-tertiary',
-              ]"
-              @click="emit('close')"
-            >
-              {{ item.title }}
-            </NuxtLink>
-          </li>
-        </ul>
+      <div v-for="group in navigation" :key="group.key" class="mb-2">
+        <!-- Group Header (Collapsible) -->
+        <button
+          :class="[
+            'w-full flex items-center justify-between px-2 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider transition-colors',
+            groupHasActivePage(group)
+              ? 'text-gsap-green'
+              : 'text-gsap-text-muted hover:text-gsap-text-secondary hover:bg-gsap-bg-tertiary',
+          ]"
+          @click="toggleGroup(group.key)"
+        >
+          <span>{{ group.title }}</span>
+          <svg
+            :class="[
+              'w-4 h-4 transition-transform duration-200',
+              isExpanded(group.key) ? 'rotate-180' : '',
+            ]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </button>
+
+        <!-- Group Items (Collapsible Content) -->
+        <div
+          :class="[
+            'overflow-hidden transition-all duration-200',
+            isExpanded(group.key) ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
+          ]"
+        >
+          <ul class="space-y-1 mt-1">
+            <li v-for="item in group.items" :key="item.to">
+              <NuxtLink
+                :to="item.to"
+                :class="[
+                  'block px-3 py-2 rounded-lg text-sm transition-colors',
+                  isActive(item.to)
+                    ? 'bg-gsap-green/10 text-gsap-green'
+                    : 'text-gsap-text-secondary hover:text-gsap-text-primary hover:bg-gsap-bg-tertiary',
+                ]"
+                @click="emit('close')"
+              >
+                {{ item.title }}
+              </NuxtLink>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
 
