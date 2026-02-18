@@ -183,13 +183,13 @@
 
 ---
 
-## 🔄 10-кезең: PWA / Offline режим
+## ✅ 10-кезең: PWA / Offline режим (Аяқталды)
 
-- [ ] @vite-pwa/nuxt орнату
-- [ ] Service Worker конфигурация
-- [ ] Manifest.json (иконкалар, түстер)
-- [ ] Offline fallback бет
-- [ ] Cache стратегиясы (контент, assets)
+- [x] @vite-pwa/nuxt орнату
+- [x] Service Worker конфигурация
+- [x] Manifest.json (иконкалар, түстер)
+- [x] Offline fallback бет
+- [x] Cache стратегиясы (контент, assets)
 
 ---
 
