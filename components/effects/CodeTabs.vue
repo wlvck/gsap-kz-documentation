@@ -58,8 +58,7 @@ const escapeHtml = (str: string): string => {
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+    .replace(/"/g, "&quot;");
 };
 
 const highlightVue = (code: string): string => {
@@ -86,7 +85,7 @@ const highlightVue = (code: string): string => {
 
 const highlightJS = (code: string): string => {
   // Strings first (to avoid conflicts)
-  code = code.replace(/(&#039;[^&#]*&#039;)/g, '<span class="hl-string">$1</span>');
+  code = code.replace(/('[^']*')/g, '<span class="hl-string">$1</span>');
   code = code.replace(/(&quot;[^&]*&quot;)/g, '<span class="hl-string">$1</span>');
   code = code.replace(/(`[^`]*`)/g, '<span class="hl-string">$1</span>');
 
