@@ -247,6 +247,7 @@ const onCompareMove = (e: MouseEvent | TouchEvent) => {
 };
 
 const onCompareStart = (e: MouseEvent | TouchEvent) => {
+  e.preventDefault(); // Prevent text selection during drag
   isDragging.value = true;
   onCompareMove(e); // Update position immediately on click/touch
 };
