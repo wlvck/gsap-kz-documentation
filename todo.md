@@ -293,11 +293,11 @@
 - [x] Update pages to use effects registry
 - [x] Update EffectPlayground with dynamic animations
 
-### Phase 3: First Effect — Text Fade In
+### Phase 3: First Effect — Text Fade In (Аяқталды)
 
 #### 3.1 Implement Text Fade In effect
 
-- [ ] Create `data/effects/text/fade-in.ts`:
+- [x] Create `data/effects/text/fade-in.ts` (included in text.ts with 16 effects):
 
   ```typescript
   export const textFadeIn: Effect = {
@@ -336,10 +336,10 @@
 
 #### 3.2 Create effect page for Text Fade In
 
-- [ ] Create working demo with user text input
-- [ ] Display code in tabs
-- [ ] Play/Reset functionality
-- [ ] Copy code functionality
+- [x] Create working demo with user text input
+- [x] Display code in tabs
+- [x] Play/Reset functionality
+- [x] Copy code functionality
 
 ### Phase 4: Effects Gallery Page
 
