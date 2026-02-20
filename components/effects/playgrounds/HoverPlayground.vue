@@ -2152,16 +2152,19 @@ onMounted(() => {
       </div>
 
       <!-- Micro: Toast -->
-      <div v-else-if="isToast" class="relative">
+      <div
+        v-else-if="isToast"
+        class="relative w-full h-full min-h-[200px] flex items-center justify-center"
+      >
         <button class="px-8 py-3 bg-gsap-green text-black font-bold rounded-xl" @click="showToast">
           Show Toast
         </button>
         <div
           ref="toastRef"
-          class="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 px-6 py-4 bg-gsap-bg-secondary border border-gsap-green rounded-lg text-gsap-text-primary"
+          class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3 px-5 py-3 bg-gsap-bg-secondary border border-gsap-green rounded-lg text-gsap-text-primary text-sm"
           style="opacity: 0"
         >
-          <span class="text-gsap-green text-xl">✓</span>
+          <span class="text-gsap-green text-lg">✓</span>
           <span>Successfully saved!</span>
         </div>
       </div>

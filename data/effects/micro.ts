@@ -558,7 +558,7 @@ select.addEventListener("click", () => {
     defaultText: "TOAST",
     code: {
       vue: `<template>
-  <div>
+  <div class="toast-container">
     <button @click="showToast" class="toast-btn">Show Toast</button>
     <div ref="toastRef" class="toast">
       <span class="toast-icon">✓</span>
@@ -600,7 +600,15 @@ btn.addEventListener("click", () => {
   )
   .to(toast, { y: 100, opacity: 0, duration: 0.3, delay: 2 });
 });`,
-      css: `.toast-btn {
+      css: `.toast-container {
+  position: relative;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast-btn {
   padding: 1rem 2rem;
   background: #0ae448;
   color: #0e100f;
@@ -611,8 +619,8 @@ btn.addEventListener("click", () => {
 }
 
 .toast {
-  position: fixed;
-  bottom: 2rem;
+  position: absolute;
+  bottom: 1rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
