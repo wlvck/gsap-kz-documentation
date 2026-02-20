@@ -43,7 +43,6 @@
 - **Байланыс** — dropdown:
   - Email: zhumagalievkanagat@gmail.com
   - Telegram: @coffee_w_milk
-- **GitHub** — https://github.com/wlvck/gsap-kz-documentation
 - **Іздеу** — ⌘K
 
 ### Негізгі беттер
@@ -184,4 +183,3 @@ pnpm format   # Prettier форматтау
 
 - **Email:** zhumagalievkanagat@gmail.com
 - **Telegram:** @coffee_w_milk
-- **GitHub:** https://github.com/wlvck/gsap-kz-documentation
