@@ -116,7 +116,7 @@ const handlers: Record<
         shineRef.value,
         { xPercent: -100 },
         {
-          xPercent: 100,
+          xPercent: 200,
           duration: 0.6,
           ease: "power2.inOut",
         }
@@ -1419,8 +1419,8 @@ onMounted(() => {
         <span
           v-if="effect.id === 'btn-shine'"
           ref="shineRef"
-          class="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none"
-          style="transform: translateX(-100%)"
+          class="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none"
+          style="left: 0"
         />
 
         <!-- Background slide element -->
