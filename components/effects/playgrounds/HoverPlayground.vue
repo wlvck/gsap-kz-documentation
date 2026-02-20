@@ -349,8 +349,19 @@ const handlers: Record<
     onEnter: () => {
       if (!iconRef.value) return;
       gsap.to(iconRef.value, {
-        y: [0, 5, 0, 3, 0],
-        duration: 0.6,
+        y: 5,
+        duration: 0.3,
+        ease: "power2.inOut",
+        yoyo: true,
+        repeat: -1,
+      });
+    },
+    onLeave: () => {
+      if (!iconRef.value) return;
+      gsap.killTweensOf(iconRef.value);
+      gsap.to(iconRef.value, {
+        y: 0,
+        duration: 0.2,
         ease: "power2.out",
       });
     },
