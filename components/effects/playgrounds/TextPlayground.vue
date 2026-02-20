@@ -10,11 +10,20 @@ const props = defineProps<{
 const text = ref(props.effect.defaultText);
 const textRef = ref<HTMLElement | null>(null);
 const charRefs = ref<(HTMLElement | null)[]>([]);
+const wordRefs = ref<(HTMLElement | null)[]>([]);
+const lineRefs = ref<(HTMLElement | null)[]>([]);
 const isPlaying = ref(false);
 
-// Computed chars for character-based effects
+// Computed for different split modes
 const chars = computed(() => text.value.split(""));
-const needsCharSplit = computed(() => ["chars-fade", "chars-slide"].includes(props.effect.id));
+const words = computed(() => text.value.split(" "));
+const lines = computed(() => text.value.split("\n"));
+
+// Determine which split mode to use
+const needsCharSplit = computed(() =>
+  ["chars-fade", "chars-slide", "chars-random"].includes(props.effect.id)
+);
+const needsWordSplit = computed(() => ["words-fade", "words-slide"].includes(props.effect.id));
 
 // Animation functions for text effects
 const animations: Record<string, () => void> = {
@@ -257,6 +266,90 @@ const animations: Record<string, () => void> = {
       iteration += 1 / 3;
     }, 30);
   },
+  "chars-random": () => {
+    const validRefs = charRefs.value.filter(Boolean);
+    // Shuffle indices for random order
+    const indices = validRefs.map((_, i) => i);
+    for (let i = indices.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [indices[i], indices[j]] = [indices[j], indices[i]];
+    }
+
+    // Animate in random order
+    indices.forEach((index, i) => {
+      gsap.fromTo(
+        validRefs[index],
+        { opacity: 0, scale: 0, rotation: Math.random() * 360 - 180 },
+        {
+          opacity: 1,
+          scale: 1,
+          rotation: 0,
+          duration: 0.4,
+          delay: i * 0.05,
+          ease: "back.out(1.7)",
+          onComplete: i === indices.length - 1 ? () => (isPlaying.value = false) : undefined,
+        }
+      );
+    });
+  },
+  "words-fade": () => {
+    const validRefs = wordRefs.value.filter(Boolean);
+    gsap.fromTo(
+      validRefs,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.15,
+        ease: "power2.out",
+        onComplete: () => (isPlaying.value = false),
+      }
+    );
+  },
+  "words-slide": () => {
+    const validRefs = wordRefs.value.filter(Boolean);
+    gsap.fromTo(
+      validRefs,
+      { y: "100%", opacity: 0 },
+      {
+        y: "0%",
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power3.out",
+        onComplete: () => (isPlaying.value = false),
+      }
+    );
+  },
+  "lines-reveal": () => {
+    const validRefs = lineRefs.value.filter(Boolean);
+    gsap.fromTo(
+      validRefs,
+      { y: "100%" },
+      {
+        y: "0%",
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power3.out",
+        onComplete: () => (isPlaying.value = false),
+      }
+    );
+  },
+  "lines-mask": () => {
+    const validRefs = lineRefs.value.filter(Boolean);
+    gsap.fromTo(
+      validRefs,
+      { clipPath: "inset(0 100% 0 0)" },
+      {
+        clipPath: "inset(0 0% 0 0)",
+        duration: 1,
+        stagger: 0.3,
+        ease: "power3.inOut",
+        onComplete: () => (isPlaying.value = false),
+      }
+    );
+  },
 };
 
 const play = () => {
@@ -296,7 +389,19 @@ const reset = () => {
   if (charRefs.value.length > 0) {
     const validRefs = charRefs.value.filter(Boolean);
     gsap.killTweensOf(validRefs);
+    gsap.set(validRefs, { opacity: 1, y: 0, scale: 1, rotation: 0, clearProps: "all" });
+  }
+
+  if (wordRefs.value.length > 0) {
+    const validRefs = wordRefs.value.filter(Boolean);
+    gsap.killTweensOf(validRefs);
     gsap.set(validRefs, { opacity: 1, y: 0, clearProps: "all" });
+  }
+
+  if (lineRefs.value.length > 0) {
+    const validRefs = lineRefs.value.filter(Boolean);
+    gsap.killTweensOf(validRefs);
+    gsap.set(validRefs, { y: 0, clipPath: "inset(0 0% 0 0)", clearProps: "all" });
   }
 
   isPlaying.value = false;
@@ -336,7 +441,7 @@ onMounted(() => {
         "
       />
 
-      <!-- Character-based text (for chars-fade, chars-slide) -->
+      <!-- Character-based text (chars-fade, chars-slide, chars-random) -->
       <div
         v-if="needsCharSplit"
         class="relative text-3xl md:text-4xl lg:text-5xl font-bold text-gsap-text-primary text-center px-4 flex flex-wrap justify-center"
@@ -349,6 +454,47 @@ onMounted(() => {
           class="inline-block"
         >
           {{ char === " " ? "\u00A0" : char }}
+        </span>
+      </div>
+
+      <!-- Line-based text (lines-reveal) - with overflow mask -->
+      <div v-else-if="effect.id === 'lines-reveal'" class="relative text-center px-4 space-y-2">
+        <div v-for="(line, i) in lines" :key="i" class="overflow-hidden">
+          <div
+            :ref="(el) => (lineRefs[i] = el as HTMLElement)"
+            class="text-3xl md:text-4xl lg:text-5xl font-bold text-gsap-text-primary"
+          >
+            {{ line }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Line-based text (lines-mask) - with clipPath -->
+      <div v-else-if="effect.id === 'lines-mask'" class="relative text-center px-4 space-y-2">
+        <div
+          v-for="(line, i) in lines"
+          :key="i"
+          :ref="(el) => (lineRefs[i] = el as HTMLElement)"
+          class="text-3xl md:text-4xl lg:text-5xl font-bold text-gsap-text-primary"
+          style="clip-path: inset(0 100% 0 0)"
+        >
+          {{ line }}
+        </div>
+      </div>
+
+      <!-- Word-based text (words-fade, words-slide) -->
+      <div
+        v-else-if="needsWordSplit"
+        class="relative text-3xl md:text-4xl lg:text-5xl font-bold text-gsap-text-primary text-center px-4 flex flex-wrap justify-center gap-3"
+        :class="{ 'overflow-hidden': effect.id === 'words-slide' }"
+      >
+        <span
+          v-for="(word, i) in words"
+          :key="i"
+          :ref="(el) => (wordRefs[i] = el as HTMLElement)"
+          class="inline-block"
+        >
+          {{ word }}
         </span>
       </div>
 

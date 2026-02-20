@@ -232,19 +232,19 @@
 
 ## 🔄 13-кезең: Expand Effects Library (CURRENT)
 
-### Text (Мәтін) — 18/20 done
+### Text (Мәтін) — 23/23 done ✅
 
 - [x] fade-in, fade-in-up, fade-in-down, fade-in-left, fade-in-right
 - [x] scale-in, rotate-in
-- [x] chars-fade, chars-slide
+- [x] chars-fade, chars-slide, chars-random
+- [x] words-fade, words-slide
+- [x] lines-reveal, lines-mask
 - [x] typewriter
 - [x] glitch — Glitch effect
 - [x] counter — Number counter
 - [x] bounce-in, elastic-in, blur-in, flip-in
 - [x] text-scramble — Text scramble/decode
 - [x] hover-underline — Underline on hover
-- [ ] chars-random, words-fade, words-slide
-- [ ] lines-reveal, lines-mask
 
 ### Scroll (Скролл) — 5/15 done
 

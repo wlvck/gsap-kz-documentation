@@ -793,4 +793,269 @@ const onLeave = () => {
 }`,
     },
   },
+  {
+    id: "chars-random",
+    name: "Characters Random",
+    nameKz: "Әріптер кездейсоқ",
+    category: "text",
+    description: "Characters appear in random order",
+    descriptionKz: "Әріптер кездейсоқ ретпен пайда болады",
+    defaultText: "GSAP Қазақша",
+    code: {
+      vue: `<template>
+  <div ref="textRef" class="text-4xl font-bold text-white flex flex-wrap justify-center">
+    <span
+      v-for="(char, i) in chars"
+      :key="i"
+      :ref="el => charRefs[i] = el"
+      class="inline-block"
+    >
+      {{ char === ' ' ? '&nbsp;' : char }}
+    </span>
+  </div>
+</template>`,
+      script: `import { ref, computed, onMounted } from 'vue'
+import gsap from 'gsap'
+
+const text = ref('GSAP Қазақша')
+const charRefs = ref<HTMLElement[]>([])
+
+const chars = computed(() => text.value.split(''))
+
+const play = () => {
+  // Shuffle indices for random order
+  const indices = chars.value.map((_, i) => i)
+  for (let i = indices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[indices[i], indices[j]] = [indices[j], indices[i]]
+  }
+
+  // Create staggered animation with random order
+  indices.forEach((index, i) => {
+    gsap.fromTo(charRefs.value[index],
+      { opacity: 0, scale: 0, rotation: Math.random() * 360 },
+      {
+        opacity: 1,
+        scale: 1,
+        rotation: 0,
+        duration: 0.4,
+        delay: i * 0.05,
+        ease: 'back.out(1.7)'
+      }
+    )
+  })
+}
+
+onMounted(() => play())`,
+      css: `.inline-block {
+  display: inline-block;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}`,
+    },
+  },
+  {
+    id: "words-fade",
+    name: "Words Fade",
+    nameKz: "Сөздер пайда болу",
+    category: "text",
+    description: "Words fade in one by one",
+    descriptionKz: "Сөздер бірінен соң бірі пайда болады",
+    defaultText: "GSAP Қазақша құжаттама",
+    code: {
+      vue: `<template>
+  <div ref="textRef" class="text-4xl font-bold text-white flex flex-wrap justify-center gap-3">
+    <span
+      v-for="(word, i) in words"
+      :key="i"
+      :ref="el => wordRefs[i] = el"
+      class="inline-block"
+    >
+      {{ word }}
+    </span>
+  </div>
+</template>`,
+      script: `import { ref, computed, onMounted } from 'vue'
+import gsap from 'gsap'
+
+const text = ref('GSAP Қазақша құжаттама')
+const wordRefs = ref<HTMLElement[]>([])
+
+const words = computed(() => text.value.split(' '))
+
+const play = () => {
+  gsap.fromTo(wordRefs.value,
+    { opacity: 0, y: 30 },
+    {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      stagger: 0.15,
+      ease: 'power2.out'
+    }
+  )
+}
+
+onMounted(() => play())`,
+      css: `.inline-block {
+  display: inline-block;
+}
+.gap-3 {
+  gap: 0.75rem;
+}`,
+    },
+  },
+  {
+    id: "words-slide",
+    name: "Words Slide",
+    nameKz: "Сөздер сырғу",
+    category: "text",
+    description: "Words slide up one by one",
+    descriptionKz: "Сөздер төменнен жоғары сырғиды",
+    defaultText: "GSAP Қазақша құжаттама",
+    code: {
+      vue: `<template>
+  <div class="overflow-hidden">
+    <div ref="textRef" class="text-4xl font-bold text-white flex flex-wrap justify-center gap-3">
+      <span
+        v-for="(word, i) in words"
+        :key="i"
+        :ref="el => wordRefs[i] = el"
+        class="inline-block"
+      >
+        {{ word }}
+      </span>
+    </div>
+  </div>
+</template>`,
+      script: `import { ref, computed, onMounted } from 'vue'
+import gsap from 'gsap'
+
+const text = ref('GSAP Қазақша құжаттама')
+const wordRefs = ref<HTMLElement[]>([])
+
+const words = computed(() => text.value.split(' '))
+
+const play = () => {
+  gsap.fromTo(wordRefs.value,
+    { y: '100%', opacity: 0 },
+    {
+      y: '0%',
+      opacity: 1,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: 'power3.out'
+    }
+  )
+}
+
+onMounted(() => play())`,
+      css: `.overflow-hidden {
+  overflow: hidden;
+}
+.inline-block {
+  display: inline-block;
+}`,
+    },
+  },
+  {
+    id: "lines-reveal",
+    name: "Lines Reveal",
+    nameKz: "Жолдар ашылу",
+    category: "text",
+    description: "Lines reveal with mask effect",
+    descriptionKz: "Жолдар маска эффектімен ашылады",
+    defaultText: "GSAP Қазақша\nқұжаттама",
+    code: {
+      vue: `<template>
+  <div class="space-y-2">
+    <div
+      v-for="(line, i) in lines"
+      :key="i"
+      class="overflow-hidden"
+    >
+      <div
+        :ref="el => lineRefs[i] = el"
+        class="text-4xl font-bold text-white"
+      >
+        {{ line }}
+      </div>
+    </div>
+  </div>
+</template>`,
+      script: `import { ref, computed, onMounted } from 'vue'
+import gsap from 'gsap'
+
+const text = ref('GSAP Қазақша\\nқұжаттама')
+const lineRefs = ref<HTMLElement[]>([])
+
+const lines = computed(() => text.value.split('\\n'))
+
+const play = () => {
+  gsap.fromTo(lineRefs.value,
+    { y: '100%' },
+    {
+      y: '0%',
+      duration: 0.8,
+      stagger: 0.2,
+      ease: 'power3.out'
+    }
+  )
+}
+
+onMounted(() => play())`,
+      css: `.overflow-hidden {
+  overflow: hidden;
+}
+.space-y-2 > * + * {
+  margin-top: 0.5rem;
+}`,
+    },
+  },
+  {
+    id: "lines-mask",
+    name: "Lines Mask",
+    nameKz: "Жолдар маскасы",
+    category: "text",
+    description: "Lines appear with clip mask animation",
+    descriptionKz: "Жолдар клип маска анимациясымен пайда болады",
+    defaultText: "GSAP Қазақша\nқұжаттама",
+    code: {
+      vue: `<template>
+  <div class="space-y-2">
+    <div
+      v-for="(line, i) in lines"
+      :key="i"
+      :ref="el => lineRefs[i] = el"
+      class="text-4xl font-bold text-white"
+      :style="{ clipPath: 'inset(0 100% 0 0)' }"
+    >
+      {{ line }}
+    </div>
+  </div>
+</template>`,
+      script: `import { ref, computed, onMounted } from 'vue'
+import gsap from 'gsap'
+
+const text = ref('GSAP Қазақша\\nқұжаттама')
+const lineRefs = ref<HTMLElement[]>([])
+
+const lines = computed(() => text.value.split('\\n'))
+
+const play = () => {
+  gsap.to(lineRefs.value, {
+    clipPath: 'inset(0 0% 0 0)',
+    duration: 1,
+    stagger: 0.3,
+    ease: 'power3.inOut'
+  })
+}
+
+onMounted(() => play())`,
+      css: `.space-y-2 > * + * {
+  margin-top: 0.5rem;
+}`,
+    },
+  },
 ];
