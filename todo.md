@@ -341,29 +341,29 @@
 - [x] Play/Reset functionality
 - [x] Copy code functionality
 
-### Phase 4: Effects Gallery Page
+### Phase 4: Effects Gallery Page (Аяқталды)
 
 #### 4.1 Create effects gallery
 
-- [ ] Create `pages/effects/index.vue`
-- [ ] Display all categories as sections
-- [ ] Show effect cards with preview thumbnail
-- [ ] Link to individual effect pages
+- [x] Create `pages/effects/index.vue`
+- [x] Display all categories as sections
+- [x] Show effect cards with preview thumbnail
+- [x] Link to individual effect pages
 
 #### 4.2 Create EffectCard component
 
-- [ ] Create `components/effects/EffectCard.vue`
-- [ ] Show effect name (KZ)
-- [ ] Mini preview or icon
-- [ ] Category badge
-- [ ] Link to effect page
+- [x] Create `components/effects/EffectCard.vue`
+- [x] Show effect name (KZ)
+- [x] Mini preview or icon
+- [x] Category badge
+- [x] Link to effect page
 
 #### 4.3 Create effects sidebar
 
-- [ ] Create `components/effects/EffectsSidebar.vue`
-- [ ] List all categories
-- [ ] Expandable subcategories with effects list
-- [ ] Active effect highlighting
+- [x] Create `components/effects/EffectsSidebar.vue`
+- [x] List all categories
+- [x] Expandable subcategories with effects list
+- [x] Active effect highlighting
 
 ### Phase 5: Styling and Polish
 

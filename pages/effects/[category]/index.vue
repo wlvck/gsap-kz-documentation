@@ -62,36 +62,9 @@ useSeoMeta({
       <!-- Effects Grid -->
       <div
         v-if="categoryEffects.length > 0"
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+        class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5"
       >
-        <NuxtLink
-          v-for="effect in categoryEffects"
-          :key="effect.id"
-          :to="`/effects/${category}/${effect.id}`"
-          class="group p-6 rounded-xl bg-gsap-bg-secondary border border-gsap-border hover:border-gsap-green/50 transition-all duration-300 hover:shadow-lg hover:shadow-gsap-green/5"
-        >
-          <h3
-            class="text-lg font-semibold text-gsap-text-primary mb-1 group-hover:text-gsap-green transition-colors"
-          >
-            {{ effect.nameKz }}
-          </h3>
-          <p class="text-sm text-gsap-text-muted">{{ effect.name }}</p>
-          <p class="text-sm text-gsap-text-secondary mt-2">{{ effect.descriptionKz }}</p>
-
-          <div
-            class="mt-4 flex items-center gap-2 text-sm text-gsap-green opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-            <span>Қарау</span>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </div>
-        </NuxtLink>
+        <EffectsEffectCard v-for="effect in categoryEffects" :key="effect.id" :effect="effect" />
       </div>
 
       <!-- Empty State -->
