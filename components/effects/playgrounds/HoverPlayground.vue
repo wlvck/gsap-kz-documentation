@@ -601,6 +601,13 @@ const handlers: Record<
   breadcrumb: {
     // Auto-animates on mount, handled in template
   },
+  // Container effects
+  accordion: {
+    // Handled in template with specific logic
+  },
+  tabs: {
+    // Handled in template with specific logic
+  },
 };
 
 const currentHandlers = computed(() => handlers[props.effect.id] || handlers["btn-scale"]);
@@ -696,6 +703,11 @@ const instruction = computed(() => {
       return "Навигация элементін басыңыз";
     case "breadcrumb":
       return "Breadcrumb анимациясы";
+    // Container effects
+    case "accordion":
+      return "Аккордеон элементін басыңыз";
+    case "tabs":
+      return "Табты таңдаңыз";
     default:
       return "Элементке hover жасаңыз";
   }
@@ -720,6 +732,72 @@ const isLinkUnderline = computed(() => props.effect.id === "link-underline");
 const isLinkFill = computed(() => props.effect.id === "link-fill");
 const isActiveIndicator = computed(() => props.effect.id === "active-indicator");
 const isBreadcrumb = computed(() => props.effect.id === "breadcrumb");
+const isAccordion = computed(() => props.effect.id === "accordion");
+const isTabs = computed(() => props.effect.id === "tabs");
+
+// Accordion state
+const accordionItems = [
+  { title: "Item 1", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+  { title: "Item 2", content: "Sed do eiusmod tempor incididunt ut labore et dolore." },
+  { title: "Item 3", content: "Ut enim ad minim veniam, quis nostrud exercitation." },
+];
+const activeAccordion = ref(-1);
+const accordionRefs = ref<HTMLElement[]>([]);
+
+const toggleAccordion = (index: number) => {
+  const content = accordionRefs.value[index];
+  if (!content) return;
+
+  if (activeAccordion.value === index) {
+    gsap.to(content, { height: 0, duration: 0.3, ease: "power2.inOut" });
+    activeAccordion.value = -1;
+  } else {
+    if (activeAccordion.value !== -1 && accordionRefs.value[activeAccordion.value]) {
+      gsap.to(accordionRefs.value[activeAccordion.value], { height: 0, duration: 0.3 });
+    }
+    gsap.to(content, { height: "auto", duration: 0.4, ease: "power2.out" });
+    activeAccordion.value = index;
+  }
+};
+
+// Tabs state
+const tabItems = [
+  { label: "Tab 1", content: "Content for Tab 1 - Lorem ipsum dolor sit amet." },
+  { label: "Tab 2", content: "Content for Tab 2 - Consectetur adipiscing elit." },
+  { label: "Tab 3", content: "Content for Tab 3 - Sed do eiusmod tempor." },
+];
+const activeTabIndex = ref(0);
+const tabIndicatorRef = ref<HTMLElement | null>(null);
+const tabButtonRefs = ref<HTMLElement[]>([]);
+const tabContentRef = ref<HTMLElement | null>(null);
+
+const setActiveTab = async (index: number) => {
+  if (index === activeTabIndex.value) return;
+
+  // Animate content out
+  if (tabContentRef.value) {
+    await gsap.to(tabContentRef.value, { opacity: 0, y: 10, duration: 0.2 });
+  }
+
+  activeTabIndex.value = index;
+  await nextTick();
+
+  // Move indicator
+  if (tabIndicatorRef.value && tabButtonRefs.value[index]) {
+    const btn = tabButtonRefs.value[index];
+    gsap.to(tabIndicatorRef.value, {
+      x: btn.offsetLeft,
+      width: btn.offsetWidth,
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  }
+
+  // Animate content in
+  if (tabContentRef.value) {
+    gsap.fromTo(tabContentRef.value, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.3 });
+  }
+};
 
 // Active indicator state
 const activeNavIndex = ref(0);
@@ -760,6 +838,12 @@ onMounted(() => {
     gsap.set(indicatorRef.value, {
       x: navItemRefs.value[0].offsetLeft,
       width: navItemRefs.value[0].offsetWidth,
+    });
+  }
+  if (props.effect.id === "tabs" && tabIndicatorRef.value && tabButtonRefs.value[0]) {
+    gsap.set(tabIndicatorRef.value, {
+      x: tabButtonRefs.value[0].offsetLeft,
+      width: tabButtonRefs.value[0].offsetWidth,
     });
   }
 });
@@ -1265,6 +1349,62 @@ onMounted(() => {
           <span v-if="i < breadcrumbItems.length - 1" class="text-gsap-border">/</span>
         </template>
       </nav>
+
+      <!-- Container: Accordion -->
+      <div v-else-if="isAccordion" class="w-full max-w-md">
+        <div v-for="(item, i) in accordionItems" :key="i" class="border-b border-gsap-border">
+          <button
+            class="w-full px-4 py-3 flex justify-between items-center text-gsap-text-primary hover:text-gsap-green"
+            @click="toggleAccordion(i)"
+          >
+            <span>{{ item.title }}</span>
+            <span
+              class="transition-transform duration-300"
+              :class="{ 'rotate-45': activeAccordion === i }"
+              >+</span
+            >
+          </button>
+          <div
+            :ref="
+              (el) => {
+                if (el) accordionRefs[i] = el as HTMLElement;
+              }
+            "
+            class="overflow-hidden"
+            style="height: 0"
+          >
+            <p class="px-4 pb-4 text-gsap-text-muted">{{ item.content }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Container: Tabs -->
+      <div v-else-if="isTabs" class="w-full max-w-md">
+        <div class="relative flex border-b border-gsap-border">
+          <button
+            v-for="(tab, i) in tabItems"
+            :key="i"
+            :ref="
+              (el) => {
+                if (el) tabButtonRefs[i] = el as HTMLElement;
+              }
+            "
+            class="px-6 py-3 text-gsap-text-muted transition-colors"
+            :class="{ 'text-gsap-green': activeTabIndex === i }"
+            @click="setActiveTab(i)"
+          >
+            {{ tab.label }}
+          </button>
+          <span
+            ref="tabIndicatorRef"
+            class="absolute bottom-0 left-0 h-0.5 bg-gsap-green"
+            style="width: 0"
+          />
+        </div>
+        <div ref="tabContentRef" class="p-4 text-gsap-text-primary">
+          {{ tabItems[activeTabIndex].content }}
+        </div>
+      </div>
 
       <!-- Generic Element (fallback) -->
       <div

@@ -324,6 +324,78 @@ const startAnimation = () => {
       }
       break;
     }
+
+    // Container effects
+    case "gradient-anim":
+      if (containerRef.value) {
+        currentAnimation = gsap.to(containerRef.value, {
+          backgroundPosition: "200% 200%",
+          duration: 8,
+          ease: "none",
+          repeat: -1,
+        });
+      }
+      break;
+
+    case "bg-color-transition":
+      if (containerRef.value) {
+        currentAnimation = gsap.to(containerRef.value, {
+          backgroundColor: ["#0ae448", "#0ba934", "#06d6a0", "#00b4d8", "#0ae448"],
+          duration: 2,
+          ease: "power1.inOut",
+          repeat: -1,
+          repeatDelay: 0.5,
+        });
+      }
+      break;
+
+    case "animated-shapes": {
+      const validShapes = itemRefs.value.filter(Boolean);
+      validShapes.forEach((shape, i) => {
+        gsap.set(shape, {
+          x: Math.random() * 200,
+          y: Math.random() * 150,
+          scale: 0.5 + Math.random() * 0.5,
+        });
+        gsap.to(shape, {
+          x: `random(-30, 230)`,
+          y: `random(-30, 180)`,
+          rotation: 360,
+          duration: 5 + i * 2,
+          ease: "none",
+          repeat: -1,
+          repeatRefresh: true,
+        });
+      });
+      break;
+    }
+
+    case "particles": {
+      const validParticles = dotRefs.value.filter(Boolean);
+      validParticles.forEach((particle) => {
+        const startX = Math.random() * 100;
+        const startY = 100 + Math.random() * 20;
+        gsap.set(particle, {
+          xPercent: startX,
+          yPercent: startY,
+          scale: Math.random() * 0.5 + 0.5,
+          opacity: 0.8,
+        });
+        gsap.to(particle, {
+          yPercent: -20,
+          opacity: 0,
+          duration: 3 + Math.random() * 3,
+          repeat: -1,
+          delay: Math.random() * 3,
+          ease: "power1.out",
+        });
+      });
+      break;
+    }
+
+    case "wave-anim":
+      // Wave animation handled in template with SVG path
+      break;
   }
 };
 
@@ -605,6 +677,77 @@ watch(
         >
           <span class="text-gsap-text-primary font-bold text-xl">{{ i }}</span>
         </div>
+      </div>
+
+      <!-- Container: Gradient Animation -->
+      <div
+        v-else-if="effect.id === 'gradient-anim'"
+        ref="containerRef"
+        class="w-full h-48 rounded-xl flex items-center justify-center"
+        style="
+          background: linear-gradient(-45deg, #0ae448, #0ba934, #089c2d, #06d6a0, #0ae448);
+          background-size: 400% 400%;
+        "
+      >
+        <span class="text-black font-bold text-2xl">Animated Gradient</span>
+      </div>
+
+      <!-- Container: Background Color Transition -->
+      <div
+        v-else-if="effect.id === 'bg-color-transition'"
+        ref="containerRef"
+        class="w-full h-48 rounded-xl flex items-center justify-center"
+        style="background-color: #0ae448"
+      >
+        <span class="text-black font-bold text-2xl">Color Transition</span>
+      </div>
+
+      <!-- Container: Animated Shapes -->
+      <div
+        v-else-if="effect.id === 'animated-shapes'"
+        class="relative w-full h-48 bg-gsap-bg-secondary rounded-xl overflow-hidden flex items-center justify-center"
+      >
+        <div
+          v-for="i in 5"
+          :key="i"
+          :ref="(el) => (itemRefs[i - 1] = el as HTMLElement)"
+          class="absolute w-12 h-12 bg-gsap-green/20 rounded-full"
+          :class="{ 'rounded-none': i === 2, 'rounded-3xl': i === 3 }"
+        />
+        <span class="relative z-10 text-gsap-text-primary font-bold text-2xl">Shapes</span>
+      </div>
+
+      <!-- Container: Particles -->
+      <div
+        v-else-if="effect.id === 'particles'"
+        class="relative w-full h-48 bg-gsap-bg-primary rounded-xl overflow-hidden flex items-center justify-center"
+      >
+        <div
+          v-for="i in 15"
+          :key="i"
+          :ref="(el) => (dotRefs[i - 1] = el as HTMLElement)"
+          class="absolute w-2 h-2 bg-gsap-green rounded-full"
+        />
+        <span class="relative z-10 text-gsap-text-primary font-bold text-2xl">Particles</span>
+      </div>
+
+      <!-- Container: Wave Animation -->
+      <div
+        v-else-if="effect.id === 'wave-anim'"
+        class="relative w-full h-48 bg-gsap-bg-secondary rounded-xl overflow-hidden flex items-center justify-center"
+      >
+        <span class="relative z-10 text-gsap-text-primary font-bold text-2xl">Wave</span>
+        <svg
+          class="absolute bottom-0 left-0 w-full h-1/2"
+          viewBox="0 0 1440 320"
+          preserveAspectRatio="none"
+        >
+          <path
+            fill="#0ae448"
+            fill-opacity="0.3"
+            d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,133.3C672,117,768,139,864,165.3C960,192,1056,224,1152,208C1248,192,1344,128,1392,96L1440,64L1440,320L0,320Z"
+          />
+        </svg>
       </div>
 
       <!-- Restart Button -->

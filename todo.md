@@ -290,13 +290,13 @@
 - [x] dropdown-anim, mega-menu
 - [x] link-underline, link-fill, active-indicator, breadcrumb
 
-### Container (Контейнер) — 0/12
+### Container (Контейнер) — 12/12 done ✅
 
-- [ ] gradient-anim, bg-color-transition, animated-shapes
-- [ ] particles, wave-anim
-- [ ] divider-anim, wave-divider, diagonal-reveal
-- [ ] section-reveal, section-transition
-- [ ] accordion, tabs
+- [x] gradient-anim, bg-color-transition, animated-shapes
+- [x] particles, wave-anim
+- [x] divider-anim, wave-divider, diagonal-reveal
+- [x] section-reveal, section-transition
+- [x] accordion, tabs
 
 ### SVG (SVG) — 0/10
 
