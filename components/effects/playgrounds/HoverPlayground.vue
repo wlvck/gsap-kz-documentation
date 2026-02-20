@@ -1371,7 +1371,7 @@ onMounted(() => {
     >
       <!-- Grid Background -->
       <div
-        class="absolute inset-0 opacity-10"
+        class="absolute inset-0 opacity-10 pointer-events-none"
         style="
           background-image:
             linear-gradient(#2a2d2b 1px, transparent 1px),
