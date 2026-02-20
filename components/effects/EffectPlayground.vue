@@ -232,6 +232,190 @@ const animations: Record<string, () => void> = {
       }
     );
   },
+  // Scroll effects (simplified demo without actual scroll)
+  "scroll-fade-in": () => {
+    gsap.fromTo(
+      textRef.value,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power2.out",
+        onComplete: () => (isPlaying.value = false),
+      }
+    );
+  },
+  "scroll-slide-up": () => {
+    gsap.fromTo(
+      textRef.value,
+      { opacity: 0, y: 100 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+        onComplete: () => (isPlaying.value = false),
+      }
+    );
+  },
+  "parallax-simple": () => {
+    gsap.fromTo(
+      textRef.value,
+      { y: 50, scale: 0.9 },
+      { y: -50, scale: 1.1, duration: 2, ease: "none", onComplete: () => (isPlaying.value = false) }
+    );
+  },
+  "pin-simple": () => {
+    gsap.fromTo(
+      textRef.value,
+      { scale: 1 },
+      {
+        scale: 1.5,
+        duration: 1.5,
+        ease: "power2.inOut",
+        yoyo: true,
+        repeat: 1,
+        onComplete: () => (isPlaying.value = false),
+      }
+    );
+  },
+  "scroll-progress": () => {
+    const target = parseInt(text.value) || 100;
+    const obj = { value: 0 };
+    gsap.to(obj, {
+      value: target,
+      duration: 2,
+      ease: "power2.out",
+      onUpdate: () => {
+        if (textRef.value) {
+          textRef.value.textContent = Math.round(obj.value).toString();
+        }
+      },
+      onComplete: () => (isPlaying.value = false),
+    });
+  },
+  // Button effects
+  "btn-scale": () => {
+    gsap.fromTo(
+      textRef.value,
+      { scale: 1 },
+      {
+        scale: 1.1,
+        duration: 0.3,
+        ease: "power2.out",
+        yoyo: true,
+        repeat: 1,
+        onComplete: () => (isPlaying.value = false),
+      }
+    );
+  },
+  "btn-ripple": () => {
+    gsap.fromTo(
+      textRef.value,
+      { scale: 1, boxShadow: "0 0 0 0 rgba(10, 228, 72, 0.4)" },
+      {
+        scale: 1.05,
+        boxShadow: "0 0 0 20px rgba(10, 228, 72, 0)",
+        duration: 0.6,
+        ease: "power2.out",
+        onComplete: () => (isPlaying.value = false),
+      }
+    );
+  },
+  "btn-magnetic": () => {
+    const tl = gsap.timeline({ onComplete: () => (isPlaying.value = false) });
+    tl.to(textRef.value, { x: 20, y: -10, duration: 0.3, ease: "power2.out" })
+      .to(textRef.value, { x: -15, y: 5, duration: 0.3, ease: "power2.out" })
+      .to(textRef.value, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.5)" });
+  },
+  "btn-shine": () => {
+    gsap.fromTo(
+      textRef.value,
+      { backgroundPosition: "-200% 0" },
+      {
+        backgroundPosition: "200% 0",
+        duration: 1,
+        ease: "power2.inOut",
+        onComplete: () => (isPlaying.value = false),
+      }
+    );
+  },
+  "btn-3d-press": () => {
+    const tl = gsap.timeline({ onComplete: () => (isPlaying.value = false) });
+    tl.to(textRef.value, { scale: 0.95, y: 5, duration: 0.1, ease: "power2.in" }).to(
+      textRef.value,
+      { scale: 1, y: 0, duration: 0.3, ease: "elastic.out(1, 0.5)" }
+    );
+  },
+  // Loading effects
+  spinner: () => {
+    gsap.to(textRef.value, {
+      rotation: 360,
+      duration: 1,
+      ease: "none",
+      repeat: 2,
+      onComplete: () => (isPlaying.value = false),
+    });
+  },
+  "progress-bar": () => {
+    const target = parseInt(text.value) || 75;
+    const obj = { value: 0 };
+    gsap.to(obj, {
+      value: target,
+      duration: 2,
+      ease: "power2.out",
+      onUpdate: () => {
+        if (textRef.value) {
+          textRef.value.textContent = Math.round(obj.value).toString();
+        }
+      },
+      onComplete: () => (isPlaying.value = false),
+    });
+  },
+  skeleton: () => {
+    gsap.fromTo(
+      textRef.value,
+      { opacity: 0.5 },
+      {
+        opacity: 1,
+        duration: 0.8,
+        ease: "power1.inOut",
+        yoyo: true,
+        repeat: 3,
+        onComplete: () => (isPlaying.value = false),
+      }
+    );
+  },
+  "dots-loading": () => {
+    gsap.fromTo(
+      textRef.value,
+      { y: 0 },
+      {
+        y: -20,
+        duration: 0.4,
+        ease: "power2.out",
+        yoyo: true,
+        repeat: 5,
+        onComplete: () => (isPlaying.value = false),
+      }
+    );
+  },
+  "pulse-loading": () => {
+    gsap.fromTo(
+      textRef.value,
+      { scale: 1, opacity: 1 },
+      {
+        scale: 1.3,
+        opacity: 0.5,
+        duration: 0.5,
+        ease: "power2.out",
+        yoyo: true,
+        repeat: 3,
+        onComplete: () => (isPlaying.value = false),
+      }
+    );
+  },
 };
 
 const play = () => {

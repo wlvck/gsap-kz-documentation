@@ -365,21 +365,27 @@
 - [x] Expandable subcategories with effects list
 - [x] Active effect highlighting
 
-### Phase 5: Styling and Polish
+### Phase 5: Styling and Polish (Аяқталды)
 
 #### 5.1 Design system
 
-- [ ] Use GSAP color palette (dark theme)
-- [ ] Demo area: dark background with subtle border
-- [ ] Code area: github-dark theme
-- [ ] Consistent spacing and typography
+- [x] Use GSAP color palette (dark theme)
+- [x] Demo area: dark background with subtle border
+- [x] Code area: github-dark theme
+- [x] Consistent spacing and typography
 
 #### 5.2 Animations
 
-- [ ] Page transitions
-- [ ] Tab switching animation
-- [ ] Button hover effects
-- [ ] Smooth scroll between sections
+- [x] Page transitions (GSAP-powered in app.vue)
+- [x] Tab switching animation (CodeTabs)
+- [x] Button hover effects (AnimatedButton component)
+- [x] Smooth scroll between sections (Lenis already integrated)
+
+#### 5.3 Additional Categories
+
+- [x] Add scroll effects (5 effects)
+- [x] Add button effects (5 effects)
+- [x] Add loading effects (5 effects)
 
 ---
 

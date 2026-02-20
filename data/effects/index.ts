@@ -1,9 +1,17 @@
 import type { Effect, EffectCategory } from "~/types/effects";
 import { CATEGORY_META } from "~/types/effects";
 import { textEffects } from "./text";
+import { scrollEffects } from "./scroll";
+import { buttonEffects } from "./button";
+import { loadingEffects } from "./loading";
 
 // All effects registry
-const allEffects: Effect[] = [...textEffects];
+const allEffects: Effect[] = [
+  ...textEffects,
+  ...scrollEffects,
+  ...buttonEffects,
+  ...loadingEffects,
+];
 
 // Get all effects
 export function getAllEffects(): Effect[] {

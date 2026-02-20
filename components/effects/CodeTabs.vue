@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import gsap from "gsap";
+
 interface EffectCode {
   vue: string;
   script: string;
@@ -20,8 +22,35 @@ const tabs: { id: TabId; label: string; icon: string }[] = [
 const activeTab = ref<TabId>("vue");
 const copied = ref(false);
 const copiedAll = ref(false);
+const codeRef = ref<HTMLElement | null>(null);
 
 const activeCode = computed(() => props.code[activeTab.value]);
+
+// Tab switch animation
+const switchTab = (tabId: TabId) => {
+  if (tabId === activeTab.value) return;
+
+  if (codeRef.value) {
+    gsap.to(codeRef.value, {
+      opacity: 0,
+      y: -10,
+      duration: 0.15,
+      ease: "power2.in",
+      onComplete: () => {
+        activeTab.value = tabId;
+        nextTick(() => {
+          gsap.fromTo(
+            codeRef.value,
+            { opacity: 0, y: 10 },
+            { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" }
+          );
+        });
+      },
+    });
+  } else {
+    activeTab.value = tabId;
+  }
+};
 
 // Syntax highlighting
 const escapeHtml = (str: string): string => {
@@ -183,7 +212,7 @@ ${props.code.css}
               ? 'border-gsap-green text-gsap-green'
               : 'border-transparent text-gsap-text-muted hover:text-gsap-text-primary',
           ]"
-          @click="activeTab = tab.id"
+          @click="switchTab(tab.id)"
         >
           <span
             :class="[
@@ -236,7 +265,7 @@ ${props.code.css}
 
     <!-- Code Content -->
     <div class="relative">
-      <div class="overflow-x-auto">
+      <div ref="codeRef" class="overflow-x-auto">
         <pre
           class="code-block p-4 md:p-6 text-sm leading-relaxed font-mono min-h-[200px]"
         ><!-- eslint-disable-next-line vue/no-v-html --><code v-html="highlightedCode" /></pre>
