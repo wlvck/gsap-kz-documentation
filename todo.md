@@ -276,12 +276,12 @@
 - [x] slider-basic, slider-infinite, slider-draggable
 - [x] lightbox, masonry-reveal, image-crossfade, before-after
 
-### Card (Карточка) — 0/13
+### Card (Карточка) — 13/13 done ✅
 
-- [ ] card-lift, card-tilt, card-flip, card-expand
-- [ ] card-glow, card-border, card-gradient
-- [ ] card-content-slide, card-overlay, card-icon
-- [ ] cards-stagger, cards-grid, cards-random
+- [x] card-lift, card-tilt, card-flip, card-expand
+- [x] card-glow, card-border, card-gradient
+- [x] card-content-slide, card-overlay, card-icon
+- [x] cards-stagger, cards-grid, cards-random
 
 ### Navigation (Навигация) — 0/14
 

@@ -20,6 +20,7 @@ const curtainRef = ref<HTMLElement | null>(null);
 const itemRefs = ref<(HTMLElement | null)[]>([]);
 const shimmerRefs = ref<(HTMLElement | null)[]>([]);
 const imageRef = ref<HTMLElement | null>(null);
+const cardRefs = ref<(HTMLElement | null)[]>([]);
 
 let currentAnimation: gsap.core.Tween | gsap.core.Timeline | null = null;
 
@@ -267,6 +268,62 @@ const startAnimation = () => {
           .to(imageRef.value, { filter: "blur(10px)", opacity: 0.5, duration: 0.3, delay: 1 });
       }
       break;
+
+    case "cards-stagger": {
+      const validCards = cardRefs.value.filter(Boolean);
+      if (validCards.length > 0) {
+        gsap.set(validCards, { opacity: 0, y: 30 });
+        currentAnimation = gsap.timeline({ repeat: -1, repeatDelay: 1 });
+        (currentAnimation as gsap.core.Timeline)
+          .to(validCards, { opacity: 1, y: 0, duration: 0.6, stagger: 0.15, ease: "back.out(1.7)" })
+          .to(validCards, { opacity: 0, y: -30, duration: 0.3, stagger: 0.1, delay: 1 });
+      }
+      break;
+    }
+
+    case "cards-grid": {
+      const validCards = cardRefs.value.filter(Boolean);
+      if (validCards.length > 0) {
+        gsap.set(validCards, { opacity: 0, scale: 0.8 });
+        currentAnimation = gsap.timeline({ repeat: -1, repeatDelay: 1 });
+        (currentAnimation as gsap.core.Timeline)
+          .to(validCards, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.4,
+            stagger: { each: 0.05, grid: [3, 3], from: "center" },
+            ease: "back.out(1.7)",
+          })
+          .to(validCards, { opacity: 0, scale: 0.8, duration: 0.3, stagger: 0.03, delay: 1 });
+      }
+      break;
+    }
+
+    case "cards-random": {
+      const validCards = cardRefs.value.filter(Boolean);
+      if (validCards.length > 0) {
+        gsap.set(validCards, { opacity: 0, y: 50, rotation: -10 });
+        currentAnimation = gsap.timeline({ repeat: -1, repeatDelay: 1 });
+        (currentAnimation as gsap.core.Timeline)
+          .to(validCards, {
+            opacity: 1,
+            y: 0,
+            rotation: 0,
+            duration: 0.6,
+            stagger: { each: 0.1, from: "random" },
+            ease: "back.out(1.7)",
+          })
+          .to(validCards, {
+            opacity: 0,
+            y: -50,
+            rotation: 10,
+            duration: 0.3,
+            stagger: 0.05,
+            delay: 1,
+          });
+      }
+      break;
+    }
   }
 };
 
@@ -295,6 +352,8 @@ const restart = () => {
     .filter(Boolean)
     .map((el) => el?.querySelector(".shimmer-gradient"));
   if (shimmers.length > 0) gsap.set(shimmers, { xPercent: -100 });
+  const validCards = cardRefs.value.filter(Boolean);
+  if (validCards.length > 0) gsap.set(validCards, { opacity: 0, y: 30, scale: 0.8, rotation: -10 });
 
   nextTick(() => {
     startAnimation();
@@ -506,6 +565,46 @@ watch(
         style="filter: blur(10px); opacity: 0.5"
       >
         <span class="text-4xl">🖼️</span>
+      </div>
+
+      <!-- Cards Stagger -->
+      <div v-else-if="effect.id === 'cards-stagger'" class="flex gap-4">
+        <div
+          v-for="i in 3"
+          :key="i"
+          :ref="(el) => (cardRefs[i - 1] = el as HTMLElement)"
+          class="w-32 h-40 bg-gsap-bg-secondary rounded-xl p-4"
+          style="opacity: 0; transform: translateY(30px)"
+        >
+          <div class="text-2xl mb-2">{{ ["🎨", "🚀", "⚡"][i - 1] }}</div>
+          <span class="text-gsap-text-primary text-sm font-bold">Карточка {{ i }}</span>
+        </div>
+      </div>
+
+      <!-- Cards Grid -->
+      <div v-else-if="effect.id === 'cards-grid'" class="grid grid-cols-3 gap-2 w-64">
+        <div
+          v-for="i in 9"
+          :key="i"
+          :ref="(el) => (cardRefs[i - 1] = el as HTMLElement)"
+          class="h-20 bg-gsap-bg-secondary rounded-lg flex items-center justify-center"
+          style="opacity: 0; scale: 0.8"
+        >
+          <span class="text-gsap-text-primary font-bold">{{ i }}</span>
+        </div>
+      </div>
+
+      <!-- Cards Random -->
+      <div v-else-if="effect.id === 'cards-random'" class="flex gap-4">
+        <div
+          v-for="i in 4"
+          :key="i"
+          :ref="(el) => (cardRefs[i - 1] = el as HTMLElement)"
+          class="w-24 h-32 bg-gsap-bg-secondary rounded-xl flex items-center justify-center"
+          style="opacity: 0; transform: translateY(50px) rotate(-10deg)"
+        >
+          <span class="text-gsap-text-primary font-bold text-xl">{{ i }}</span>
+        </div>
       </div>
 
       <!-- Restart Button -->

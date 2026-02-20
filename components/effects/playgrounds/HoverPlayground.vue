@@ -24,6 +24,15 @@ const success = ref(false);
 const error = ref(false);
 const isMenuOpen = ref(false);
 
+// State for card effects
+const isCardFlipped = ref(false);
+const isCardExpanded = ref(false);
+
+// Additional refs for card effects
+const contentRef = ref<HTMLElement | null>(null);
+const extraContentRef = ref<HTMLElement | null>(null);
+const overlayRef = ref<HTMLElement | null>(null);
+
 // Generic hover effect handlers
 const handlers: Record<
   string,
@@ -346,6 +355,146 @@ const handlers: Record<
       });
     },
   },
+  // Additional card effects
+  "card-flip": {
+    onClick: () => {
+      isCardFlipped.value = !isCardFlipped.value;
+      gsap.to(elementRef.value, {
+        rotateY: isCardFlipped.value ? 180 : 0,
+        duration: 0.6,
+        ease: "power2.inOut",
+      });
+    },
+  },
+  "card-expand": {
+    onClick: () => {
+      isCardExpanded.value = !isCardExpanded.value;
+      gsap.to(elementRef.value, {
+        height: isCardExpanded.value ? 200 : 160,
+        duration: 0.4,
+        ease: "power2.out",
+      });
+      if (contentRef.value) {
+        gsap.to(contentRef.value, {
+          maxHeight: isCardExpanded.value ? 100 : 0,
+          opacity: isCardExpanded.value ? 1 : 0,
+          duration: 0.4,
+          ease: "power2.out",
+        });
+      }
+    },
+  },
+  "card-glow": {
+    onEnter: () => {
+      gsap.to(elementRef.value, {
+        boxShadow: "0 0 30px rgba(10, 228, 72, 0.5), 0 0 60px rgba(10, 228, 72, 0.3)",
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    },
+    onLeave: () => {
+      gsap.to(elementRef.value, {
+        boxShadow: "0 0 0px rgba(10, 228, 72, 0)",
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    },
+  },
+  "card-border": {
+    onEnter: () => {
+      if (!borderRef.value) return;
+      gsap.to(borderRef.value, {
+        opacity: 1,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    },
+    onLeave: () => {
+      if (!borderRef.value) return;
+      gsap.to(borderRef.value, {
+        opacity: 0,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    },
+  },
+  "card-gradient": {
+    onEnter: () => {
+      gsap.to(elementRef.value, {
+        backgroundPosition: "100% 100%",
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    },
+    onLeave: () => {
+      gsap.to(elementRef.value, {
+        backgroundPosition: "0% 0%",
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    },
+  },
+  "card-content-slide": {
+    onEnter: () => {
+      if (contentRef.value) {
+        gsap.to(contentRef.value, { y: 0, duration: 0.3, ease: "power2.out" });
+      }
+      if (extraContentRef.value) {
+        gsap.to(extraContentRef.value, {
+          opacity: 1,
+          duration: 0.3,
+          delay: 0.1,
+          ease: "power2.out",
+        });
+      }
+    },
+    onLeave: () => {
+      if (contentRef.value) {
+        gsap.to(contentRef.value, { y: 40, duration: 0.3, ease: "power2.out" });
+      }
+      if (extraContentRef.value) {
+        gsap.to(extraContentRef.value, { opacity: 0, duration: 0.2, ease: "power2.out" });
+      }
+    },
+  },
+  "card-overlay": {
+    onEnter: () => {
+      if (!overlayRef.value) return;
+      gsap.to(overlayRef.value, {
+        opacity: 1,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    },
+    onLeave: () => {
+      if (!overlayRef.value) return;
+      gsap.to(overlayRef.value, {
+        opacity: 0,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    },
+  },
+  "card-icon": {
+    onEnter: () => {
+      if (!iconRef.value) return;
+      gsap.to(iconRef.value, {
+        y: -10,
+        scale: 1.2,
+        duration: 0.4,
+        ease: "back.out(1.7)",
+      });
+    },
+    onLeave: () => {
+      if (!iconRef.value) return;
+      gsap.to(iconRef.value, {
+        y: 0,
+        scale: 1,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    },
+  },
 };
 
 const currentHandlers = computed(() => handlers[props.effect.id] || handlers["btn-scale"]);
@@ -400,6 +549,22 @@ const instruction = computed(() => {
       return "Карточкаға hover жасаңыз";
     case "card-tilt":
       return "Курсорды карточка үстінде қозғаңыз";
+    case "card-flip":
+      return "Карточканы басыңыз - аударылады";
+    case "card-expand":
+      return "Карточканы басыңыз - кеңейеді";
+    case "card-glow":
+      return "Карточкаға hover жасаңыз - жарқырау";
+    case "card-border":
+      return "Карточкаға hover жасаңыз - жиек";
+    case "card-gradient":
+      return "Карточкаға hover жасаңыз - градиент";
+    case "card-content-slide":
+      return "Карточкаға hover жасаңыз - контент";
+    case "card-overlay":
+      return "Карточкаға hover жасаңыз - қабат";
+    case "card-icon":
+      return "Карточкаға hover жасаңыз - иконка";
     case "hover-underline":
       return "Мәтінге hover жасаңыз";
     default:
@@ -564,10 +729,134 @@ const isErrorBtn = computed(() => props.effect.id === "btn-error");
       </a>
 
       <!-- Card Element -->
+      <!-- Card Flip -->
+      <div
+        v-else-if="effect.id === 'card-flip'"
+        class="w-64 h-40 cursor-pointer"
+        style="perspective: 1000px"
+        @click="onClick"
+      >
+        <div ref="elementRef" class="relative w-full h-full" style="transform-style: preserve-3d">
+          <div
+            class="absolute inset-0 bg-gsap-green rounded-xl p-6 flex items-center justify-center"
+            style="backface-visibility: hidden"
+          >
+            <span class="text-black font-bold text-xl">Алдыңғы жақ</span>
+          </div>
+          <div
+            class="absolute inset-0 bg-gsap-bg-secondary rounded-xl p-6 flex items-center justify-center"
+            style="backface-visibility: hidden; transform: rotateY(180deg)"
+          >
+            <span class="text-gsap-text-primary font-bold text-xl">Артқы жақ</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Expand -->
+      <div
+        v-else-if="effect.id === 'card-expand'"
+        ref="elementRef"
+        class="w-64 bg-gsap-bg-secondary rounded-xl p-6 cursor-pointer overflow-hidden"
+        style="height: 160px"
+        @click="onClick"
+      >
+        <h3 class="text-gsap-text-primary font-bold text-lg mb-2">Кеңейетін карточка</h3>
+        <p
+          ref="contentRef"
+          class="text-gsap-text-muted text-sm overflow-hidden"
+          style="max-height: 0; opacity: 0"
+        >
+          Бұл қосымша контент. Карточканы басқанда пайда болады.
+        </p>
+      </div>
+
+      <!-- Card Border -->
+      <div
+        v-else-if="effect.id === 'card-border'"
+        class="relative w-64 h-40"
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave"
+      >
+        <div
+          ref="borderRef"
+          class="absolute inset-0 rounded-xl"
+          style="background: linear-gradient(90deg, #0ae448, #0ba934, #0ae448); opacity: 0"
+        />
+        <div
+          ref="elementRef"
+          class="absolute inset-[2px] bg-gsap-bg-secondary rounded-xl p-6 cursor-pointer flex items-center justify-center"
+        >
+          <span class="text-gsap-text-primary font-bold text-xl">{{ effect.defaultText }}</span>
+        </div>
+      </div>
+
+      <!-- Card Gradient -->
+      <div
+        v-else-if="effect.id === 'card-gradient'"
+        ref="elementRef"
+        class="w-64 h-40 rounded-xl p-6 cursor-pointer flex items-center justify-center"
+        style="
+          background: linear-gradient(135deg, #0ae448 0%, #0ba934 50%, #089c2d 100%);
+          background-size: 200% 200%;
+        "
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave"
+      >
+        <span class="text-black font-bold text-xl">{{ effect.defaultText }}</span>
+      </div>
+
+      <!-- Card Content Slide -->
+      <div
+        v-else-if="effect.id === 'card-content-slide'"
+        class="w-64 h-40 bg-gsap-bg-secondary rounded-xl overflow-hidden cursor-pointer"
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave"
+      >
+        <div ref="contentRef" class="h-full p-6" style="transform: translateY(40px)">
+          <h3 class="text-gsap-text-primary font-bold text-lg mb-2">Сырғымалы контент</h3>
+          <p class="text-gsap-text-muted text-sm">Hover жасаңыз</p>
+          <p ref="extraContentRef" class="text-gsap-green text-sm mt-4" style="opacity: 0">
+            Қосымша ақпарат →
+          </p>
+        </div>
+      </div>
+
+      <!-- Card Overlay -->
+      <div
+        v-else-if="effect.id === 'card-overlay'"
+        class="relative w-64 h-40 bg-gsap-green rounded-xl overflow-hidden cursor-pointer"
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave"
+      >
+        <div class="absolute inset-0 flex items-center justify-center">
+          <span class="text-black font-bold text-xl">{{ effect.defaultText }}</span>
+        </div>
+        <div
+          ref="overlayRef"
+          class="absolute inset-0 bg-black/80 flex items-center justify-center"
+          style="opacity: 0"
+        >
+          <span class="text-white font-bold text-lg">Толығырақ →</span>
+        </div>
+      </div>
+
+      <!-- Card Icon -->
+      <div
+        v-else-if="effect.id === 'card-icon'"
+        ref="elementRef"
+        class="w-64 h-40 bg-gsap-bg-secondary rounded-xl p-6 cursor-pointer"
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave"
+      >
+        <div ref="iconRef" class="text-4xl mb-4">🚀</div>
+        <h3 class="text-gsap-text-primary font-bold text-lg">{{ effect.defaultText }}</h3>
+      </div>
+
+      <!-- Default Card -->
       <div
         v-else-if="isCard"
         ref="elementRef"
-        class="relative w-64 h-40 bg-gsap-bg-secondary rounded-xl shadow-lg flex items-center justify-center cursor-pointer"
+        class="relative w-64 h-40 bg-gsap-bg-secondary rounded-xl shadow-lg p-6 cursor-pointer"
         :style="{
           transformStyle: 'preserve-3d',
           perspective: '1000px',
@@ -576,7 +865,8 @@ const isErrorBtn = computed(() => props.effect.id === "btn-error");
         @mouseleave="onMouseLeave"
         @mousemove="onMouseMove"
       >
-        <span class="text-gsap-text-primary font-bold text-xl">{{ effect.defaultText }}</span>
+        <h3 class="text-gsap-text-primary font-bold text-lg mb-2">{{ effect.defaultText }}</h3>
+        <p class="text-gsap-text-muted text-sm">Hover жасаңыз</p>
       </div>
 
       <!-- Generic Element (fallback) -->
