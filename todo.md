@@ -304,10 +304,10 @@
 - [x] shape-morph, shape-rotate, shape-scale
 - [x] icon-animated, logo-reveal, logo-draw
 
-### Cursor (Курсор) — 0/6
+### Cursor (Курсор) — 6/6 done ✅
 
-- [ ] cursor-custom, cursor-follower, cursor-magnetic
-- [ ] cursor-text, cursor-blend, cursor-trail
+- [x] cursor-custom, cursor-follower, cursor-magnetic
+- [x] cursor-text, cursor-blend, cursor-trail
 
 ### Micro-interactions (Микро) — 0/12
 

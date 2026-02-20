@@ -608,6 +608,13 @@ const handlers: Record<
   tabs: {
     // Handled in template with specific logic
   },
+  // Cursor effects - all handled in template with specific logic
+  "cursor-custom": {},
+  "cursor-follower": {},
+  "cursor-magnetic": {},
+  "cursor-text": {},
+  "cursor-blend": {},
+  "cursor-trail": {},
 };
 
 const currentHandlers = computed(() => handlers[props.effect.id] || handlers["btn-scale"]);
@@ -708,6 +715,15 @@ const instruction = computed(() => {
       return "Аккордеон элементін басыңыз";
     case "tabs":
       return "Табты таңдаңыз";
+    // Cursor effects
+    case "cursor-custom":
+    case "cursor-follower":
+    case "cursor-text":
+    case "cursor-blend":
+    case "cursor-trail":
+      return "Тінтуірді аймақта жылжытыңыз";
+    case "cursor-magnetic":
+      return "Батырмаға жақындаңыз";
     default:
       return "Элементке hover жасаңыз";
   }
@@ -824,6 +840,68 @@ const setActiveNav = (index: number) => {
 const breadcrumbRefs = ref<HTMLElement[]>([]);
 const breadcrumbItems = ["Home", "Products", "Electronics"];
 
+// Cursor refs
+const cursorContainerRef = ref<HTMLElement | null>(null);
+const cursorRef = ref<HTMLElement | null>(null);
+const cursorFollowerRef = ref<HTMLElement | null>(null);
+const cursorDotsRef = ref<HTMLElement[]>([]);
+const cursorPos = ref({ x: 0, y: 0 });
+const cursorVisible = ref(false);
+
+const onCursorMove = (e: MouseEvent) => {
+  if (!cursorContainerRef.value) return;
+  const rect = cursorContainerRef.value.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  cursorPos.value = { x, y };
+
+  if (cursorRef.value) {
+    const size =
+      props.effect.id === "cursor-blend" ? 40 : props.effect.id === "cursor-text" ? 50 : 15;
+    gsap.to(cursorRef.value, { x: x - size, y: y - size, duration: 0.1, ease: "power2.out" });
+  }
+  if (cursorFollowerRef.value) {
+    gsap.to(cursorFollowerRef.value, { x: x - 20, y: y - 20, duration: 0.4, ease: "power2.out" });
+  }
+};
+
+const onCursorEnter = () => {
+  cursorVisible.value = true;
+  const targets = [cursorRef.value, cursorFollowerRef.value].filter(Boolean);
+  if (targets.length > 0) {
+    gsap.to(targets, { scale: 1, opacity: 1, duration: 0.3 });
+  }
+  const validDots = cursorDotsRef.value.filter(Boolean);
+  if (validDots.length > 0) {
+    gsap.to(validDots, { scale: 1, duration: 0.3, stagger: 0.02 });
+  }
+};
+
+const onCursorLeave = () => {
+  cursorVisible.value = false;
+  const targets = [cursorRef.value, cursorFollowerRef.value].filter(Boolean);
+  if (targets.length > 0) {
+    gsap.to(targets, { scale: 0, opacity: 0, duration: 0.3 });
+  }
+  const validDots = cursorDotsRef.value.filter(Boolean);
+  if (validDots.length > 0) {
+    gsap.to(validDots, { scale: 0, duration: 0.3, stagger: 0.02 });
+  }
+};
+
+const onMagneticMove = (e: MouseEvent) => {
+  if (!elementRef.value) return;
+  const rect = elementRef.value.getBoundingClientRect();
+  const x = e.clientX - rect.left - rect.width / 2;
+  const y = e.clientY - rect.top - rect.height / 2;
+  gsap.to(elementRef.value, { x: x * 0.4, y: y * 0.4, duration: 0.3, ease: "power2.out" });
+};
+
+const onMagneticLeave = () => {
+  if (!elementRef.value) return;
+  gsap.to(elementRef.value, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.4)" });
+};
+
 onMounted(() => {
   if (props.effect.id === "breadcrumb" && breadcrumbRefs.value.length > 0) {
     gsap.from(breadcrumbRefs.value, {
@@ -845,6 +923,36 @@ onMounted(() => {
       x: tabButtonRefs.value[0].offsetLeft,
       width: tabButtonRefs.value[0].offsetWidth,
     });
+  }
+  // Cursor effects initialization
+  if (props.effect.category === "cursor") {
+    if (cursorRef.value) gsap.set(cursorRef.value, { scale: 0, opacity: 0 });
+    if (cursorFollowerRef.value) gsap.set(cursorFollowerRef.value, { scale: 0, opacity: 0 });
+    const validDots = cursorDotsRef.value.filter(Boolean);
+    if (validDots.length > 0) gsap.set(validDots, { scale: 0 });
+
+    // Text cursor rotation
+    if (props.effect.id === "cursor-text" && cursorRef.value) {
+      const svg = cursorRef.value.querySelector("svg");
+      if (svg) {
+        gsap.to(svg, { rotation: 360, duration: 8, ease: "none", repeat: -1 });
+      }
+    }
+
+    // Trail effect ticker
+    if (props.effect.id === "cursor-trail") {
+      gsap.ticker.add(() => {
+        const validDots = cursorDotsRef.value.filter(Boolean);
+        validDots.forEach((dot, i) => {
+          gsap.to(dot, {
+            x: cursorPos.value.x - 5,
+            y: cursorPos.value.y - 5,
+            duration: (i + 1) * 0.05,
+            ease: "power2.out",
+          });
+        });
+      });
+    }
   }
 });
 </script>
@@ -1404,6 +1512,118 @@ onMounted(() => {
         <div ref="tabContentRef" class="p-4 text-gsap-text-primary">
           {{ tabItems[activeTabIndex].content }}
         </div>
+      </div>
+
+      <!-- Cursor: Custom -->
+      <div
+        v-else-if="effect.id === 'cursor-custom'"
+        ref="cursorContainerRef"
+        class="relative w-full h-64 bg-gsap-bg-secondary rounded-xl cursor-none overflow-hidden flex items-center justify-center"
+        @mousemove="onCursorMove"
+        @mouseenter="onCursorEnter"
+        @mouseleave="onCursorLeave"
+      >
+        <div
+          ref="cursorRef"
+          class="absolute w-8 h-8 bg-gsap-green rounded-full pointer-events-none"
+        />
+        <span class="text-gsap-text-primary text-xl">Move cursor here</span>
+      </div>
+
+      <!-- Cursor: Follower -->
+      <div
+        v-else-if="effect.id === 'cursor-follower'"
+        ref="cursorContainerRef"
+        class="relative w-full h-64 bg-gsap-bg-secondary rounded-xl cursor-none overflow-hidden flex items-center justify-center"
+        @mousemove="onCursorMove"
+        @mouseenter="onCursorEnter"
+        @mouseleave="onCursorLeave"
+      >
+        <div
+          ref="cursorRef"
+          class="absolute w-2 h-2 bg-gsap-green rounded-full pointer-events-none"
+        />
+        <div
+          ref="cursorFollowerRef"
+          class="absolute w-10 h-10 border-2 border-gsap-green rounded-full pointer-events-none"
+        />
+        <span class="text-gsap-text-primary text-xl">Dual cursor effect</span>
+      </div>
+
+      <!-- Cursor: Magnetic -->
+      <div
+        v-else-if="effect.id === 'cursor-magnetic'"
+        class="w-full h-64 flex items-center justify-center"
+      >
+        <button
+          ref="elementRef"
+          class="px-8 py-4 bg-gsap-green text-black font-bold rounded-full text-lg"
+          @mousemove="onMagneticMove"
+          @mouseleave="onMagneticLeave"
+        >
+          Hover me
+        </button>
+      </div>
+
+      <!-- Cursor: Text -->
+      <div
+        v-else-if="effect.id === 'cursor-text'"
+        ref="cursorContainerRef"
+        class="relative w-full h-64 bg-gsap-bg-secondary rounded-xl cursor-none overflow-hidden flex items-center justify-center"
+        @mousemove="onCursorMove"
+        @mouseenter="onCursorEnter"
+        @mouseleave="onCursorLeave"
+      >
+        <div ref="cursorRef" class="absolute w-24 h-24 pointer-events-none">
+          <svg viewBox="0 0 100 100" class="w-full h-full">
+            <defs>
+              <path id="text-circle" d="M50,50 m-35,0 a35,35 0 1,1 70,0 a35,35 0 1,1 -70,0" />
+            </defs>
+            <text fill="#0ae448" font-size="10" font-weight="bold">
+              <textPath href="#text-circle">HOVER • CLICK • DRAG •</textPath>
+            </text>
+          </svg>
+        </div>
+        <span class="text-gsap-text-primary text-xl">Text follows cursor</span>
+      </div>
+
+      <!-- Cursor: Blend -->
+      <div
+        v-else-if="effect.id === 'cursor-blend'"
+        ref="cursorContainerRef"
+        class="relative w-full h-64 bg-gsap-text-primary rounded-xl cursor-none overflow-hidden flex items-center justify-center"
+        @mousemove="onCursorMove"
+        @mouseenter="onCursorEnter"
+        @mouseleave="onCursorLeave"
+      >
+        <div
+          ref="cursorRef"
+          class="absolute w-20 h-20 bg-gsap-green rounded-full pointer-events-none mix-blend-difference"
+        />
+        <span class="text-gsap-bg-primary text-2xl font-bold">Blend mode cursor</span>
+      </div>
+
+      <!-- Cursor: Trail -->
+      <div
+        v-else-if="effect.id === 'cursor-trail'"
+        ref="cursorContainerRef"
+        class="relative w-full h-64 bg-gsap-bg-secondary rounded-xl cursor-none overflow-hidden flex items-center justify-center"
+        @mousemove="onCursorMove"
+        @mouseenter="onCursorEnter"
+        @mouseleave="onCursorLeave"
+      >
+        <div
+          v-for="i in 10"
+          :key="i"
+          :ref="
+            (el) => {
+              if (el) cursorDotsRef[i - 1] = el as HTMLElement;
+            }
+          "
+          class="absolute w-2 h-2 bg-gsap-green rounded-full pointer-events-none"
+          :style="{ opacity: 1 - i * 0.08 }"
+        />
+        <span class="text-gsap-text-primary text-xl">Trail effect</span>
       </div>
 
       <!-- Generic Element (fallback) -->

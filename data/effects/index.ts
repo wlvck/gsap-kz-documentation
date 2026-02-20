@@ -9,6 +9,7 @@ import { cardEffects } from "./card";
 import { navigationEffects } from "./navigation";
 import { containerEffects } from "./container";
 import { svgEffects } from "./svg";
+import { cursorEffects } from "./cursor";
 
 // All effects registry
 const allEffects: Effect[] = [
@@ -21,6 +22,7 @@ const allEffects: Effect[] = [
   ...navigationEffects,
   ...containerEffects,
   ...svgEffects,
+  ...cursorEffects,
 ];
 
 // Get all effects
