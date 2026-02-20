@@ -2188,25 +2188,27 @@ onMounted(() => {
       </div>
 
       <!-- Micro: Modal -->
-      <div v-else-if="isModal">
+      <div v-else-if="isModal" class="relative w-full h-full min-h-[200px]">
         <button class="px-8 py-3 bg-gsap-green text-black font-bold rounded-xl" @click="openModal">
           Open Modal
         </button>
         <div
           ref="modalOverlayRef"
-          class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+          class="absolute inset-0 bg-black/70 flex items-center justify-center rounded-xl"
           style="opacity: 0; visibility: hidden"
           @click="closeModal"
         >
           <div
             ref="modalContentRef"
-            class="bg-gsap-bg-secondary p-8 rounded-xl max-w-md text-center"
+            class="bg-gsap-bg-secondary p-6 rounded-xl max-w-xs text-center mx-4"
             @click.stop
           >
-            <h3 class="text-gsap-green text-xl font-bold mb-4">Modal Title</h3>
-            <p class="text-gsap-text-muted mb-6">This is modal content with smooth animation.</p>
+            <h3 class="text-gsap-green text-lg font-bold mb-3">Modal Title</h3>
+            <p class="text-gsap-text-muted text-sm mb-4">
+              This is modal content with smooth animation.
+            </p>
             <button
-              class="px-6 py-2 bg-gsap-green text-black font-bold rounded-lg"
+              class="px-4 py-2 bg-gsap-green text-black font-bold rounded-lg text-sm"
               @click="closeModal"
             >
               Close

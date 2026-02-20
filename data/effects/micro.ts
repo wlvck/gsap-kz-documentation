@@ -745,7 +745,7 @@ button {
     defaultText: "MODAL",
     code: {
       vue: `<template>
-  <div>
+  <div class="modal-container">
     <button @click="openModal" class="modal-btn">Open Modal</button>
     <div ref="overlayRef" class="modal-overlay" @click="closeModal">
       <div ref="modalRef" class="modal" @click.stop>
@@ -809,7 +809,13 @@ const closeModal = () => {
 btn.addEventListener("click", openModal);
 overlay.addEventListener("click", closeModal);
 closeBtn.addEventListener("click", closeModal);`,
-      css: `.modal-btn {
+      css: `/* Container needs position: relative */
+.modal-container {
+  position: relative;
+  min-height: 200px;
+}
+
+.modal-btn {
   padding: 1rem 2rem;
   background: #0ae448;
   color: #0e100f;
@@ -820,22 +826,24 @@ closeBtn.addEventListener("click", closeModal);`,
 }
 
 .modal-overlay {
-  position: fixed;
+  position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 12px;
   opacity: 0;
   visibility: hidden;
 }
 
 .modal {
   background: #1c1e1d;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 12px;
-  max-width: 400px;
+  max-width: 300px;
   text-align: center;
+  margin: 1rem;
 }
 
 .modal h3 {
