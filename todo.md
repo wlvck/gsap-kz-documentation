@@ -283,12 +283,12 @@
 - [x] card-content-slide, card-overlay, card-icon
 - [x] cards-stagger, cards-grid, cards-random
 
-### Navigation (Навигация) — 0/14
+### Navigation (Навигация) — 14/14 done ✅
 
-- [ ] navbar-hide, navbar-shrink, navbar-bg-change, navbar-blur
-- [ ] hamburger-x, menu-slide, menu-fullscreen, menu-stagger
-- [ ] dropdown-anim, mega-menu
-- [ ] link-underline, link-fill, active-indicator, breadcrumb
+- [x] navbar-hide, navbar-shrink, navbar-bg-change, navbar-blur
+- [x] hamburger-x, menu-slide, menu-fullscreen, menu-stagger
+- [x] dropdown-anim, mega-menu
+- [x] link-underline, link-fill, active-indicator, breadcrumb
 
 ### Container (Контейнер) — 0/12
 

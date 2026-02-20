@@ -495,6 +495,112 @@ const handlers: Record<
       });
     },
   },
+  // Navigation effects
+  "hamburger-x": {
+    onClick: () => {
+      isMenuOpen.value = !isMenuOpen.value;
+      if (isMenuOpen.value) {
+        gsap.to(line1Ref.value, { y: 8, rotation: 45, duration: 0.3, ease: "power2.inOut" });
+        gsap.to(line2Ref.value, { opacity: 0, scaleX: 0, duration: 0.2 });
+        gsap.to(line3Ref.value, { y: -8, rotation: -45, duration: 0.3, ease: "power2.inOut" });
+      } else {
+        gsap.to(line1Ref.value, { y: 0, rotation: 0, duration: 0.3, ease: "power2.inOut" });
+        gsap.to(line2Ref.value, { opacity: 1, scaleX: 1, duration: 0.2, delay: 0.1 });
+        gsap.to(line3Ref.value, { y: 0, rotation: 0, duration: 0.3, ease: "power2.inOut" });
+      }
+    },
+  },
+  "menu-slide": {
+    onClick: () => {
+      isMenuOpen.value = !isMenuOpen.value;
+      if (isMenuOpen.value && overlayRef.value && contentRef.value) {
+        gsap.to(overlayRef.value, { opacity: 1, visibility: "visible", duration: 0.3 });
+        gsap.to(contentRef.value, { x: 0, duration: 0.4, ease: "power3.out" });
+      } else if (overlayRef.value && contentRef.value) {
+        gsap.to(contentRef.value, { x: "-100%", duration: 0.3, ease: "power3.in" });
+        gsap.to(overlayRef.value, {
+          opacity: 0,
+          duration: 0.2,
+          onComplete: () => gsap.set(overlayRef.value, { visibility: "hidden" }),
+        });
+      }
+    },
+  },
+  "menu-fullscreen": {
+    onClick: () => {
+      isMenuOpen.value = !isMenuOpen.value;
+      if (isMenuOpen.value && overlayRef.value) {
+        gsap.to(overlayRef.value, {
+          clipPath: "circle(150% at top right)",
+          duration: 0.8,
+          ease: "power3.inOut",
+        });
+      } else if (overlayRef.value) {
+        gsap.to(overlayRef.value, {
+          clipPath: "circle(0% at top right)",
+          duration: 0.6,
+          ease: "power3.inOut",
+        });
+      }
+    },
+  },
+  "dropdown-anim": {
+    onEnter: () => {
+      if (!contentRef.value) return;
+      gsap.to(contentRef.value, { height: "auto", opacity: 1, duration: 0.3, ease: "power2.out" });
+    },
+    onLeave: () => {
+      if (!contentRef.value) return;
+      gsap.to(contentRef.value, { height: 0, opacity: 0, duration: 0.2 });
+    },
+  },
+  "mega-menu": {
+    onEnter: () => {
+      if (!contentRef.value) return;
+      gsap.to(contentRef.value, { height: "auto", opacity: 1, duration: 0.4, ease: "power2.out" });
+    },
+    onLeave: () => {
+      if (!contentRef.value) return;
+      gsap.to(contentRef.value, { height: 0, opacity: 0, duration: 0.3 });
+    },
+  },
+  "link-underline": {
+    onEnter: () => {
+      if (!lineRef.value) return;
+      gsap.fromTo(
+        lineRef.value,
+        { scaleX: 0, transformOrigin: "left center" },
+        { scaleX: 1, duration: 0.4, ease: "power2.out" }
+      );
+    },
+    onLeave: () => {
+      if (!lineRef.value) return;
+      gsap.to(lineRef.value, {
+        scaleX: 0,
+        transformOrigin: "right center",
+        duration: 0.3,
+        ease: "power2.in",
+      });
+    },
+  },
+  "link-fill": {
+    onEnter: () => {
+      if (!bgRef.value) return;
+      gsap.to(bgRef.value, { clipPath: "inset(0 0 0 0)", duration: 0.4, ease: "power2.out" });
+    },
+    onLeave: () => {
+      if (!bgRef.value) return;
+      gsap.to(bgRef.value, { clipPath: "inset(0 100% 0 0)", duration: 0.3, ease: "power2.in" });
+    },
+  },
+  "active-indicator": {
+    onClick: () => {
+      // Handled in template with specific logic
+    },
+  },
+  breadcrumb: {
+    // Auto-animates on mount, handled in template
+  },
 };
 
 const currentHandlers = computed(() => handlers[props.effect.id] || handlers["btn-scale"]);
@@ -512,7 +618,9 @@ const onMouseUp = (e: MouseEvent) => currentHandlers.value.onUp?.(e);
 // Determine element type and styles based on effect category
 const isButton = computed(() => props.effect.category === "button");
 const isCard = computed(() => props.effect.category === "card");
-const isTextLink = computed(() => props.effect.id === "hover-underline");
+const isTextLink = computed(() =>
+  ["hover-underline", "link-underline", "link-fill"].includes(props.effect.id)
+);
 
 // Get instruction text based on effect
 const instruction = computed(() => {
@@ -567,6 +675,27 @@ const instruction = computed(() => {
       return "Карточкаға hover жасаңыз - иконка";
     case "hover-underline":
       return "Мәтінге hover жасаңыз";
+    // Navigation effects
+    case "hamburger-x":
+      return "Гамбургер мәзірді басыңыз";
+    case "menu-slide":
+      return "Мәзірді ашу батырмасын басыңыз";
+    case "menu-fullscreen":
+      return "Мәзірді ашу батырмасын басыңыз";
+    case "menu-stagger":
+      return "Мәзір элементтері stagger анимациямен пайда болады";
+    case "dropdown-anim":
+      return "Dropdown-ға hover жасаңыз";
+    case "mega-menu":
+      return "Мега мәзірге hover жасаңыз";
+    case "link-underline":
+      return "Сілтемеге hover жасаңыз";
+    case "link-fill":
+      return "Сілтемеге hover жасаңыз";
+    case "active-indicator":
+      return "Навигация элементін басыңыз";
+    case "breadcrumb":
+      return "Breadcrumb анимациясы";
     default:
       return "Элементке hover жасаңыз";
   }
@@ -580,6 +709,60 @@ const needsIconMorph = computed(() => props.effect.id === "btn-icon-morph");
 const isLoadingBtn = computed(() => props.effect.id === "btn-loading");
 const isSuccessBtn = computed(() => props.effect.id === "btn-success");
 const isErrorBtn = computed(() => props.effect.id === "btn-error");
+
+// Navigation-specific computed
+const isHamburger = computed(() => props.effect.id === "hamburger-x");
+const isMenuSlide = computed(() => props.effect.id === "menu-slide");
+const isMenuFullscreen = computed(() => props.effect.id === "menu-fullscreen");
+const isDropdown = computed(() => props.effect.id === "dropdown-anim");
+const isMegaMenu = computed(() => props.effect.id === "mega-menu");
+const isLinkUnderline = computed(() => props.effect.id === "link-underline");
+const isLinkFill = computed(() => props.effect.id === "link-fill");
+const isActiveIndicator = computed(() => props.effect.id === "active-indicator");
+const isBreadcrumb = computed(() => props.effect.id === "breadcrumb");
+
+// Active indicator state
+const activeNavIndex = ref(0);
+const navItems = ["Home", "About", "Work", "Contact"];
+const indicatorRef = ref<HTMLElement | null>(null);
+const navItemRefs = ref<HTMLElement[]>([]);
+
+const setActiveNav = (index: number) => {
+  activeNavIndex.value = index;
+  nextTick(() => {
+    if (indicatorRef.value && navItemRefs.value[index]) {
+      const item = navItemRefs.value[index];
+      gsap.to(indicatorRef.value, {
+        x: item.offsetLeft,
+        width: item.offsetWidth,
+        duration: 0.4,
+        ease: "power3.out",
+      });
+    }
+  });
+};
+
+// Breadcrumb refs and animation
+const breadcrumbRefs = ref<HTMLElement[]>([]);
+const breadcrumbItems = ["Home", "Products", "Electronics"];
+
+onMounted(() => {
+  if (props.effect.id === "breadcrumb" && breadcrumbRefs.value.length > 0) {
+    gsap.from(breadcrumbRefs.value, {
+      x: -20,
+      opacity: 0,
+      stagger: 0.1,
+      duration: 0.5,
+      ease: "power2.out",
+    });
+  }
+  if (props.effect.id === "active-indicator" && indicatorRef.value && navItemRefs.value[0]) {
+    gsap.set(indicatorRef.value, {
+      x: navItemRefs.value[0].offsetLeft,
+      width: navItemRefs.value[0].offsetWidth,
+    });
+  }
+});
 </script>
 
 <template>
@@ -868,6 +1051,220 @@ const isErrorBtn = computed(() => props.effect.id === "btn-error");
         <h3 class="text-gsap-text-primary font-bold text-lg mb-2">{{ effect.defaultText }}</h3>
         <p class="text-gsap-text-muted text-sm">Hover жасаңыз</p>
       </div>
+
+      <!-- Navigation: Hamburger to X -->
+      <button
+        v-else-if="isHamburger"
+        ref="elementRef"
+        class="flex flex-col gap-1.5 p-4 bg-gsap-bg-secondary rounded-xl cursor-pointer"
+        @click="onClick"
+      >
+        <span ref="line1Ref" class="w-8 h-0.5 bg-gsap-green rounded origin-center" />
+        <span ref="line2Ref" class="w-8 h-0.5 bg-gsap-green rounded origin-center" />
+        <span ref="line3Ref" class="w-8 h-0.5 bg-gsap-green rounded origin-center" />
+      </button>
+
+      <!-- Navigation: Menu Slide -->
+      <div v-else-if="isMenuSlide" class="relative w-full max-w-md">
+        <button class="px-6 py-3 bg-gsap-green text-black font-bold rounded-xl" @click="onClick">
+          {{ isMenuOpen ? "Жабу" : "Мәзірді ашу" }}
+        </button>
+        <div
+          ref="overlayRef"
+          class="absolute inset-0 bg-black/50 rounded-xl"
+          style="opacity: 0; visibility: hidden"
+          @click="onClick"
+        />
+        <div
+          ref="contentRef"
+          class="absolute top-14 left-0 w-48 bg-gsap-bg-secondary rounded-xl p-4 shadow-lg"
+          style="transform: translateX(-100%)"
+        >
+          <a
+            v-for="i in 4"
+            :key="i"
+            href="#"
+            class="block py-2 text-gsap-text-primary hover:text-gsap-green"
+          >
+            Menu Item {{ i }}
+          </a>
+        </div>
+      </div>
+
+      <!-- Navigation: Fullscreen Menu -->
+      <div v-else-if="isMenuFullscreen" class="relative">
+        <button
+          class="px-6 py-3 bg-gsap-green text-black font-bold rounded-xl z-10 relative"
+          @click="onClick"
+        >
+          {{ isMenuOpen ? "✕" : "☰" }}
+        </button>
+        <div
+          ref="overlayRef"
+          class="fixed inset-0 bg-gsap-bg-primary flex items-center justify-center"
+          style="clip-path: circle(0% at top right)"
+        >
+          <div class="text-center">
+            <a
+              v-for="item in ['Басты', 'Жобалар', 'Біз туралы']"
+              :key="item"
+              href="#"
+              class="block text-3xl text-gsap-text-primary hover:text-gsap-green py-4"
+            >
+              {{ item }}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation: Dropdown -->
+      <div
+        v-else-if="isDropdown"
+        class="relative inline-block"
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave"
+      >
+        <button
+          class="px-6 py-3 bg-gsap-bg-secondary text-gsap-text-primary border border-gsap-border rounded-xl flex items-center gap-2"
+        >
+          Services
+          <span class="text-xs">▼</span>
+        </button>
+        <div
+          ref="contentRef"
+          class="absolute top-full left-0 mt-1 w-48 bg-gsap-bg-secondary border border-gsap-border rounded-xl overflow-hidden"
+          style="height: 0; opacity: 0"
+        >
+          <a
+            v-for="item in ['Web Development', 'Mobile Apps', 'UI/UX Design']"
+            :key="item"
+            href="#"
+            class="block px-4 py-3 text-gsap-text-primary hover:bg-gsap-green hover:text-black"
+          >
+            {{ item }}
+          </a>
+        </div>
+      </div>
+
+      <!-- Navigation: Mega Menu -->
+      <div
+        v-else-if="isMegaMenu"
+        class="relative"
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave"
+      >
+        <button
+          class="px-6 py-3 bg-gsap-bg-secondary text-gsap-text-primary border border-gsap-border rounded-xl"
+        >
+          Products ▼
+        </button>
+        <div
+          ref="contentRef"
+          class="absolute top-full left-0 mt-1 flex gap-6 p-6 bg-gsap-bg-secondary border border-gsap-border rounded-xl"
+          style="height: 0; opacity: 0; min-width: 400px"
+        >
+          <div
+            v-for="col in [
+              { title: 'Software', items: ['Desktop', 'Mobile', 'Web'] },
+              { title: 'Services', items: ['Consulting', 'Support'] },
+            ]"
+            :key="col.title"
+            class="flex-1"
+          >
+            <h4 class="text-gsap-green font-bold mb-2">{{ col.title }}</h4>
+            <a
+              v-for="item in col.items"
+              :key="item"
+              href="#"
+              class="block text-gsap-text-muted hover:text-gsap-text-primary py-1"
+            >
+              {{ item }}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation: Link Underline -->
+      <a
+        v-else-if="isLinkUnderline"
+        ref="elementRef"
+        href="#"
+        class="relative text-2xl md:text-3xl font-bold text-gsap-text-primary inline-block cursor-pointer"
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave"
+        @click.prevent
+      >
+        Learn More
+        <span
+          ref="lineRef"
+          class="absolute bottom-0 left-0 w-full h-0.5 bg-gsap-green"
+          style="transform: scaleX(0); transform-origin: left center"
+        />
+      </a>
+
+      <!-- Navigation: Link Fill -->
+      <a
+        v-else-if="isLinkFill"
+        ref="elementRef"
+        href="#"
+        class="relative text-2xl md:text-3xl font-bold text-gsap-text-muted inline-block cursor-pointer overflow-hidden"
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave"
+        @click.prevent
+      >
+        <span class="relative z-0">Explore</span>
+        <span
+          ref="bgRef"
+          class="absolute inset-0 text-gsap-green font-bold flex items-center"
+          style="clip-path: inset(0 100% 0 0)"
+        >
+          Explore
+        </span>
+      </a>
+
+      <!-- Navigation: Active Indicator -->
+      <nav v-else-if="isActiveIndicator" class="relative">
+        <ul ref="elementRef" class="flex gap-2">
+          <li
+            v-for="(item, i) in navItems"
+            :key="item"
+            :ref="
+              (el) => {
+                if (el) navItemRefs[i] = el as HTMLElement;
+              }
+            "
+            class="px-4 py-2 cursor-pointer"
+            @click="setActiveNav(i)"
+          >
+            <span :class="activeNavIndex === i ? 'text-gsap-green' : 'text-gsap-text-muted'">
+              {{ item }}
+            </span>
+          </li>
+        </ul>
+        <span ref="indicatorRef" class="absolute bottom-0 left-0 h-0.5 bg-gsap-green" />
+      </nav>
+
+      <!-- Navigation: Breadcrumb -->
+      <nav v-else-if="isBreadcrumb" class="flex items-center gap-2">
+        <template v-for="(item, i) in breadcrumbItems" :key="item">
+          <a
+            :ref="
+              (el) => {
+                if (el) breadcrumbRefs[i] = el as HTMLElement;
+              }
+            "
+            href="#"
+            class="text-gsap-text-muted hover:text-gsap-green"
+            :class="{
+              'text-gsap-text-primary pointer-events-none': i === breadcrumbItems.length - 1,
+            }"
+            @click.prevent
+          >
+            {{ item }}
+          </a>
+          <span v-if="i < breadcrumbItems.length - 1" class="text-gsap-border">/</span>
+        </template>
+      </nav>
 
       <!-- Generic Element (fallback) -->
       <div
