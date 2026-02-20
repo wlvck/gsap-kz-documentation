@@ -237,12 +237,22 @@ const onDragEnd = () => {
 };
 
 // Before/After slider
-const onCompareMove = (e: MouseEvent) => {
+const onCompareMove = (e: MouseEvent | TouchEvent) => {
   if (!isDragging.value || !containerRef.value) return;
   const rect = containerRef.value.getBoundingClientRect();
-  const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+  const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
   gsap.set(beforeRef.value, { clipPath: `inset(0 ${(1 - x) * 100}% 0 0)` });
   gsap.set(handleRef.value, { left: `${x * 100}%` });
+};
+
+const onCompareStart = (e: MouseEvent | TouchEvent) => {
+  isDragging.value = true;
+  onCompareMove(e); // Update position immediately on click/touch
+};
+
+const onCompareEnd = () => {
+  isDragging.value = false;
 };
 
 // Lightbox
@@ -613,10 +623,13 @@ watch(
         v-else-if="effect.id === 'before-after'"
         ref="containerRef"
         class="relative w-64 h-40 rounded-xl overflow-hidden cursor-ew-resize select-none"
-        @mousedown="() => (isDragging = true)"
+        @mousedown="onCompareStart"
         @mousemove="onCompareMove"
-        @mouseup="() => (isDragging = false)"
-        @mouseleave="() => (isDragging = false)"
+        @mouseup="onCompareEnd"
+        @mouseleave="onCompareEnd"
+        @touchstart.prevent="onCompareStart"
+        @touchmove.prevent="onCompareMove"
+        @touchend="onCompareEnd"
       >
         <div class="absolute inset-0 bg-gsap-bg-secondary flex items-center justify-center">
           <span class="text-gsap-text-primary font-bold">КЕЙІН</span>
