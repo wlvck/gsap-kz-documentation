@@ -166,12 +166,12 @@ const handlers: Record<
     onMove: (e: MouseEvent) => {
       if (!elementRef.value) return;
       const rect = elementRef.value.getBoundingClientRect();
-      const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
-      const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
 
       gsap.to(elementRef.value, {
-        rotateX: y * -15,
-        rotateY: x * 15,
+        rotateY: x * 30,
+        rotateX: -y * 30,
         duration: 0.3,
         ease: "power2.out",
       });
@@ -1634,20 +1634,18 @@ onMounted(() => {
       </div>
 
       <!-- Default Card -->
-      <div
-        v-else-if="isCard"
-        ref="elementRef"
-        class="relative w-64 h-40 bg-gsap-bg-secondary rounded-xl shadow-lg p-6 cursor-pointer"
-        :style="{
-          transformStyle: 'preserve-3d',
-          perspective: '1000px',
-        }"
-        @mouseenter="onMouseEnter"
-        @mouseleave="onMouseLeave"
-        @mousemove="onMouseMove"
-      >
-        <h3 class="text-gsap-text-primary font-bold text-lg mb-2">{{ effect.defaultText }}</h3>
-        <p class="text-gsap-text-muted text-sm">Hover жасаңыз</p>
+      <div v-else-if="isCard" style="perspective: 1000px">
+        <div
+          ref="elementRef"
+          class="relative w-64 h-40 bg-gsap-bg-secondary rounded-xl shadow-lg p-6 cursor-pointer"
+          style="transform-style: preserve-3d"
+          @mouseenter="onMouseEnter"
+          @mouseleave="onMouseLeave"
+          @mousemove="onMouseMove"
+        >
+          <h3 class="text-gsap-text-primary font-bold text-lg mb-2">{{ effect.defaultText }}</h3>
+          <p class="text-gsap-text-muted text-sm">Hover жасаңыз</p>
+        </div>
       </div>
 
       <!-- Navigation: Hamburger to X -->
