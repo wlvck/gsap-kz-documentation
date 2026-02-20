@@ -298,11 +298,11 @@
 - [x] section-reveal, section-transition
 - [x] accordion, tabs
 
-### SVG (SVG) — 0/10
+### SVG (SVG) — 10/10 done ✅
 
-- [ ] path-draw, path-erase, path-morph, path-follow
-- [ ] shape-morph, shape-rotate, shape-scale
-- [ ] icon-animated, logo-reveal, logo-draw
+- [x] path-draw, path-erase, path-morph, path-follow
+- [x] shape-morph, shape-rotate, shape-scale
+- [x] icon-animated, logo-reveal, logo-draw
 
 ### Cursor (Курсор) — 0/6
 

@@ -396,6 +396,152 @@ const startAnimation = () => {
     case "wave-anim":
       // Wave animation handled in template with SVG path
       break;
+
+    // SVG effects
+    case "path-draw":
+    case "path-erase":
+    case "logo-draw": {
+      const path = containerRef.value?.querySelector("path");
+      if (path) {
+        const length = (path as SVGPathElement).getTotalLength();
+        gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+        currentAnimation = gsap.to(path, {
+          strokeDashoffset: 0,
+          duration: 2,
+          ease: "power2.out",
+          repeat: -1,
+          repeatDelay: 1,
+          yoyo: true,
+        });
+      }
+      break;
+    }
+
+    case "path-morph": {
+      const path = containerRef.value?.querySelector("path");
+      if (path) {
+        const shapes = [
+          "M50,10 L90,35 L80,80 L20,80 L10,35 Z",
+          "M50,10 C75,10 90,30 90,50 C90,70 75,90 50,90 C25,90 10,70 10,50 C10,30 25,10 50,10 Z",
+          "M10,10 L90,10 L90,90 L10,90 Z",
+          "M50,10 L90,90 L10,90 Z",
+        ];
+        let current = 0;
+        gsap.set(path, { attr: { d: shapes[0] } });
+
+        const morphTo = () => {
+          current = (current + 1) % shapes.length;
+          gsap.to(path, {
+            attr: { d: shapes[current] },
+            duration: 1,
+            ease: "power2.inOut",
+            onComplete: () => gsap.delayedCall(0.5, morphTo),
+          });
+        };
+        gsap.delayedCall(1, morphTo);
+      }
+      break;
+    }
+
+    case "path-follow": {
+      const path = containerRef.value?.querySelector("path");
+      const circle = containerRef.value?.querySelector("circle");
+      if (path && circle) {
+        const length = (path as SVGPathElement).getTotalLength();
+        currentAnimation = gsap.to(
+          { progress: 0 },
+          {
+            progress: 1,
+            duration: 3,
+            ease: "none",
+            repeat: -1,
+            onUpdate: function () {
+              const point = (path as SVGPathElement).getPointAtLength(this.progress() * length);
+              gsap.set(circle, { attr: { cx: point.x, cy: point.y } });
+            },
+          }
+        );
+      }
+      break;
+    }
+
+    case "shape-morph": {
+      const rect = containerRef.value?.querySelector("rect");
+      if (rect) {
+        currentAnimation = gsap.to(rect, {
+          attr: { rx: 40 },
+          duration: 1,
+          ease: "power2.inOut",
+          repeat: -1,
+          yoyo: true,
+        });
+      }
+      break;
+    }
+
+    case "shape-rotate": {
+      const shape = containerRef.value?.querySelector("polygon, path, circle");
+      if (shape) {
+        currentAnimation = gsap.to(shape, {
+          rotation: 360,
+          transformOrigin: "50% 50%",
+          duration: 4,
+          ease: "none",
+          repeat: -1,
+        });
+      }
+      break;
+    }
+
+    case "shape-scale": {
+      const circle = containerRef.value?.querySelector("circle");
+      if (circle) {
+        currentAnimation = gsap.to(circle, {
+          scale: 1.3,
+          transformOrigin: "50% 50%",
+          duration: 0.8,
+          ease: "power1.inOut",
+          repeat: -1,
+          yoyo: true,
+        });
+      }
+      break;
+    }
+
+    case "icon-animated": {
+      const circle = containerRef.value?.querySelector("circle");
+      const check = containerRef.value?.querySelector("polyline");
+      if (circle && check) {
+        const circleLen = (circle as SVGCircleElement).getTotalLength?.() || 63;
+        const checkLen = (check as SVGPolylineElement).getTotalLength?.() || 15;
+
+        gsap.set(circle, { strokeDasharray: circleLen, strokeDashoffset: circleLen });
+        gsap.set(check, { strokeDasharray: checkLen, strokeDashoffset: checkLen });
+
+        currentAnimation = gsap.timeline({ repeat: -1, repeatDelay: 1 });
+        (currentAnimation as gsap.core.Timeline)
+          .to(circle, { strokeDashoffset: 0, duration: 0.8, ease: "power2.out" })
+          .to(check, { strokeDashoffset: 0, duration: 0.5, ease: "power2.out" })
+          .to({}, { duration: 1 })
+          .to([circle, check], { strokeDashoffset: circleLen, duration: 0.5 });
+      }
+      break;
+    }
+
+    case "logo-reveal": {
+      const clip = containerRef.value?.querySelector("clipPath rect");
+      const line = containerRef.value?.querySelector(".reveal-line");
+      if (clip && line) {
+        currentAnimation = gsap.timeline({ repeat: -1, repeatDelay: 2 });
+        (currentAnimation as gsap.core.Timeline)
+          .to(line, { x: 200, duration: 1.5, ease: "power2.inOut" })
+          .to(clip, { attr: { width: 200 }, duration: 1.5, ease: "power2.inOut" }, 0)
+          .to({}, { duration: 1 })
+          .to(line, { x: 0, duration: 0.8, ease: "power2.in" })
+          .to(clip, { attr: { width: 0 }, duration: 0.8, ease: "power2.in" }, "-=0.8");
+      }
+      break;
+    }
   }
 };
 
@@ -746,6 +892,146 @@ watch(
             fill="#0ae448"
             fill-opacity="0.3"
             d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,133.3C672,117,768,139,864,165.3C960,192,1056,224,1152,208C1248,192,1344,128,1392,96L1440,64L1440,320L0,320Z"
+          />
+        </svg>
+      </div>
+
+      <!-- SVG: Path Draw -->
+      <div
+        v-else-if="effect.id === 'path-draw'"
+        ref="containerRef"
+        class="flex items-center justify-center"
+      >
+        <svg viewBox="0 0 200 100" class="w-64 h-24">
+          <path
+            d="M10,50 Q50,10 100,50 T190,50"
+            fill="none"
+            stroke="#0ae448"
+            stroke-width="3"
+            stroke-linecap="round"
+          />
+        </svg>
+      </div>
+
+      <!-- SVG: Path Erase -->
+      <div
+        v-else-if="effect.id === 'path-erase'"
+        ref="containerRef"
+        class="flex items-center justify-center"
+      >
+        <svg viewBox="0 0 200 100" class="w-64 h-24">
+          <path
+            d="M10,80 L50,20 L100,70 L150,30 L190,80"
+            fill="none"
+            stroke="#0ae448"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+
+      <!-- SVG: Path Morph -->
+      <div
+        v-else-if="effect.id === 'path-morph'"
+        ref="containerRef"
+        class="flex items-center justify-center"
+      >
+        <svg viewBox="0 0 100 100" class="w-32 h-32">
+          <path fill="#0ae448" d="M50,10 L90,35 L80,80 L20,80 L10,35 Z" />
+        </svg>
+      </div>
+
+      <!-- SVG: Path Follow -->
+      <div
+        v-else-if="effect.id === 'path-follow'"
+        ref="containerRef"
+        class="flex items-center justify-center"
+      >
+        <svg viewBox="0 0 300 150" class="w-72 h-36">
+          <path d="M20,75 Q75,20 150,75 T280,75" fill="none" stroke="#2a2d2b" stroke-width="2" />
+          <circle cx="20" cy="75" r="10" fill="#0ae448" />
+        </svg>
+      </div>
+
+      <!-- SVG: Shape Morph -->
+      <div
+        v-else-if="effect.id === 'shape-morph'"
+        ref="containerRef"
+        class="flex items-center justify-center"
+      >
+        <svg viewBox="0 0 100 100" class="w-32 h-32">
+          <rect x="10" y="10" width="80" height="80" fill="#0ae448" rx="0" />
+        </svg>
+      </div>
+
+      <!-- SVG: Shape Rotate -->
+      <div
+        v-else-if="effect.id === 'shape-rotate'"
+        ref="containerRef"
+        class="flex items-center justify-center"
+      >
+        <svg viewBox="0 0 100 100" class="w-32 h-32">
+          <polygon points="50,10 90,35 80,80 20,80 10,35" fill="#0ae448" />
+        </svg>
+      </div>
+
+      <!-- SVG: Shape Scale -->
+      <div
+        v-else-if="effect.id === 'shape-scale'"
+        ref="containerRef"
+        class="flex items-center justify-center"
+      >
+        <svg viewBox="0 0 100 100" class="w-32 h-32">
+          <circle cx="50" cy="50" r="30" fill="#0ae448" />
+        </svg>
+      </div>
+
+      <!-- SVG: Icon Animated -->
+      <div
+        v-else-if="effect.id === 'icon-animated'"
+        ref="containerRef"
+        class="flex items-center justify-center"
+      >
+        <svg viewBox="0 0 24 24" class="w-20 h-20" fill="none" stroke="#0ae448" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="7,12 10,15 17,8" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+
+      <!-- SVG: Logo Reveal -->
+      <div
+        v-else-if="effect.id === 'logo-reveal'"
+        ref="containerRef"
+        class="flex items-center justify-center"
+      >
+        <svg viewBox="0 0 200 60" class="w-48 h-16">
+          <defs>
+            <clipPath id="reveal-clip">
+              <rect x="0" y="0" width="0" height="60" />
+            </clipPath>
+          </defs>
+          <g clip-path="url(#reveal-clip)">
+            <text x="10" y="45" fill="#0ae448" font-size="40" font-weight="bold">GSAP</text>
+          </g>
+          <rect class="reveal-line" x="0" y="0" width="3" height="60" fill="#0ae448" />
+        </svg>
+      </div>
+
+      <!-- SVG: Logo Draw -->
+      <div
+        v-else-if="effect.id === 'logo-draw'"
+        ref="containerRef"
+        class="flex items-center justify-center"
+      >
+        <svg viewBox="0 0 100 100" class="w-24 h-24">
+          <path
+            d="M20,80 L50,20 L80,80 M35,55 L65,55"
+            fill="none"
+            stroke="#0ae448"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           />
         </svg>
       </div>
