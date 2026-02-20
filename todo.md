@@ -246,13 +246,13 @@
 - [x] text-scramble — Text scramble/decode
 - [x] hover-underline — Underline on hover
 
-### Scroll (Скролл) — 5/15 done
+### Scroll (Скролл) — 15/15 done ✅
 
 - [x] scroll-fade-in, parallax-simple, pin-simple, scroll-progress, scrub-animation
-- [ ] scroll-slide-up, scroll-slide-left, scroll-slide-right
-- [ ] scroll-scale, scroll-rotate
-- [ ] parallax-multi, parallax-bg, parallax-mouse
-- [ ] pin-animation, horizontal-scroll
+- [x] scroll-slide-up, scroll-slide-left, scroll-slide-right
+- [x] scroll-scale, scroll-rotate
+- [x] parallax-multi, parallax-bg, parallax-mouse
+- [x] pin-animation, horizontal-scroll
 
 ### Button (Батырма) — 5/14 done
 

@@ -147,6 +147,143 @@ const setupAnimation = () => {
         scrollTriggerInstance = ScrollTrigger.getAll().pop() || null;
       }
       break;
+
+    case "scroll-slide-left":
+      animation = gsap.fromTo(
+        elementRef.value,
+        { opacity: 0, x: 100 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: elementRef.value,
+            scroller: containerRef.value,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+      scrollTriggerInstance = ScrollTrigger.getAll().pop() || null;
+      break;
+
+    case "scroll-slide-right":
+      animation = gsap.fromTo(
+        elementRef.value,
+        { opacity: 0, x: -100 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: elementRef.value,
+            scroller: containerRef.value,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+      scrollTriggerInstance = ScrollTrigger.getAll().pop() || null;
+      break;
+
+    case "scroll-scale":
+      animation = gsap.fromTo(
+        elementRef.value,
+        { opacity: 0, scale: 0.5 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 1,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: elementRef.value,
+            scroller: containerRef.value,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+      scrollTriggerInstance = ScrollTrigger.getAll().pop() || null;
+      break;
+
+    case "scroll-rotate":
+      animation = gsap.fromTo(
+        elementRef.value,
+        { opacity: 0, rotation: -90, scale: 0.8 },
+        {
+          opacity: 1,
+          rotation: 0,
+          scale: 1,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: elementRef.value,
+            scroller: containerRef.value,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+      scrollTriggerInstance = ScrollTrigger.getAll().pop() || null;
+      break;
+
+    case "parallax-multi":
+      // Multiple elements with different parallax speeds
+      animation = gsap.to(elementRef.value, {
+        y: -80,
+        ease: "none",
+        scrollTrigger: {
+          trigger: elementRef.value,
+          scroller: containerRef.value,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+      scrollTriggerInstance = ScrollTrigger.getAll().pop() || null;
+      break;
+
+    case "parallax-bg":
+      gsap.set(elementRef.value, {
+        backgroundImage: "linear-gradient(135deg, #0ae448 0%, #0ba934 50%, #0ae448 100%)",
+        backgroundSize: "100% 200%",
+      });
+      animation = gsap.to(elementRef.value, {
+        backgroundPositionY: "100%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: elementRef.value,
+          scroller: containerRef.value,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+      scrollTriggerInstance = ScrollTrigger.getAll().pop() || null;
+      break;
+
+    case "parallax-mouse":
+      // Mouse parallax doesn't need ScrollTrigger, handled via template events
+      break;
+
+    case "pin-animation":
+      scrollTriggerInstance = ScrollTrigger.create({
+        trigger: elementRef.value,
+        scroller: containerRef.value,
+        start: "top center",
+        end: "+=300",
+        pin: true,
+        pinSpacing: true,
+        onUpdate: (self) => {
+          gsap.set(elementRef.value, {
+            scale: 1 + self.progress * 0.5,
+            rotation: self.progress * 360,
+          });
+        },
+      });
+      break;
   }
 };
 
@@ -189,10 +326,26 @@ const instruction = computed(() => {
       return "Контейнерді скролл жасаңыз - элемент біртіндеп көрінеді";
     case "scroll-slide-up":
       return "Скролл жасаңыз - элемент төменнен жоғары сырғиды";
+    case "scroll-slide-left":
+      return "Скролл жасаңыз - элемент оңнан солға сырғиды";
+    case "scroll-slide-right":
+      return "Скролл жасаңыз - элемент солдан оңға сырғиды";
+    case "scroll-scale":
+      return "Скролл жасаңыз - элемент үлкейеді";
+    case "scroll-rotate":
+      return "Скролл жасаңыз - элемент айналады";
     case "parallax-simple":
       return "Скролл жасаңыз - параллакс эффектін көріңіз";
+    case "parallax-multi":
+      return "Скролл жасаңыз - көп қабатты параллакс";
+    case "parallax-bg":
+      return "Скролл жасаңыз - фон параллаксы";
+    case "parallax-mouse":
+      return "Тінтуірді элемент үстінде қозғаңыз";
     case "pin-simple":
       return "Скролл жасаңыз - элемент орнында тұрады";
+    case "pin-animation":
+      return "Скролл жасаңыз - бекітілген анимация";
     case "horizontal-scroll":
       return "Вертикаль скролл - горизонталь қозғалыс";
     case "scrub-animation":
@@ -203,6 +356,21 @@ const instruction = computed(() => {
       return "Контейнерді скролл жасаңыз";
   }
 });
+
+// Mouse parallax handler for parallax-mouse effect
+const onMouseMove = (e: MouseEvent) => {
+  if (props.effect.id !== "parallax-mouse" || !elementRef.value || !containerRef.value) return;
+  const rect = containerRef.value.getBoundingClientRect();
+  const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+  const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+
+  gsap.to(elementRef.value, {
+    x: x * 30,
+    y: y * 30,
+    duration: 0.3,
+    ease: "power2.out",
+  });
+};
 </script>
 
 <template>
@@ -244,6 +412,7 @@ const instruction = computed(() => {
         ref="containerRef"
         class="h-[400px] overflow-y-auto bg-gsap-bg-tertiary"
         style="scroll-behavior: smooth"
+        @mousemove="onMouseMove"
       >
         <!-- Grid Background -->
         <div
