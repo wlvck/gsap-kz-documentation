@@ -1005,15 +1005,34 @@ const onCursorMove = (e: MouseEvent) => {
   }
 };
 
-const onCursorEnter = () => {
+const onCursorEnter = (e: MouseEvent) => {
   cursorVisible.value = true;
+
+  // Get mouse position relative to container
+  if (cursorContainerRef.value) {
+    const rect = cursorContainerRef.value.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Instantly position cursor at mouse location before showing
+    if (cursorRef.value) {
+      const size =
+        props.effect.id === "cursor-blend" ? 40 : props.effect.id === "cursor-text" ? 50 : 15;
+      gsap.set(cursorRef.value, { x: x - size, y: y - size, scale: 0, opacity: 0 });
+    }
+    if (cursorFollowerRef.value) {
+      gsap.set(cursorFollowerRef.value, { x: x - 20, y: y - 20, scale: 0, opacity: 0 });
+    }
+  }
+
+  // Then fade in
   const targets = [cursorRef.value, cursorFollowerRef.value].filter(Boolean);
   if (targets.length > 0) {
-    gsap.to(targets, { scale: 1, opacity: 1, duration: 0.3 });
+    gsap.to(targets, { scale: 1, opacity: 1, duration: 0.2, ease: "power2.out" });
   }
   const validDots = cursorDotsRef.value.filter(Boolean);
   if (validDots.length > 0) {
-    gsap.to(validDots, { scale: 1, duration: 0.3, stagger: 0.02 });
+    gsap.to(validDots, { scale: 1, duration: 0.2, stagger: 0.02 });
   }
 };
 
@@ -1944,12 +1963,13 @@ onMounted(() => {
         ref="cursorContainerRef"
         class="relative w-full h-64 bg-gsap-bg-secondary rounded-xl cursor-none overflow-hidden flex items-center justify-center"
         @mousemove="onCursorMove"
-        @mouseenter="onCursorEnter"
+        @mouseenter="onCursorEnter($event)"
         @mouseleave="onCursorLeave"
       >
         <div
           ref="cursorRef"
           class="absolute w-8 h-8 bg-gsap-green rounded-full pointer-events-none"
+          style="opacity: 0; transform: scale(0)"
         />
         <span class="text-gsap-text-primary text-xl">Move cursor here</span>
       </div>
@@ -1960,16 +1980,18 @@ onMounted(() => {
         ref="cursorContainerRef"
         class="relative w-full h-64 bg-gsap-bg-secondary rounded-xl cursor-none overflow-hidden flex items-center justify-center"
         @mousemove="onCursorMove"
-        @mouseenter="onCursorEnter"
+        @mouseenter="onCursorEnter($event)"
         @mouseleave="onCursorLeave"
       >
         <div
           ref="cursorRef"
           class="absolute w-2 h-2 bg-gsap-green rounded-full pointer-events-none"
+          style="opacity: 0; transform: scale(0)"
         />
         <div
           ref="cursorFollowerRef"
           class="absolute w-10 h-10 border-2 border-gsap-green rounded-full pointer-events-none"
+          style="opacity: 0; transform: scale(0)"
         />
         <span class="text-gsap-text-primary text-xl">Dual cursor effect</span>
       </div>
@@ -1995,10 +2017,14 @@ onMounted(() => {
         ref="cursorContainerRef"
         class="relative w-full h-64 bg-gsap-bg-secondary rounded-xl cursor-none overflow-hidden flex items-center justify-center"
         @mousemove="onCursorMove"
-        @mouseenter="onCursorEnter"
+        @mouseenter="onCursorEnter($event)"
         @mouseleave="onCursorLeave"
       >
-        <div ref="cursorRef" class="absolute w-24 h-24 pointer-events-none">
+        <div
+          ref="cursorRef"
+          class="absolute w-24 h-24 pointer-events-none"
+          style="opacity: 0; transform: scale(0)"
+        >
           <svg viewBox="0 0 100 100" class="w-full h-full">
             <defs>
               <path id="text-circle" d="M50,50 m-35,0 a35,35 0 1,1 70,0 a35,35 0 1,1 -70,0" />
@@ -2017,12 +2043,13 @@ onMounted(() => {
         ref="cursorContainerRef"
         class="relative w-full h-64 bg-gsap-text-primary rounded-xl cursor-none overflow-hidden flex items-center justify-center"
         @mousemove="onCursorMove"
-        @mouseenter="onCursorEnter"
+        @mouseenter="onCursorEnter($event)"
         @mouseleave="onCursorLeave"
       >
         <div
           ref="cursorRef"
           class="absolute w-20 h-20 bg-gsap-green rounded-full pointer-events-none mix-blend-difference"
+          style="opacity: 0; transform: scale(0)"
         />
         <span class="text-gsap-bg-primary text-2xl font-bold">Blend mode cursor</span>
       </div>
@@ -2033,7 +2060,7 @@ onMounted(() => {
         ref="cursorContainerRef"
         class="relative w-full h-64 bg-gsap-bg-secondary rounded-xl cursor-none overflow-hidden flex items-center justify-center"
         @mousemove="onCursorMove"
-        @mouseenter="onCursorEnter"
+        @mouseenter="onCursorEnter($event)"
         @mouseleave="onCursorLeave"
       >
         <div
