@@ -6,6 +6,7 @@ const isMobileMenuOpen = ref(false);
 
 const navLinks = [
   { label: "Docs", to: "/docs/kirisspe/gsap-degen-ne" },
+  { label: "Learning Path", to: "/learning-path" },
   { label: "Effects", to: "/effects" },
   { label: "Showcases", to: "/showcases" },
 ];
@@ -16,6 +17,9 @@ const isActive = (path: string) => {
   }
   if (path.startsWith("/effects")) {
     return route.path.startsWith("/effects");
+  }
+  if (path.startsWith("/learning-path")) {
+    return route.path.startsWith("/learning-path");
   }
   return route.path === path;
 };
