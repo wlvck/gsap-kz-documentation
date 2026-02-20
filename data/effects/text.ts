@@ -676,4 +676,121 @@ onMounted(() => play())`,
 }`,
     },
   },
+  {
+    id: "text-scramble",
+    name: "Text Scramble",
+    nameKz: "Мәтін шифрлау",
+    category: "text",
+    description: "Text scramble/decode effect",
+    descriptionKz: "Мәтінді шифрлау және ашу эффектісі",
+    defaultText: "GSAP ҚАЗАҚША",
+    code: {
+      vue: `<template>
+  <div ref="textRef" class="text-4xl font-bold text-white font-mono">
+    {{ displayText }}
+  </div>
+</template>`,
+      script: `import { ref, onMounted } from 'vue'
+import gsap from 'gsap'
+
+const text = ref('GSAP ҚАЗАҚША')
+const displayText = ref('')
+const textRef = ref<HTMLElement>()
+
+const chars = 'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ0123456789!@#$%^&*'
+
+const play = () => {
+  const finalText = text.value
+  const length = finalText.length
+  let iteration = 0
+
+  const interval = setInterval(() => {
+    displayText.value = finalText
+      .split('')
+      .map((char, i) => {
+        if (i < iteration) return finalText[i]
+        return chars[Math.floor(Math.random() * chars.length)]
+      })
+      .join('')
+
+    if (iteration >= length) {
+      clearInterval(interval)
+    }
+
+    iteration += 1/3
+  }, 30)
+}
+
+onMounted(() => play())`,
+      css: `.font-mono {
+  font-family: monospace;
+}
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}`,
+    },
+  },
+  {
+    id: "hover-underline",
+    name: "Hover Underline",
+    nameKz: "Hover астын сызу",
+    category: "text",
+    description: "Animated underline on hover",
+    descriptionKz: "Hover кезінде астын сызу анимациясы",
+    defaultText: "Hover жасаңыз",
+    playgroundType: "hover",
+    code: {
+      vue: `<template>
+  <a
+    ref="linkRef"
+    href="#"
+    class="relative text-4xl font-bold text-white inline-block"
+    @mouseenter="onEnter"
+    @mouseleave="onLeave"
+  >
+    {{ text }}
+    <span
+      ref="lineRef"
+      class="absolute bottom-0 left-0 w-full h-1 bg-green-500 origin-left"
+      style="transform: scaleX(0)"
+    />
+  </a>
+</template>`,
+      script: `import { ref } from 'vue'
+import gsap from 'gsap'
+
+const linkRef = ref<HTMLElement>()
+const lineRef = ref<HTMLElement>()
+const text = ref('Hover жасаңыз')
+
+const onEnter = () => {
+  gsap.to(lineRef.value, {
+    scaleX: 1,
+    duration: 0.3,
+    ease: 'power2.out'
+  })
+}
+
+const onLeave = () => {
+  gsap.to(lineRef.value, {
+    scaleX: 0,
+    duration: 0.3,
+    ease: 'power2.in'
+  })
+}`,
+      css: `.origin-left {
+  transform-origin: left;
+}
+.inline-block {
+  display: inline-block;
+}
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}`,
+    },
+  },
 ];

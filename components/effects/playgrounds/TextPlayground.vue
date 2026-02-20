@@ -231,6 +231,32 @@ const animations: Record<string, () => void> = {
       }
     );
   },
+  "text-scramble": () => {
+    const finalText = text.value;
+    const chars = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ0123456789!@#$%^&*";
+    let iteration = 0;
+
+    const interval = setInterval(() => {
+      if (textRef.value) {
+        textRef.value.textContent = finalText
+          .split("")
+          .map((char, i) => {
+            if (i < iteration) return finalText[i];
+            if (char === " ") return " ";
+            return chars[Math.floor(Math.random() * chars.length)];
+          })
+          .join("");
+      }
+
+      if (iteration >= finalText.length) {
+        clearInterval(interval);
+        if (textRef.value) textRef.value.textContent = finalText;
+        isPlaying.value = false;
+      }
+
+      iteration += 1 / 3;
+    }, 30);
+  },
 };
 
 const play = () => {

@@ -9,6 +9,7 @@ const props = defineProps<{
 const elementRef = ref<HTMLElement | null>(null);
 const rippleRef = ref<HTMLElement | null>(null);
 const shineRef = ref<HTMLElement | null>(null);
+const lineRef = ref<HTMLElement | null>(null);
 
 // Generic hover effect handlers
 const handlers: Record<
@@ -162,6 +163,25 @@ const handlers: Record<
       });
     },
   },
+  // Text hover effects
+  "hover-underline": {
+    onEnter: () => {
+      if (!lineRef.value) return;
+      gsap.to(lineRef.value, {
+        scaleX: 1,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    },
+    onLeave: () => {
+      if (!lineRef.value) return;
+      gsap.to(lineRef.value, {
+        scaleX: 0,
+        duration: 0.3,
+        ease: "power2.in",
+      });
+    },
+  },
 };
 
 const currentHandlers = computed(() => handlers[props.effect.id] || handlers["btn-scale"]);
@@ -179,6 +199,7 @@ const onMouseUp = (e: MouseEvent) => currentHandlers.value.onUp?.(e);
 // Determine element type and styles based on effect category
 const isButton = computed(() => props.effect.category === "button");
 const isCard = computed(() => props.effect.category === "card");
+const isTextLink = computed(() => props.effect.id === "hover-underline");
 
 // Get instruction text based on effect
 const instruction = computed(() => {
@@ -197,6 +218,8 @@ const instruction = computed(() => {
       return "Карточкаға hover жасаңыз";
     case "card-tilt":
       return "Курсорды карточка үстінде қозғаңыз";
+    case "hover-underline":
+      return "Мәтінге hover жасаңыз";
     default:
       return "Элементке hover жасаңыз";
   }
@@ -255,6 +278,24 @@ const instruction = computed(() => {
 
         <span class="relative z-10">{{ effect.defaultText }}</span>
       </button>
+
+      <!-- Text Link Element (hover-underline) -->
+      <a
+        v-else-if="isTextLink"
+        ref="elementRef"
+        href="#"
+        class="relative text-3xl md:text-4xl font-bold text-gsap-text-primary inline-block cursor-pointer"
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave"
+        @click.prevent
+      >
+        {{ effect.defaultText }}
+        <span
+          ref="lineRef"
+          class="absolute bottom-0 left-0 w-full h-1 bg-gsap-green origin-left"
+          style="transform: scaleX(0)"
+        />
+      </a>
 
       <!-- Card Element -->
       <div
