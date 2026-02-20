@@ -13,6 +13,13 @@ const progressText = ref(0);
 const skeletonRefs = ref<(HTMLElement | null)[]>([]);
 const dotRefs = ref<(HTMLElement | null)[]>([]);
 const pulseRef = ref<HTMLElement | null>(null);
+const logoRef = ref<HTMLElement | null>(null);
+const counterText = ref(0);
+const pageRef = ref<HTMLElement | null>(null);
+const curtainRef = ref<HTMLElement | null>(null);
+const itemRefs = ref<(HTMLElement | null)[]>([]);
+const shimmerRefs = ref<(HTMLElement | null)[]>([]);
+const imageRef = ref<HTMLElement | null>(null);
 
 let currentAnimation: gsap.core.Tween | gsap.core.Timeline | null = null;
 
@@ -104,6 +111,162 @@ const startAnimation = () => {
         });
       }
       break;
+
+    case "logo-loader":
+      if (logoRef.value) {
+        currentAnimation = gsap.timeline({ repeat: -1 });
+        (currentAnimation as gsap.core.Timeline)
+          .to(logoRef.value, { scale: 1.2, duration: 0.5, ease: "power2.out" })
+          .to(logoRef.value, { scale: 1, duration: 0.5, ease: "power2.in" });
+      }
+      break;
+
+    case "dots-bounce": {
+      const validDots = dotRefs.value.filter(Boolean);
+      if (validDots.length > 0) {
+        currentAnimation = gsap.timeline({ repeat: -1 });
+        (currentAnimation as gsap.core.Timeline)
+          .to(validDots, { y: -15, duration: 0.3, stagger: 0.1, ease: "power2.out" })
+          .to(validDots, { y: 0, duration: 0.5, stagger: 0.1, ease: "bounce.out" });
+      }
+      break;
+    }
+
+    case "counter-loader":
+      counterText.value = 0;
+      if (barRef.value) {
+        gsap.set(barRef.value, { width: "0%" });
+        const obj = { val: 0 };
+        currentAnimation = gsap.timeline({ repeat: -1, repeatDelay: 1 });
+        (currentAnimation as gsap.core.Timeline)
+          .to(obj, {
+            val: 100,
+            duration: 3,
+            ease: "power1.inOut",
+            onUpdate: () => {
+              counterText.value = Math.round(obj.val);
+            },
+          })
+          .to(barRef.value, { width: "100%", duration: 3, ease: "power1.inOut" }, 0)
+          .call(() => {
+            counterText.value = 0;
+            gsap.set(barRef.value, { width: "0%" });
+            obj.val = 0;
+          });
+      }
+      break;
+
+    case "page-fade":
+      if (pageRef.value) {
+        gsap.set(pageRef.value, { opacity: 0 });
+        currentAnimation = gsap.timeline({ repeat: -1, repeatDelay: 0.5 });
+        (currentAnimation as gsap.core.Timeline)
+          .to(pageRef.value, { opacity: 1, duration: 1, ease: "power2.out" })
+          .to(pageRef.value, { opacity: 0, duration: 0.5, delay: 1 });
+      }
+      break;
+
+    case "page-slide":
+      if (pageRef.value) {
+        gsap.set(pageRef.value, { y: "100%" });
+        currentAnimation = gsap.timeline({ repeat: -1, repeatDelay: 0.5 });
+        (currentAnimation as gsap.core.Timeline)
+          .to(pageRef.value, { y: 0, duration: 0.8, ease: "power3.out" })
+          .to(pageRef.value, { y: "-100%", duration: 0.8, delay: 1, ease: "power3.in" });
+      }
+      break;
+
+    case "page-curtain":
+      if (curtainRef.value) {
+        gsap.set(curtainRef.value, { scaleY: 1 });
+        currentAnimation = gsap.timeline({ repeat: -1, repeatDelay: 0.5 });
+        (currentAnimation as gsap.core.Timeline)
+          .to(curtainRef.value, {
+            scaleY: 0,
+            transformOrigin: "top",
+            duration: 0.8,
+            ease: "power3.inOut",
+            delay: 0.5,
+          })
+          .set(curtainRef.value, { scaleY: 1 });
+      }
+      break;
+
+    case "page-circle":
+      if (pageRef.value) {
+        gsap.set(pageRef.value, { clipPath: "circle(0% at 50% 50%)" });
+        currentAnimation = gsap.timeline({ repeat: -1, repeatDelay: 0.5 });
+        (currentAnimation as gsap.core.Timeline)
+          .to(pageRef.value, {
+            clipPath: "circle(100% at 50% 50%)",
+            duration: 1,
+            ease: "power2.out",
+          })
+          .to(pageRef.value, {
+            clipPath: "circle(0% at 50% 50%)",
+            duration: 0.5,
+            delay: 1,
+            ease: "power2.in",
+          });
+      }
+      break;
+
+    case "page-diagonal":
+      if (pageRef.value) {
+        gsap.set(pageRef.value, { clipPath: "polygon(0 0, 0 0, 0 100%, 0 100%)" });
+        currentAnimation = gsap.timeline({ repeat: -1, repeatDelay: 0.5 });
+        (currentAnimation as gsap.core.Timeline)
+          .to(pageRef.value, {
+            clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+            duration: 0.8,
+            ease: "power3.inOut",
+          })
+          .to(pageRef.value, {
+            clipPath: "polygon(100% 0, 100% 0, 100% 100%, 100% 100%)",
+            duration: 0.8,
+            delay: 1,
+            ease: "power3.inOut",
+          });
+      }
+      break;
+
+    case "lazy-reveal": {
+      const validItems = itemRefs.value.filter(Boolean);
+      if (validItems.length > 0) {
+        gsap.set(validItems, { opacity: 0, y: 20 });
+        currentAnimation = gsap.timeline({ repeat: -1, repeatDelay: 1 });
+        (currentAnimation as gsap.core.Timeline)
+          .to(validItems, { opacity: 1, y: 0, duration: 0.6, stagger: 0.2, ease: "power2.out" })
+          .to(validItems, { opacity: 0, y: -20, duration: 0.3, stagger: 0.1, delay: 1 });
+      }
+      break;
+    }
+
+    case "placeholder": {
+      const shimmers = shimmerRefs.value
+        .filter(Boolean)
+        .map((el) => el?.querySelector(".shimmer-gradient"));
+      if (shimmers.length > 0) {
+        currentAnimation = gsap.timeline({ repeat: -1 });
+        (currentAnimation as gsap.core.Timeline).to(shimmers, {
+          xPercent: 200,
+          duration: 1.5,
+          stagger: 0.1,
+          ease: "power1.inOut",
+        });
+      }
+      break;
+    }
+
+    case "image-lazy":
+      if (imageRef.value) {
+        gsap.set(imageRef.value, { filter: "blur(10px)", opacity: 0.5 });
+        currentAnimation = gsap.timeline({ repeat: -1, repeatDelay: 1 });
+        (currentAnimation as gsap.core.Timeline)
+          .to(imageRef.value, { filter: "blur(0px)", opacity: 1, duration: 0.5, delay: 0.5 })
+          .to(imageRef.value, { filter: "blur(10px)", opacity: 0.5, duration: 0.3, delay: 1 });
+      }
+      break;
   }
 };
 
@@ -118,9 +281,20 @@ const restart = () => {
   stopAnimation();
   // Reset states
   progressText.value = 0;
+  counterText.value = 0;
   if (barRef.value) gsap.set(barRef.value, { width: "0%" });
   if (spinnerRef.value) gsap.set(spinnerRef.value, { rotation: 0 });
   if (pulseRef.value) gsap.set(pulseRef.value, { scale: 1, opacity: 0.3 });
+  if (logoRef.value) gsap.set(logoRef.value, { scale: 1 });
+  if (pageRef.value) gsap.set(pageRef.value, { clearProps: "all" });
+  if (curtainRef.value) gsap.set(curtainRef.value, { scaleY: 1 });
+  if (imageRef.value) gsap.set(imageRef.value, { filter: "blur(10px)", opacity: 0.5 });
+  const validItems = itemRefs.value.filter(Boolean);
+  if (validItems.length > 0) gsap.set(validItems, { opacity: 0, y: 20 });
+  const shimmers = shimmerRefs.value
+    .filter(Boolean)
+    .map((el) => el?.querySelector(".shimmer-gradient"));
+  if (shimmers.length > 0) gsap.set(shimmers, { xPercent: -100 });
 
   nextTick(() => {
     startAnimation();
@@ -213,6 +387,125 @@ watch(
       >
         <div ref="pulseRef" class="absolute w-16 h-16 bg-gsap-green/30 rounded-full" />
         <div class="w-8 h-8 bg-gsap-green rounded-full" />
+      </div>
+
+      <!-- Logo Loader -->
+      <div v-else-if="effect.id === 'logo-loader'" class="flex flex-col items-center gap-4">
+        <div ref="logoRef" class="text-5xl font-bold text-gsap-green">GSAP</div>
+        <span class="text-gsap-text-muted text-sm">Жүктелуде...</span>
+      </div>
+
+      <!-- Dots Bounce -->
+      <div v-else-if="effect.id === 'dots-bounce'" class="flex items-center gap-3">
+        <div
+          v-for="i in 3"
+          :key="i"
+          :ref="(el) => (dotRefs[i - 1] = el as HTMLElement)"
+          class="w-5 h-5 bg-gsap-green rounded-full"
+        />
+      </div>
+
+      <!-- Counter Loader -->
+      <div v-else-if="effect.id === 'counter-loader'" class="flex flex-col items-center gap-4">
+        <div class="text-6xl font-bold text-gsap-green tabular-nums">{{ counterText }}%</div>
+        <div class="w-48 h-1 bg-gsap-bg-secondary rounded-full overflow-hidden">
+          <div ref="barRef" class="h-full bg-gsap-green" style="width: 0%" />
+        </div>
+      </div>
+
+      <!-- Page Fade -->
+      <div
+        v-else-if="effect.id === 'page-fade'"
+        ref="pageRef"
+        class="w-64 h-40 bg-gsap-bg-secondary rounded-xl flex items-center justify-center"
+        style="opacity: 0"
+      >
+        <span class="text-gsap-text-primary">Контент жүктелді</span>
+      </div>
+
+      <!-- Page Slide -->
+      <div v-else-if="effect.id === 'page-slide'" class="overflow-hidden rounded-xl">
+        <div
+          ref="pageRef"
+          class="w-64 h-40 bg-gsap-bg-secondary flex items-center justify-center"
+          style="transform: translateY(100%)"
+        >
+          <span class="text-gsap-text-primary">Контент жүктелді</span>
+        </div>
+      </div>
+
+      <!-- Page Curtain -->
+      <div
+        v-else-if="effect.id === 'page-curtain'"
+        class="relative w-64 h-40 rounded-xl overflow-hidden"
+      >
+        <div class="absolute inset-0 bg-gsap-bg-secondary flex items-center justify-center">
+          <span class="text-gsap-text-primary">Контент жүктелді</span>
+        </div>
+        <div ref="curtainRef" class="absolute inset-0 bg-gsap-green" />
+      </div>
+
+      <!-- Page Circle -->
+      <div
+        v-else-if="effect.id === 'page-circle'"
+        ref="pageRef"
+        class="w-64 h-40 bg-gsap-bg-secondary rounded-xl flex items-center justify-center"
+        style="clip-path: circle(0% at 50% 50%)"
+      >
+        <span class="text-gsap-text-primary">Контент жүктелді</span>
+      </div>
+
+      <!-- Page Diagonal -->
+      <div
+        v-else-if="effect.id === 'page-diagonal'"
+        ref="pageRef"
+        class="w-64 h-40 bg-gsap-bg-secondary rounded-xl flex items-center justify-center"
+        style="clip-path: polygon(0 0, 0 0, 0 100%, 0 100%)"
+      >
+        <span class="text-gsap-text-primary">Контент жүктелді</span>
+      </div>
+
+      <!-- Lazy Reveal -->
+      <div v-else-if="effect.id === 'lazy-reveal'" class="space-y-4">
+        <div
+          v-for="i in 3"
+          :key="i"
+          :ref="(el) => (itemRefs[i - 1] = el as HTMLElement)"
+          class="w-64 h-14 bg-gsap-bg-secondary rounded-lg flex items-center justify-center"
+          style="opacity: 0; transform: translateY(20px)"
+        >
+          <span class="text-gsap-text-primary">Элемент {{ i }}</span>
+        </div>
+      </div>
+
+      <!-- Placeholder Shimmer -->
+      <div v-else-if="effect.id === 'placeholder'" class="w-64 space-y-3">
+        <div
+          :ref="(el) => (shimmerRefs[0] = el as HTMLElement)"
+          class="h-8 bg-gsap-bg-secondary rounded overflow-hidden relative"
+        >
+          <div
+            class="shimmer-gradient absolute inset-0 bg-gradient-to-r from-transparent via-gsap-text-muted/20 to-transparent -translate-x-full"
+          />
+        </div>
+        <div
+          :ref="(el) => (shimmerRefs[1] = el as HTMLElement)"
+          class="h-4 bg-gsap-bg-secondary rounded w-3/4 overflow-hidden relative"
+        >
+          <div
+            class="shimmer-gradient absolute inset-0 bg-gradient-to-r from-transparent via-gsap-text-muted/20 to-transparent -translate-x-full"
+          />
+        </div>
+      </div>
+
+      <!-- Image Lazy Load -->
+      <div
+        v-else-if="effect.id === 'image-lazy'"
+        ref="imageRef"
+        class="w-64 h-40 bg-gsap-bg-secondary rounded-xl flex items-center justify-center"
+        style="filter: blur(10px); opacity: 0.5"
+      >
+        <span class="text-4xl">🖼️</span>
       </div>
 
       <!-- Restart Button -->

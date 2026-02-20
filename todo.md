@@ -261,12 +261,12 @@
 - [x] btn-click, btn-loading, btn-success, btn-error
 - [x] btn-icon-rotate, btn-icon-morph, btn-icon-bounce
 
-### Loading (Жүктелу) — 5/14 done
+### Loading (Жүктелу) — 14/14 done ✅
 
 - [x] spinner, progress-bar, logo-loader, skeleton, dots-bounce
-- [ ] counter-loader
-- [ ] page-fade, page-slide, page-curtain, page-circle, page-diagonal
-- [ ] lazy-reveal, placeholder, image-lazy
+- [x] counter-loader
+- [x] page-fade, page-slide, page-curtain, page-circle, page-diagonal
+- [x] lazy-reveal, placeholder, image-lazy
 
 ### Image (Сурет) — 0/17
 
