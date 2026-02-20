@@ -1808,13 +1808,13 @@ onMounted(() => {
         @mouseleave="onMouseLeave"
         @click.prevent
       >
-        <span class="relative z-0">Explore</span>
+        <span>{{ effect.defaultText || "HOVER ME" }}</span>
         <span
           ref="bgRef"
-          class="absolute inset-0 text-gsap-green font-bold flex items-center"
+          class="absolute top-0 left-0 text-gsap-green z-10"
           style="clip-path: inset(0 100% 0 0)"
         >
-          Explore
+          {{ effect.defaultText || "HOVER ME" }}
         </span>
       </a>
 
