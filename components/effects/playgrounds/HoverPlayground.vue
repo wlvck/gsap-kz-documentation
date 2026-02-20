@@ -615,6 +615,19 @@ const handlers: Record<
   "cursor-text": {},
   "cursor-blend": {},
   "cursor-trail": {},
+  // Micro effects - most handled in template with specific logic
+  "input-focus": {},
+  "input-validation": {},
+  checkbox: {},
+  toggle: {},
+  select: {},
+  toast: {},
+  tooltip: {},
+  modal: {},
+  popover: {},
+  "copy-feedback": {},
+  "like-heart": {},
+  bookmark: {},
 };
 
 const currentHandlers = computed(() => handlers[props.effect.id] || handlers["btn-scale"]);
@@ -724,6 +737,31 @@ const instruction = computed(() => {
       return "Тінтуірді аймақта жылжытыңыз";
     case "cursor-magnetic":
       return "Батырмаға жақындаңыз";
+    // Micro effects
+    case "input-focus":
+      return "Input өрісіне фокус жасаңыз";
+    case "input-validation":
+      return "Email мекенжайын енгізіңіз";
+    case "checkbox":
+      return "Checkbox-ты басыңыз";
+    case "toggle":
+      return "Toggle-ды басыңыз";
+    case "select":
+      return "Select-ты ашыңыз";
+    case "toast":
+      return "Батырманы басыңыз - toast хабарлама";
+    case "tooltip":
+      return "Батырмаға hover жасаңыз - tooltip";
+    case "modal":
+      return "Батырманы басыңыз - modal терезесі";
+    case "popover":
+      return "Батырманы басыңыз - popover";
+    case "copy-feedback":
+      return "Көшіру батырмасын басыңыз";
+    case "like-heart":
+      return "Жүрекшені басыңыз";
+    case "bookmark":
+      return "Бетбелгіні басыңыз";
     default:
       return "Элементке hover жасаңыз";
   }
@@ -750,6 +788,20 @@ const isActiveIndicator = computed(() => props.effect.id === "active-indicator")
 const isBreadcrumb = computed(() => props.effect.id === "breadcrumb");
 const isAccordion = computed(() => props.effect.id === "accordion");
 const isTabs = computed(() => props.effect.id === "tabs");
+
+// Micro-interaction computed
+const isInputFocus = computed(() => props.effect.id === "input-focus");
+const isInputValidation = computed(() => props.effect.id === "input-validation");
+const isCheckbox = computed(() => props.effect.id === "checkbox");
+const isToggle = computed(() => props.effect.id === "toggle");
+const isSelect = computed(() => props.effect.id === "select");
+const isToast = computed(() => props.effect.id === "toast");
+const isTooltip = computed(() => props.effect.id === "tooltip");
+const isModal = computed(() => props.effect.id === "modal");
+const isPopover = computed(() => props.effect.id === "popover");
+const isCopyFeedback = computed(() => props.effect.id === "copy-feedback");
+const isLikeHeart = computed(() => props.effect.id === "like-heart");
+const isBookmarkEffect = computed(() => props.effect.id === "bookmark");
 
 // Accordion state
 const accordionItems = [
@@ -848,6 +900,44 @@ const cursorDotsRef = ref<HTMLElement[]>([]);
 const cursorPos = ref({ x: 0, y: 0 });
 const cursorVisible = ref(false);
 
+// Micro-interaction state
+const inputFocused = ref(false);
+const inputValue = ref("");
+const emailValue = ref("");
+const isEmailValid = ref(false);
+const isChecked = ref(false);
+const isToggleOn = ref(false);
+const isSelectOpen = ref(false);
+const selectedOption = ref("");
+const selectOptions = ["Option 1", "Option 2", "Option 3"];
+const isToastVisible = ref(false);
+const isModalOpen = ref(false);
+const isPopoverOpen = ref(false);
+const isCopied = ref(false);
+const isLiked = ref(false);
+const likeCount = ref(42);
+const isBookmarked = ref(false);
+
+// Micro-interaction refs
+const inputLineRef = ref<HTMLElement | null>(null);
+const inputLabelRef = ref<HTMLElement | null>(null);
+const validationIconRef = ref<HTMLElement | null>(null);
+const checkboxPathRef = ref<SVGElement | null>(null);
+const toggleThumbRef = ref<HTMLElement | null>(null);
+const toggleTrackRef = ref<HTMLElement | null>(null);
+const selectArrowRef = ref<HTMLElement | null>(null);
+const selectOptionsRef = ref<HTMLElement | null>(null);
+const toastRef = ref<HTMLElement | null>(null);
+const tooltipRef = ref<HTMLElement | null>(null);
+const modalOverlayRef = ref<HTMLElement | null>(null);
+const modalContentRef = ref<HTMLElement | null>(null);
+const popoverContentRef = ref<HTMLElement | null>(null);
+const copyIconRef = ref<HTMLElement | null>(null);
+const heartRef = ref<HTMLElement | null>(null);
+const heartCountRef = ref<HTMLElement | null>(null);
+const bookmarkSvgRef = ref<HTMLElement | null>(null);
+const bookmarkPathRef = ref<SVGPathElement | null>(null);
+
 const onCursorMove = (e: MouseEvent) => {
   if (!cursorContainerRef.value) return;
   const rect = cursorContainerRef.value.getBoundingClientRect();
@@ -902,6 +992,222 @@ const onMagneticLeave = () => {
   gsap.to(elementRef.value, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.4)" });
 };
 
+// Micro-interaction handlers
+const onInputFocus = () => {
+  inputFocused.value = true;
+  gsap.to(inputLineRef.value, { scaleX: 1, duration: 0.3, ease: "power2.out" });
+  gsap.to(inputLabelRef.value, {
+    y: -25,
+    scale: 0.8,
+    color: "#0ae448",
+    duration: 0.3,
+    ease: "power2.out",
+  });
+};
+
+const onInputBlur = () => {
+  if (!inputValue.value) {
+    inputFocused.value = false;
+    gsap.to(inputLineRef.value, { scaleX: 0, duration: 0.3 });
+    gsap.to(inputLabelRef.value, { y: 0, scale: 1, color: "#a1a1a6", duration: 0.3 });
+  }
+};
+
+const validateEmail = () => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const valid = emailRegex.test(emailValue.value);
+
+  if (valid !== isEmailValid.value) {
+    isEmailValid.value = valid;
+    gsap.fromTo(
+      validationIconRef.value,
+      { scale: 0, rotation: -180 },
+      { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.7)" }
+    );
+  }
+};
+
+const toggleCheckbox = () => {
+  isChecked.value = !isChecked.value;
+  const path = checkboxPathRef.value;
+  if (!path) return;
+
+  const length = (path as unknown as SVGGeometryElement).getTotalLength();
+
+  if (isChecked.value) {
+    gsap.to(elementRef.value, {
+      backgroundColor: "#0ae448",
+      borderColor: "#0ae448",
+      duration: 0.2,
+    });
+    gsap.to(path, { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" });
+  } else {
+    gsap.to(elementRef.value, {
+      backgroundColor: "transparent",
+      borderColor: "#2a2d2b",
+      duration: 0.2,
+    });
+    gsap.to(path, { strokeDashoffset: length, duration: 0.2 });
+  }
+};
+
+const toggleSwitch = () => {
+  isToggleOn.value = !isToggleOn.value;
+  gsap.to(toggleThumbRef.value, {
+    x: isToggleOn.value ? 24 : 0,
+    duration: 0.3,
+    ease: "back.out(1.5)",
+  });
+  gsap.to(toggleTrackRef.value, {
+    backgroundColor: isToggleOn.value ? "#0ae448" : "#2a2d2b",
+    duration: 0.2,
+  });
+};
+
+const toggleSelect = () => {
+  isSelectOpen.value = !isSelectOpen.value;
+  gsap.to(selectArrowRef.value, { rotation: isSelectOpen.value ? 180 : 0, duration: 0.3 });
+
+  if (isSelectOpen.value) {
+    gsap.to(selectOptionsRef.value, {
+      height: "auto",
+      opacity: 1,
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  } else {
+    gsap.to(selectOptionsRef.value, { height: 0, opacity: 0, duration: 0.2 });
+  }
+};
+
+const selectOption = (opt: string) => {
+  selectedOption.value = opt;
+  toggleSelect();
+};
+
+const showToast = () => {
+  if (isToastVisible.value) return;
+  isToastVisible.value = true;
+
+  const tl = gsap.timeline();
+  tl.fromTo(
+    toastRef.value,
+    { y: 100, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.4, ease: "back.out(1.7)" }
+  ).to(toastRef.value, {
+    y: 100,
+    opacity: 0,
+    duration: 0.3,
+    delay: 2,
+    onComplete: () => {
+      isToastVisible.value = false;
+    },
+  });
+};
+
+const showTooltipAnim = () => {
+  gsap.to(tooltipRef.value, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "back.out(1.7)" });
+};
+
+const hideTooltipAnim = () => {
+  gsap.to(tooltipRef.value, { opacity: 0, y: 10, scale: 0.9, duration: 0.2 });
+};
+
+const openModal = () => {
+  isModalOpen.value = true;
+  gsap.to(modalOverlayRef.value, { opacity: 1, visibility: "visible", duration: 0.3 });
+  gsap.fromTo(
+    modalContentRef.value,
+    { scale: 0.8, y: 50 },
+    { scale: 1, y: 0, duration: 0.4, ease: "back.out(1.7)" }
+  );
+};
+
+const closeModal = () => {
+  gsap.to(modalContentRef.value, { scale: 0.8, y: 50, duration: 0.2 });
+  gsap.to(modalOverlayRef.value, {
+    opacity: 0,
+    duration: 0.3,
+    onComplete: () => {
+      gsap.set(modalOverlayRef.value, { visibility: "hidden" });
+      isModalOpen.value = false;
+    },
+  });
+};
+
+const togglePopover = () => {
+  isPopoverOpen.value = !isPopoverOpen.value;
+
+  if (isPopoverOpen.value) {
+    gsap.fromTo(
+      popoverContentRef.value,
+      { opacity: 0, scale: 0.9, y: 10 },
+      { opacity: 1, scale: 1, y: 0, duration: 0.3, ease: "back.out(1.7)" }
+    );
+  } else {
+    gsap.to(popoverContentRef.value, { opacity: 0, scale: 0.9, y: 10, duration: 0.2 });
+  }
+};
+
+const copyToClipboard = async () => {
+  if (isCopied.value) return;
+
+  await navigator.clipboard.writeText("npm install gsap");
+  isCopied.value = true;
+
+  gsap.to(copyIconRef.value, {
+    scale: 0,
+    duration: 0.15,
+    onComplete: () => {
+      gsap.to(copyIconRef.value, { scale: 1, duration: 0.2, ease: "back.out(1.7)" });
+    },
+  });
+
+  gsap.to(elementRef.value, { backgroundColor: "#0ae448", duration: 0.2 });
+
+  setTimeout(() => {
+    isCopied.value = false;
+    gsap.to(elementRef.value, { backgroundColor: "#1c1e1d", duration: 0.2 });
+  }, 2000);
+};
+
+const toggleLike = () => {
+  isLiked.value = !isLiked.value;
+  likeCount.value += isLiked.value ? 1 : -1;
+
+  if (isLiked.value) {
+    gsap
+      .timeline()
+      .to(heartRef.value, { scale: 1.5, duration: 0.15 })
+      .to(heartRef.value, { scale: 1, duration: 0.3, ease: "elastic.out(1, 0.5)" });
+  } else {
+    gsap.to(heartRef.value, { scale: 0.8, duration: 0.1 });
+    gsap.to(heartRef.value, { scale: 1, duration: 0.2, delay: 0.1 });
+  }
+
+  gsap.fromTo(
+    heartCountRef.value,
+    { y: isLiked.value ? 10 : -10, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.2 }
+  );
+};
+
+const toggleBookmarkAnim = () => {
+  isBookmarked.value = !isBookmarked.value;
+
+  if (isBookmarked.value) {
+    gsap
+      .timeline()
+      .to(bookmarkSvgRef.value, { y: -5, duration: 0.1 })
+      .to(bookmarkSvgRef.value, { y: 0, duration: 0.3, ease: "bounce.out" })
+      .to(bookmarkPathRef.value, { fill: "#0ae448", duration: 0.2 }, 0);
+  } else {
+    gsap.to(bookmarkPathRef.value, { fill: "transparent", duration: 0.2 });
+    gsap.to(bookmarkSvgRef.value, { scale: 0.9, duration: 0.1 });
+    gsap.to(bookmarkSvgRef.value, { scale: 1, duration: 0.2, delay: 0.1 });
+  }
+};
+
 onMounted(() => {
   if (props.effect.id === "breadcrumb" && breadcrumbRefs.value.length > 0) {
     gsap.from(breadcrumbRefs.value, {
@@ -924,6 +1230,13 @@ onMounted(() => {
       width: tabButtonRefs.value[0].offsetWidth,
     });
   }
+  // Checkbox initialization
+  if (props.effect.id === "checkbox" && checkboxPathRef.value) {
+    const path = checkboxPathRef.value as unknown as SVGGeometryElement;
+    const length = path.getTotalLength();
+    gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+  }
+
   // Cursor effects initialization
   if (props.effect.category === "cursor") {
     if (cursorRef.value) gsap.set(cursorRef.value, { scale: 0, opacity: 0 });
@@ -1625,6 +1938,239 @@ onMounted(() => {
         />
         <span class="text-gsap-text-primary text-xl">Trail effect</span>
       </div>
+
+      <!-- Micro: Input Focus -->
+      <div v-else-if="isInputFocus" class="relative w-72">
+        <input
+          v-model="inputValue"
+          type="text"
+          class="w-full px-4 py-3 bg-transparent border-b-2 border-gsap-border text-gsap-text-primary outline-none"
+          @focus="onInputFocus"
+          @blur="onInputBlur"
+        />
+        <span
+          ref="inputLineRef"
+          class="absolute bottom-0 left-0 w-full h-0.5 bg-gsap-green origin-left"
+          style="transform: scaleX(0)"
+        />
+        <span
+          ref="inputLabelRef"
+          class="absolute left-4 top-3 text-gsap-text-muted pointer-events-none origin-left"
+        >
+          Email
+        </span>
+      </div>
+
+      <!-- Micro: Input Validation -->
+      <div v-else-if="isInputValidation" class="relative w-72">
+        <input
+          v-model="emailValue"
+          type="email"
+          placeholder="Enter email"
+          class="w-full px-4 py-3 pr-12 bg-gsap-bg-secondary border-2 rounded-lg text-gsap-text-primary outline-none"
+          :class="
+            emailValue
+              ? isEmailValid
+                ? 'border-gsap-green'
+                : 'border-red-500'
+              : 'border-gsap-border'
+          "
+          @input="validateEmail"
+        />
+        <span
+          v-if="emailValue"
+          ref="validationIconRef"
+          class="absolute right-4 top-1/2 -translate-y-1/2 text-xl"
+          :class="isEmailValid ? 'text-gsap-green' : 'text-red-500'"
+        >
+          {{ isEmailValid ? "✓" : "✗" }}
+        </span>
+      </div>
+
+      <!-- Micro: Checkbox -->
+      <label
+        v-else-if="isCheckbox"
+        class="flex items-center gap-3 cursor-pointer select-none"
+        @click="toggleCheckbox"
+      >
+        <div
+          ref="elementRef"
+          class="w-6 h-6 border-2 border-gsap-border rounded flex items-center justify-center"
+        >
+          <svg viewBox="0 0 24 24" class="w-4 h-4">
+            <polyline
+              ref="checkboxPathRef"
+              points="4,12 9,17 20,6"
+              fill="none"
+              stroke="#0e100f"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+        <span class="text-gsap-text-primary">Accept terms</span>
+      </label>
+
+      <!-- Micro: Toggle -->
+      <div
+        v-else-if="isToggle"
+        class="flex items-center gap-4 cursor-pointer"
+        @click="toggleSwitch"
+      >
+        <div ref="toggleTrackRef" class="w-14 h-7 bg-gsap-border rounded-full p-0.5">
+          <div ref="toggleThumbRef" class="w-6 h-6 bg-gsap-text-primary rounded-full" />
+        </div>
+        <span class="text-gsap-text-primary">{{ isToggleOn ? "ON" : "OFF" }}</span>
+      </div>
+
+      <!-- Micro: Select -->
+      <div v-else-if="isSelect" class="relative w-64">
+        <div
+          class="px-4 py-3 bg-gsap-bg-secondary border-2 border-gsap-border rounded-lg flex justify-between cursor-pointer text-gsap-text-primary"
+          @click="toggleSelect"
+        >
+          <span>{{ selectedOption || "Choose option" }}</span>
+          <span ref="selectArrowRef" class="text-xs">▼</span>
+        </div>
+        <div
+          ref="selectOptionsRef"
+          class="absolute top-full left-0 right-0 mt-1 bg-gsap-bg-secondary border-2 border-gsap-border rounded-lg overflow-hidden"
+          style="height: 0; opacity: 0"
+        >
+          <div
+            v-for="opt in selectOptions"
+            :key="opt"
+            class="px-4 py-3 text-gsap-text-primary hover:bg-gsap-green hover:text-black cursor-pointer"
+            @click="selectOption(opt)"
+          >
+            {{ opt }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Micro: Toast -->
+      <div v-else-if="isToast" class="relative">
+        <button class="px-8 py-3 bg-gsap-green text-black font-bold rounded-xl" @click="showToast">
+          Show Toast
+        </button>
+        <div
+          ref="toastRef"
+          class="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 px-6 py-4 bg-gsap-bg-secondary border border-gsap-green rounded-lg text-gsap-text-primary"
+          style="opacity: 0"
+        >
+          <span class="text-gsap-green text-xl">✓</span>
+          <span>Successfully saved!</span>
+        </div>
+      </div>
+
+      <!-- Micro: Tooltip -->
+      <div v-else-if="isTooltip" class="relative inline-block">
+        <button
+          class="px-6 py-3 bg-gsap-bg-secondary border-2 border-gsap-border rounded-lg text-gsap-text-primary"
+          @mouseenter="showTooltipAnim"
+          @mouseleave="hideTooltipAnim"
+        >
+          Hover me
+        </button>
+        <div
+          ref="tooltipRef"
+          class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 px-4 py-2 bg-gsap-green text-black rounded-md whitespace-nowrap"
+          style="opacity: 0; transform: translateX(-50%) translateY(10px) scale(0.9)"
+        >
+          This is a tooltip
+          <div
+            class="absolute top-full left-1/2 -translate-x-1/2 border-l-6 border-r-6 border-t-6 border-l-transparent border-r-transparent border-t-gsap-green"
+          />
+        </div>
+      </div>
+
+      <!-- Micro: Modal -->
+      <div v-else-if="isModal">
+        <button class="px-8 py-3 bg-gsap-green text-black font-bold rounded-xl" @click="openModal">
+          Open Modal
+        </button>
+        <div
+          ref="modalOverlayRef"
+          class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+          style="opacity: 0; visibility: hidden"
+          @click="closeModal"
+        >
+          <div
+            ref="modalContentRef"
+            class="bg-gsap-bg-secondary p-8 rounded-xl max-w-md text-center"
+            @click.stop
+          >
+            <h3 class="text-gsap-green text-xl font-bold mb-4">Modal Title</h3>
+            <p class="text-gsap-text-muted mb-6">This is modal content with smooth animation.</p>
+            <button
+              class="px-6 py-2 bg-gsap-green text-black font-bold rounded-lg"
+              @click="closeModal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Micro: Popover -->
+      <div v-else-if="isPopover" class="relative inline-block">
+        <button
+          class="px-6 py-3 bg-gsap-bg-secondary border-2 border-gsap-border rounded-lg text-gsap-text-primary"
+          @click="togglePopover"
+        >
+          Click me
+        </button>
+        <div
+          ref="popoverContentRef"
+          class="absolute top-full left-1/2 -translate-x-1/2 mt-3 p-4 bg-gsap-bg-secondary border border-gsap-green rounded-lg min-w-[200px]"
+          style="opacity: 0"
+        >
+          <h4 class="text-gsap-green font-bold mb-2">Popover Title</h4>
+          <p class="text-gsap-text-muted text-sm">Some content in the popover.</p>
+        </div>
+      </div>
+
+      <!-- Micro: Copy Feedback -->
+      <div
+        v-else-if="isCopyFeedback"
+        class="flex items-center gap-4 p-4 bg-gsap-bg-primary rounded-lg"
+      >
+        <code class="text-gsap-green font-mono">npm install gsap</code>
+        <button
+          ref="elementRef"
+          class="flex items-center gap-2 px-4 py-2 bg-gsap-bg-secondary rounded-lg text-gsap-text-primary"
+          @click="copyToClipboard"
+        >
+          <span ref="copyIconRef">{{ isCopied ? "✓" : "📋" }}</span>
+          <span>{{ isCopied ? "Copied!" : "Copy" }}</span>
+        </button>
+      </div>
+
+      <!-- Micro: Like Heart -->
+      <button
+        v-else-if="isLikeHeart"
+        class="relative flex items-center gap-2 px-6 py-3 bg-gsap-bg-secondary border-2 border-gsap-border rounded-full text-gsap-text-primary text-lg"
+        @click="toggleLike"
+      >
+        <span ref="heartRef" class="text-xl">{{ isLiked ? "❤️" : "🤍" }}</span>
+        <span ref="heartCountRef">{{ likeCount }}</span>
+      </button>
+
+      <!-- Micro: Bookmark -->
+      <button
+        v-else-if="isBookmarkEffect"
+        class="p-3 bg-gsap-bg-secondary border-2 border-gsap-border rounded-lg"
+        @click="toggleBookmarkAnim"
+      >
+        <svg
+          ref="bookmarkSvgRef"
+          viewBox="0 0 24 24"
+          class="w-7 h-7 stroke-gsap-green stroke-2 fill-transparent"
+        >
+          <path ref="bookmarkPathRef" d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+        </svg>
+      </button>
 
       <!-- Generic Element (fallback) -->
       <div

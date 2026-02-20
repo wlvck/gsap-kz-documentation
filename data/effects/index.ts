@@ -10,6 +10,7 @@ import { navigationEffects } from "./navigation";
 import { containerEffects } from "./container";
 import { svgEffects } from "./svg";
 import { cursorEffects } from "./cursor";
+import { microEffects } from "./micro";
 
 // All effects registry
 const allEffects: Effect[] = [
@@ -23,6 +24,7 @@ const allEffects: Effect[] = [
   ...containerEffects,
   ...svgEffects,
   ...cursorEffects,
+  ...microEffects,
 ];
 
 // Get all effects

@@ -309,11 +309,11 @@
 - [x] cursor-custom, cursor-follower, cursor-magnetic
 - [x] cursor-text, cursor-blend, cursor-trail
 
-### Micro-interactions (Микро) — 0/12
+### Micro-interactions (Микро) — 12/12 done ✅
 
-- [ ] input-focus, input-validation, checkbox, toggle, select
-- [ ] toast, tooltip, modal, popover
-- [ ] copy-feedback, like-heart, bookmark
+- [x] input-focus, input-validation, checkbox, toggle, select
+- [x] toast, tooltip, modal, popover
+- [x] copy-feedback, like-heart, bookmark
 
 ### 3D / Advanced — 0/5
 
