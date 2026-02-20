@@ -230,95 +230,130 @@
 
 ---
 
-## 🔄 13-кезең: Expand Effects Library (CURRENT)
+## ✅ 13-кезең: Effects Library толықтыру (Аяқталды)
 
-### Text (Мәтін) — 23/23 done ✅
+- [x] Text — 23/23 effects
+- [x] Scroll — 15/15 effects
+- [x] Button — 14/14 effects
+- [x] Loading — 14/14 effects
+- [x] Image — 17/17 effects
+- [x] Card — 13/13 effects
+- [x] Navigation — 14/14 effects
+- [x] Container — 12/12 effects
+- [x] SVG — 10/10 effects
+- [x] Cursor — 6/6 effects
+- [x] Micro — 12/12 effects
+- [x] 3D — 5/5 effects
 
-- [x] fade-in, fade-in-up, fade-in-down, fade-in-left, fade-in-right
-- [x] scale-in, rotate-in
-- [x] chars-fade, chars-slide, chars-random
-- [x] words-fade, words-slide
-- [x] lines-reveal, lines-mask
-- [x] typewriter
-- [x] glitch — Glitch effect
-- [x] counter — Number counter
-- [x] bounce-in, elastic-in, blur-in, flip-in
-- [x] text-scramble — Text scramble/decode
-- [x] hover-underline — Underline on hover
+**Барлығы: 155 effects ✅**
 
-### Scroll (Скролл) — 15/15 done ✅
+---
 
-- [x] scroll-fade-in, parallax-simple, pin-simple, scroll-progress, scrub-animation
-- [x] scroll-slide-up, scroll-slide-left, scroll-slide-right
-- [x] scroll-scale, scroll-rotate
-- [x] parallax-multi, parallax-bg, parallax-mouse
-- [x] pin-animation, horizontal-scroll
+## 🔄 14-кезең: Learning Path (CURRENT)
 
-### Button (Батырма) — 14/14 done ✅
+Interactive learning roadmap page — from Beginner to Шебер (Master) with animated skill tree.
 
-- [x] btn-scale, btn-bg-slide, btn-border, btn-ripple, btn-magnetic
-- [x] btn-shine, btn-3d-press
-- [x] btn-click, btn-loading, btn-success, btn-error
-- [x] btn-icon-rotate, btn-icon-morph, btn-icon-bounce
+### 14.1 Page Setup
 
-### Loading (Жүктелу) — 14/14 done ✅
+- [x] Create `pages/learning-path.vue` — main learning path page
+- [x] Add "Learning Path" link to header navigation
+- [x] Create page layout with full-height scroll container
 
-- [x] spinner, progress-bar, logo-loader, skeleton, dots-bounce
-- [x] counter-loader
-- [x] page-fade, page-slide, page-curtain, page-circle, page-diagonal
-- [x] lazy-reveal, placeholder, image-lazy
+### 14.2 Data Structure
 
-### Image (Сурет) — 17/17 done ✅
+- [x] Create `data/learning-path.ts` — learning path data:
+  ```typescript
+  interface LearningStep {
+    id: string;
+    level: "beginner" | "intermediate" | "advanced" | "master";
+    title: string;
+    titleKz: string;
+    description: string;
+    descriptionKz: string;
+    icon: string;
+    docsLink: string; // Link to documentation page
+    estimatedTime: string; // e.g., "30 min", "1 hour"
+    topics: string[]; // Sub-topics covered
+  }
+  ```
+- [x] Define learning steps for each level:
 
-- [x] image-fade, image-clip, image-mask, image-slide, image-curtain
-- [x] image-zoom-hover, image-pan-hover, image-tilt
-- [x] image-overlay, image-caption
-- [x] slider-basic, slider-infinite, slider-draggable
-- [x] lightbox, masonry-reveal, image-crossfade, before-after
+**🟢 Бастаушы (Beginner) — 6 steps:**
 
-### Card (Карточка) — 13/13 done ✅
+1. GSAP деген не? — Introduction
+2. Орнату — Installation (CDN, npm)
+3. gsap.to() — First animation
+4. gsap.from() / fromTo() — Animation directions
+5. Негізгі қасиеттер — Properties (x, y, opacity, scale, rotation)
+6. Duration & Delay — Timing basics
 
-- [x] card-lift, card-tilt, card-flip, card-expand
-- [x] card-glow, card-border, card-gradient
-- [x] card-content-slide, card-overlay, card-icon
-- [x] cards-stagger, cards-grid, cards-random
+**🟡 Орта деңгей (Intermediate) — 8 steps:** 7. Easing функциялары — Easing types 8. Timeline негіздері — Creating timelines 9. Timeline позициялау — Position parameter 10. Callbacks — onStart, onComplete, onUpdate 11. Stagger — Animating multiple elements 12. ScrollTrigger негіздері — Basic scroll animations 13. ScrollTrigger scrub — Scroll-linked animations 14. ScrollTrigger pin — Pinning elements
 
-### Navigation (Навигация) — 14/14 done ✅
+**🔴 Жетілдірілген (Advanced) — 8 steps:** 15. GSAP Context — Cleanup & scoping 16. matchMedia — Responsive animations 17. SVG анимация — Path drawing, morphing 18. Draggable — Drag interactions 19. Flip Plugin — Layout animations 20. SplitText — Text splitting 21. Custom Easing — Creating custom eases 22. Performance — Optimization techniques
 
-- [x] navbar-hide, navbar-shrink, navbar-bg-change, navbar-blur
-- [x] hamburger-x, menu-slide, menu-fullscreen, menu-stagger
-- [x] dropdown-anim, mega-menu
-- [x] link-underline, link-fill, active-indicator, breadcrumb
+**👑 Шебер (Master) — 4 steps:** 23. Complex Timelines — Nested timelines, labels 24. Plugin Development — Creating custom plugins 25. Framework Integration — React, Vue, Nuxt 26. Real Project — Build complete animated website
 
-### Container (Контейнер) — 12/12 done ✅
+### 14.3 SVG Path Animation (Main Visual)
 
-- [x] gradient-anim, bg-color-transition, animated-shapes
-- [x] particles, wave-anim
-- [x] divider-anim, wave-divider, diagonal-reveal
-- [x] section-reveal, section-transition
-- [x] accordion, tabs
+- [x] Create `components/learning/LearningPathSVG.vue` — main SVG component
+- [x] Design SVG path connecting all steps (vertical winding road)
+- [x] Implement DrawSVG effect — path draws as user scrolls
+- [x] Add checkpoint circles on the path for each step
+- [x] Animate checkpoints appearing when reached
 
-### SVG (SVG) — 10/10 done ✅
+### 14.4 Step Components
 
-- [x] path-draw, path-erase, path-morph, path-follow
-- [x] shape-morph, shape-rotate, shape-scale
-- [x] icon-animated, logo-reveal, logo-draw
+- [x] Create `components/learning/LearningStep.vue` — individual step card:
+  - Level badge (color-coded: green/yellow/red/gold)
+  - Step number
+  - Title (Kazakh)
+  - Description
+  - Estimated time
+  - Topics list
+  - "Оқуға өту" button → links to docs
+  - Completion checkbox (localStorage)
+- [x] Create `components/learning/LevelHeader.vue` — level section header:
+  - Level icon (emoji or SVG)
+  - Level name
+  - Progress indicator (X/Y completed)
 
-### Cursor (Курсор) — 6/6 done ✅
+### 14.5 Scroll Animations
 
-- [x] cursor-custom, cursor-follower, cursor-magnetic
-- [x] cursor-text, cursor-blend, cursor-trail
+- [x] ScrollTrigger for path drawing animation
+- [x] Each step fades/slides in when scrolled into view
+- [ ] Parallax effect on background elements
+- [x] Progress indicator showing overall completion
+- [x] Sticky level header while scrolling through level
 
-### Micro-interactions (Микро) — 12/12 done ✅
+### 14.6 Progress Tracking
 
-- [x] input-focus, input-validation, checkbox, toggle, select
-- [x] toast, tooltip, modal, popover
-- [x] copy-feedback, like-heart, bookmark
+- [x] Save completed steps to localStorage
+- [x] Calculate overall progress percentage
+- [x] Show progress bar at top of page
+- [x] "Жалғастыру" (Continue) button — scrolls to first incomplete step
+- [ ] Confetti animation when level completed
+- [x] Special animation when reaching Шебер level (Шебер Finale section with trophy, stats, CTAs)
 
-### 3D / Advanced — 5/5 done ✅
+### 14.7 Interactive Elements
 
-- [x] 3d-card-flip, 3d-carousel, perspective-scroll
-- [x] 3d-text, parallax-3d
+- [x] Hover effects on step cards
+- [ ] Click to expand step details
+- [ ] Mini preview animation for each step (shows what you'll learn)
+- [ ] Keyboard navigation (arrow keys to move between steps)
+
+### 14.8 Responsive Design
+
+- [x] Mobile layout — vertical timeline
+- [x] Tablet layout — adjusted spacing
+- [x] Desktop layout — full visual experience
+- [x] Touch-friendly interactions
+
+### 14.9 Visual Polish
+
+- [ ] Animated background (subtle particles or gradient)
+- [x] Glowing effect on completed checkpoints (SVG path)
+- [x] Level transition animations (when scrolling to new level)
+- [ ] Sound effects (optional, toggle in settings)
 
 ---
 
