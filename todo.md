@@ -193,390 +193,177 @@
 
 ---
 
-## 🔄 11-кезең: Effects Playground (NEW)
+## ✅ 11-кезең: Effects Playground — Base (Аяқталды)
 
-### Phase 1: Core Infrastructure
+### Phase 1-5: Core Infrastructure
 
-#### 1.1 Create base page and layout
-
-- [x] Create `pages/effects/index.vue` — main effects gallery page
-- [x] Create `pages/effects/[category]/[effect].vue` — individual effect page
-- [x] Create `pages/effects/[category]/index.vue` — category listing page
-- [x] Add "Effects" link to header navigation
-- [x] Create `layouts/effects.vue` — effects layout with sidebar
-
-#### 1.2 Create EffectPlayground component
-
-- [x] Create `components/effects/EffectPlayground.vue` — main playground wrapper
-- [ ] Structure:
-  ```
-  ┌─────────────────────────────────────────────────┐
-  │  Demo Area (animation preview)                  │
-  │  ┌─────────────────────────────────────────┐   │
-  │  │                                         │   │
-  │  │     "GSAP Қазақша құжаттама"            │   │
-  │  │     (animated text)                     │   │
-  │  │                                         │   │
-  │  └─────────────────────────────────────────┘   │
-  ├─────────────────────────────────────────────────┤
-  │  Controls: [Text Input] [Play] [Reset]          │
-  ├─────────────────────────────────────────────────┤
-  │  Code Tabs: [Vue] [Script] [CSS]                │
-  │  ┌─────────────────────────────────────────┐   │
-  │  │ <template>                              │   │
-  │  │   <div ref="textRef">{{ text }}</div>   │   │
-  │  │ </template>                             │   │
-  │  └─────────────────────────────────────────┘   │
-  │  [Copy Code]                                    │
-  └─────────────────────────────────────────────────┘
-  ```
-
-#### 1.3 Create CodeTabs component
-
-- [x] Create `components/effects/CodeTabs.vue`
-- [x] Three tabs: Vue (template), Script (JS/TS), CSS
-- [x] Syntax highlighting with Shiki
-- [x] Copy button for each tab
-- [x] Copy all code button
-
-#### 1.4 Create EffectControls component
-
-- [x] Create `components/effects/EffectControls.vue`
-- [x] Text input field (v-model)
-- [x] Play button — run animation
-- [x] Reset button — reset to initial state
-- [x] Default text: "GSAP Қазақша құжаттама"
-
-### Phase 2: Effects Data Structure (Аяқталды)
-
-#### 2.1 Create effects data types
-
-- [x] Create `types/effects.ts`:
-
-  ```typescript
-  interface Effect {
-    id: string;
-    name: string;
-    nameKz: string;
-    category: EffectCategory;
-    description: string;
-    descriptionKz: string;
-    code: {
-      vue: string;
-      script: string;
-      css: string;
-    };
-    defaultText: string;
-  }
-
-  type EffectCategory =
-    | "text"
-    | "scroll"
-    | "image"
-    | "card"
-    | "navigation"
-    | "button"
-    | "container"
-    | "loading"
-    | "svg"
-    | "cursor"
-    | "micro"
-    | "3d";
-  ```
-
-#### 2.2 Create effects registry
-
-- [x] Create `data/effects/index.ts` — effects registry
-- [x] Create `data/effects/text.ts` — text effects (16 effects)
-- [x] Create helper function `getEffectsByCategory()`
-- [x] Create helper function `getEffectById()`
-- [x] Update pages to use effects registry
-- [x] Update EffectPlayground with dynamic animations
-
-### Phase 3: First Effect — Text Fade In (Аяқталды)
-
-#### 3.1 Implement Text Fade In effect
-
-- [x] Create `data/effects/text/fade-in.ts` (included in text.ts with 16 effects):
-
-  ```typescript
-  export const textFadeIn: Effect = {
-    id: "text-fade-in",
-    name: "Fade In",
-    nameKz: "Пайда болу",
-    category: "text",
-    description: "Simple fade in animation",
-    descriptionKz: "Қарапайым пайда болу анимациясы",
-    code: {
-      vue: `<template>
-    <div ref="textRef" class="text-4xl font-bold">
-      {{ text }}
-    </div>
-  </template>`,
-      script: `const textRef = ref<HTMLElement>()
-  const text = ref('GSAP Қазақша құжаттама')
-  
-  const play = () => {
-    gsap.fromTo(textRef.value, 
-      { opacity: 0 },
-      { opacity: 1, duration: 1, ease: 'power2.out' }
-    )
-  }`,
-      css: `.text-4xl {
-    font-size: 2.25rem;
-    line-height: 2.5rem;
-  }
-  .font-bold {
-    font-weight: 700;
-  }`,
-    },
-    defaultText: "GSAP Қазақша құжаттама",
-  };
-  ```
-
-#### 3.2 Create effect page for Text Fade In
-
-- [x] Create working demo with user text input
-- [x] Display code in tabs
-- [x] Play/Reset functionality
-- [x] Copy code functionality
-
-### Phase 4: Effects Gallery Page (Аяқталды)
-
-#### 4.1 Create effects gallery
-
-- [x] Create `pages/effects/index.vue`
-- [x] Display all categories as sections
-- [x] Show effect cards with preview thumbnail
-- [x] Link to individual effect pages
-
-#### 4.2 Create EffectCard component
-
-- [x] Create `components/effects/EffectCard.vue`
-- [x] Show effect name (KZ)
-- [x] Mini preview or icon
-- [x] Category badge
-- [x] Link to effect page
-
-#### 4.3 Create effects sidebar
-
-- [x] Create `components/effects/EffectsSidebar.vue`
-- [x] List all categories
-- [x] Expandable subcategories with effects list
-- [x] Active effect highlighting
-
-### Phase 5: Styling and Polish (Аяқталды)
-
-#### 5.1 Design system
-
-- [x] Use GSAP color palette (dark theme)
-- [x] Demo area: dark background with subtle border
-- [x] Code area: github-dark theme
-- [x] Consistent spacing and typography
-
-#### 5.2 Animations
-
-- [x] Page transitions (GSAP-powered in app.vue)
-- [x] Tab switching animation (CodeTabs)
-- [x] Button hover effects (AnimatedButton component)
-- [x] Smooth scroll between sections (Lenis already integrated)
-
-#### 5.3 Additional Categories
-
-- [x] Add scroll effects (5 effects)
-- [x] Add button effects (5 effects)
-- [x] Add loading effects (5 effects)
+- [x] pages/effects/index.vue — effects gallery page
+- [x] pages/effects/[category]/[effect].vue — individual effect page
+- [x] pages/effects/[category]/index.vue — category listing page
+- [x] Effects link in header navigation
+- [x] EffectPlayground.vue component
+- [x] CodeTabs.vue — Vue/Script/CSS tabs with syntax highlighting
+- [x] EffectControls.vue — text input, play/reset buttons
+- [x] EffectCard.vue — category cards
+- [x] EffectsSidebar.vue — navigation sidebar
+- [x] Effects data structure (types/effects.ts)
+- [x] Text effects (16 effects)
+- [x] Scroll effects (5 effects)
+- [x] Button effects (5 effects)
+- [x] Loading effects (5 effects)
 
 ---
 
-## 📋 Effects Catalog (150+ effects)
+## 🔄 12-кезең: Category-Specific Playgrounds (CURRENT)
 
-### Text (Мәтін) — 20 effects
+### 12.1 Architecture Refactor
 
-- [ ] fade-in — Fade in
-- [ ] fade-in-up — Fade in from bottom
-- [ ] fade-in-down — Fade in from top
-- [ ] fade-in-left — Fade in from left
-- [ ] fade-in-right — Fade in from right
-- [ ] scale-in — Scale in
-- [ ] rotate-in — Rotate in
-- [ ] chars-fade — Characters fade in (SplitText)
-- [ ] chars-slide — Characters slide up
-- [ ] chars-random — Characters random order
-- [ ] words-fade — Words fade in
-- [ ] words-slide — Words slide
-- [ ] lines-reveal — Lines reveal
-- [ ] lines-mask — Lines with mask
-- [ ] typewriter — Typewriter effect
-- [ ] typewriter-cursor — Typewriter with cursor
+Each category needs its own playground component because interaction patterns differ:
+
+| Category   | Playground Type       | Interaction                          |
+| ---------- | --------------------- | ------------------------------------ |
+| Text       | TextPlayground        | Text input + Play/Reset              |
+| Button     | HoverPlayground       | Hover to see effect (no play button) |
+| Card       | HoverPlayground       | Hover to see effect                  |
+| Scroll     | ScrollPlayground      | Scrollable container                 |
+| Loading    | AutoPlayground        | Auto-loop, restart only              |
+| Image      | HoverPlayground       | Hover effects on image               |
+| Navigation | InteractivePlayground | Click to toggle menu states          |
+| SVG        | PlayPlayground        | Play/Reset for draw/morph            |
+| Cursor     | CursorPlayground      | Mouse tracking area                  |
+| Micro      | InteractivePlayground | Form elements interaction            |
+| Container  | PlayPlayground        | Play/Reset                           |
+| 3D         | HoverPlayground       | Mouse move for 3D effects            |
+
+### 12.2 Create Playground Components
+
+- [ ] Create `components/effects/playgrounds/` folder
+- [ ] Create `TextPlayground.vue` — current behavior (text input + play/reset)
+- [ ] Create `HoverPlayground.vue` — element renders, user hovers to see effect
+- [ ] Create `ScrollPlayground.vue` — scrollable container with scroll-triggered animations
+- [ ] Create `AutoPlayground.vue` — auto-playing loop animation, restart button only
+- [ ] Create `CursorPlayground.vue` — mouse tracking area for cursor effects
+- [ ] Create `InteractivePlayground.vue` — clickable elements (toggles, menus)
+
+### 12.3 Update Effect Type
+
+- [ ] Add `playgroundType` field to Effect interface:
+
+  ```typescript
+  type PlaygroundType = "text" | "hover" | "scroll" | "auto" | "cursor" | "interactive";
+
+  interface Effect {
+    // ... existing fields
+    playgroundType: PlaygroundType;
+  }
+  ```
+
+### 12.4 Update Effect Page
+
+- [ ] Modify `pages/effects/[category]/[effect].vue` to dynamically load correct playground
+- [ ] Use `<component :is="playgroundComponent">` pattern
+
+### 12.5 Fix Button Category
+
+- [ ] Update button effects to use HoverPlayground
+- [ ] Remove play button, effect triggers on hover
+- [ ] Button should be interactive in demo area
+
+### 12.6 Fix CodeTabs Syntax Highlighting
+
+- [ ] Fix HTML/Vue template highlighting (currently broken)
+- [ ] Ensure `<template>` tags display correctly
+
+---
+
+## 🔄 13-кезең: Expand Effects Library
+
+### Text (Мәтін) — 16/20 done
+
+- [x] fade-in, fade-in-up, fade-in-down, fade-in-left, fade-in-right
+- [x] scale-in, rotate-in
+- [x] chars-fade, chars-slide, chars-random
+- [x] words-fade, words-slide
+- [x] lines-reveal, lines-mask
+- [x] typewriter, typewriter-cursor
 - [ ] text-scramble — Text scramble/decode
 - [ ] glitch — Glitch effect
 - [ ] counter — Number counter
 - [ ] hover-underline — Underline on hover
 
-### Scroll (Скролл) — 15 effects
+### Scroll (Скролл) — 5/15 done
 
-- [ ] scroll-fade-in — Fade in on scroll
-- [ ] scroll-slide-up — Slide up on scroll
-- [ ] scroll-slide-left — Slide left on scroll
-- [ ] scroll-slide-right — Slide right on scroll
-- [ ] scroll-scale — Scale on scroll
-- [ ] scroll-rotate — Rotate on scroll
-- [ ] parallax-simple — Simple parallax
-- [ ] parallax-multi — Multi-layer parallax
-- [ ] parallax-bg — Background parallax
-- [ ] parallax-mouse — Mouse parallax
-- [ ] pin-simple — Simple pin
-- [ ] pin-animation — Pin with animation
-- [ ] horizontal-scroll — Horizontal scroll section
-- [ ] scroll-progress — Scroll progress bar
-- [ ] scrub-animation — Scrub animation
+- [x] scroll-fade-in, parallax-simple, pin-simple, scroll-progress, scrub-animation
+- [ ] scroll-slide-up, scroll-slide-left, scroll-slide-right
+- [ ] scroll-scale, scroll-rotate
+- [ ] parallax-multi, parallax-bg, parallax-mouse
+- [ ] pin-animation, horizontal-scroll
 
-### Image (Сурет) — 18 effects
+### Button (Батырма) — 5/14 done
 
-- [ ] image-fade — Image fade in
-- [ ] image-clip — Clip reveal
-- [ ] image-mask — Mask reveal
-- [ ] image-slide — Slide reveal
-- [ ] image-curtain — Curtain effect
-- [ ] image-zoom-hover — Zoom on hover
-- [ ] image-pan-hover — Pan on hover
-- [ ] image-tilt — 3D tilt on hover
-- [ ] image-overlay — Overlay on hover
-- [ ] image-caption — Caption reveal
-- [ ] slider-basic — Basic slider
-- [ ] slider-infinite — Infinite slider
-- [ ] slider-draggable — Draggable slider
-- [ ] lightbox — Lightbox animation
-- [ ] masonry-reveal — Masonry reveal
-- [ ] image-crossfade — Image crossfade
-- [ ] before-after — Before/after slider
+- [x] btn-scale, btn-bg-slide, btn-border, btn-ripple, btn-magnetic
+- [ ] btn-shine, btn-3d-press
+- [ ] btn-click, btn-loading, btn-success, btn-error
+- [ ] btn-icon-rotate, btn-icon-morph, btn-icon-bounce
 
-### Card (Карточка) — 14 effects
+### Loading (Жүктелу) — 5/14 done
 
-- [ ] card-lift — Lift with shadow
-- [ ] card-tilt — 3D tilt
-- [ ] card-flip — Flip front/back
-- [ ] card-expand — Expand
-- [ ] card-glow — Glow effect
-- [ ] card-border — Border animation
-- [ ] card-gradient — Gradient shift
-- [ ] card-content-slide — Content slide
-- [ ] card-overlay — Overlay reveal
-- [ ] card-icon — Icon animation
-- [ ] cards-stagger — Cards stagger in
-- [ ] cards-grid — Grid reveal
-- [ ] cards-random — Random reveal
+- [x] spinner, progress-bar, logo-loader, skeleton, dots-bounce
+- [ ] counter-loader
+- [ ] page-fade, page-slide, page-curtain, page-circle, page-diagonal
+- [ ] lazy-reveal, placeholder, image-lazy
 
-### Navigation (Навигация) — 14 effects
+### Image (Сурет) — 0/17
 
-- [ ] navbar-hide — Hide on scroll
-- [ ] navbar-shrink — Shrink on scroll
-- [ ] navbar-bg-change — Background change
-- [ ] navbar-blur — Blur effect
-- [ ] hamburger-x — Hamburger to X
-- [ ] menu-slide — Menu slide
-- [ ] menu-fullscreen — Fullscreen menu
-- [ ] menu-stagger — Menu items stagger
-- [ ] dropdown-anim — Dropdown animation
-- [ ] mega-menu — Mega menu reveal
-- [ ] link-underline — Link underline
-- [ ] link-fill — Link fill effect
-- [ ] active-indicator — Active indicator
-- [ ] breadcrumb — Breadcrumb animation
+- [ ] image-fade, image-clip, image-mask, image-slide, image-curtain
+- [ ] image-zoom-hover, image-pan-hover, image-tilt
+- [ ] image-overlay, image-caption
+- [ ] slider-basic, slider-infinite, slider-draggable
+- [ ] lightbox, masonry-reveal, image-crossfade, before-after
 
-### Button (Батырма) — 14 effects
+### Card (Карточка) — 0/13
 
-- [ ] btn-scale — Scale on hover
-- [ ] btn-bg-slide — Background slide
-- [ ] btn-border — Border animation
-- [ ] btn-ripple — Ripple effect
-- [ ] btn-magnetic — Magnetic effect
-- [ ] btn-shine — Shine effect
-- [ ] btn-3d-press — 3D press
-- [ ] btn-click — Click feedback
-- [ ] btn-loading — Loading state
-- [ ] btn-success — Success state
-- [ ] btn-error — Error state
-- [ ] btn-icon-rotate — Icon rotate
-- [ ] btn-icon-morph — Icon morph
-- [ ] btn-icon-bounce — Icon bounce
+- [ ] card-lift, card-tilt, card-flip, card-expand
+- [ ] card-glow, card-border, card-gradient
+- [ ] card-content-slide, card-overlay, card-icon
+- [ ] cards-stagger, cards-grid, cards-random
 
-### Container (Контейнер) — 12 effects
+### Navigation (Навигация) — 0/14
 
-- [ ] gradient-anim — Gradient animation
-- [ ] bg-color-transition — Color transition
-- [ ] animated-shapes — Animated shapes
-- [ ] particles — Particles background
-- [ ] wave-anim — Wave animation
-- [ ] divider-anim — Animated divider
-- [ ] wave-divider — SVG wave divider
-- [ ] diagonal-reveal — Diagonal reveal
-- [ ] section-reveal — Section reveal
-- [ ] section-transition — Section transition
-- [ ] accordion — Accordion animation
-- [ ] tabs — Tab animation
+- [ ] navbar-hide, navbar-shrink, navbar-bg-change, navbar-blur
+- [ ] hamburger-x, menu-slide, menu-fullscreen, menu-stagger
+- [ ] dropdown-anim, mega-menu
+- [ ] link-underline, link-fill, active-indicator, breadcrumb
 
-### Loading (Жүктелу) — 14 effects
+### Container (Контейнер) — 0/12
 
-- [ ] spinner — Simple spinner
-- [ ] progress-bar — Progress bar
-- [ ] logo-loader — Logo animation
-- [ ] counter-loader — Counter loader
-- [ ] skeleton — Skeleton loading
-- [ ] page-fade — Page fade transition
-- [ ] page-slide — Page slide transition
-- [ ] page-curtain — Curtain transition
-- [ ] page-circle — Circle expand
-- [ ] page-diagonal — Diagonal wipe
-- [ ] lazy-reveal — Lazy load reveal
-- [ ] placeholder — Placeholder animation
-- [ ] image-lazy — Image lazy reveal
+- [ ] gradient-anim, bg-color-transition, animated-shapes
+- [ ] particles, wave-anim
+- [ ] divider-anim, wave-divider, diagonal-reveal
+- [ ] section-reveal, section-transition
+- [ ] accordion, tabs
 
-### SVG (SVG) — 10 effects
+### SVG (SVG) — 0/10
 
-- [ ] path-draw — Path draw
-- [ ] path-erase — Path erase
-- [ ] path-morph — Path morph
-- [ ] path-follow — Follow path
-- [ ] shape-morph — Shape morph
-- [ ] shape-rotate — Shape rotate
-- [ ] shape-scale — Shape scale
-- [ ] icon-animated — Animated icons
-- [ ] logo-reveal — Logo reveal
-- [ ] logo-draw — Logo draw
+- [ ] path-draw, path-erase, path-morph, path-follow
+- [ ] shape-morph, shape-rotate, shape-scale
+- [ ] icon-animated, logo-reveal, logo-draw
 
-### Cursor (Курсор) — 6 effects
+### Cursor (Курсор) — 0/6
 
-- [ ] cursor-custom — Custom cursor
-- [ ] cursor-follower — Cursor follower
-- [ ] cursor-magnetic — Magnetic cursor
-- [ ] cursor-text — Cursor with text
-- [ ] cursor-blend — Blend mode cursor
-- [ ] cursor-trail — Cursor trail
+- [ ] cursor-custom, cursor-follower, cursor-magnetic
+- [ ] cursor-text, cursor-blend, cursor-trail
 
-### Micro-interactions (Микро) — 12 effects
+### Micro-interactions (Микро) — 0/12
 
-- [ ] input-focus — Input focus
-- [ ] input-validation — Validation animation
-- [ ] checkbox — Checkbox animation
-- [ ] toggle — Toggle switch
-- [ ] select — Select dropdown
-- [ ] toast — Toast notification
-- [ ] tooltip — Tooltip animation
-- [ ] modal — Modal animation
-- [ ] popover — Popover animation
-- [ ] copy-feedback — Copy feedback
-- [ ] like-heart — Like/heart animation
-- [ ] bookmark — Bookmark animation
+- [ ] input-focus, input-validation, checkbox, toggle, select
+- [ ] toast, tooltip, modal, popover
+- [ ] copy-feedback, like-heart, bookmark
 
-### 3D / Advanced (3D) — 5 effects
+### 3D / Advanced — 0/5
 
-- [ ] 3d-card-flip — 3D card flip
-- [ ] 3d-carousel — 3D carousel
-- [ ] perspective-scroll — Perspective scroll
-- [ ] 3d-text — 3D text
-- [ ] parallax-3d — 3D parallax layers
+- [ ] 3d-card-flip, 3d-carousel, perspective-scroll
+- [ ] 3d-text, parallax-3d
 
 ---
 

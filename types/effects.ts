@@ -18,7 +18,7 @@ export interface EffectCode {
   css: string;
 }
 
-export type PlaygroundType = "text" | "button" | "hover" | "scroll" | "loading" | "default";
+export type PlaygroundType = "text" | "hover" | "scroll" | "loading" | "default";
 
 export interface Effect {
   id: string;

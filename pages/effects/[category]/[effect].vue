@@ -87,7 +87,8 @@ const breadcrumbs = computed(() => [
       </header>
 
       <!-- Effect Playground - dynamically loads based on playgroundType -->
-      <EffectsPlaygroundsButtonPlayground v-if="playgroundType === 'button'" :effect="effect" />
+      <EffectsPlaygroundsTextPlayground v-if="playgroundType === 'text'" :effect="effect" />
+      <EffectsPlaygroundsHoverPlayground v-else-if="playgroundType === 'hover'" :effect="effect" />
       <EffectsPlaygroundsLoadingPlayground
         v-else-if="playgroundType === 'loading'"
         :effect="effect"

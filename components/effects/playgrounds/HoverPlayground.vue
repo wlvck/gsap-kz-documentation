@@ -6,11 +6,11 @@ const props = defineProps<{
   effect: Effect;
 }>();
 
-const btnRef = ref<HTMLElement | null>(null);
+const elementRef = ref<HTMLElement | null>(null);
 const rippleRef = ref<HTMLElement | null>(null);
 const shineRef = ref<HTMLElement | null>(null);
 
-// Button handlers based on effect type
+// Generic hover effect handlers
 const handlers: Record<
   string,
   {
@@ -22,16 +22,17 @@ const handlers: Record<
     onUp?: (e: MouseEvent) => void;
   }
 > = {
+  // Button effects
   "btn-scale": {
     onEnter: () => {
-      gsap.to(btnRef.value, {
+      gsap.to(elementRef.value, {
         scale: 1.1,
         duration: 0.3,
         ease: "power2.out",
       });
     },
     onLeave: () => {
-      gsap.to(btnRef.value, {
+      gsap.to(elementRef.value, {
         scale: 1,
         duration: 0.3,
         ease: "power2.out",
@@ -40,8 +41,8 @@ const handlers: Record<
   },
   "btn-ripple": {
     onClick: (e: MouseEvent) => {
-      if (!btnRef.value || !rippleRef.value) return;
-      const rect = btnRef.value.getBoundingClientRect();
+      if (!elementRef.value || !rippleRef.value) return;
+      const rect = elementRef.value.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
@@ -64,12 +65,12 @@ const handlers: Record<
   },
   "btn-magnetic": {
     onMove: (e: MouseEvent) => {
-      if (!btnRef.value) return;
-      const rect = btnRef.value.getBoundingClientRect();
+      if (!elementRef.value) return;
+      const rect = elementRef.value.getBoundingClientRect();
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
 
-      gsap.to(btnRef.value, {
+      gsap.to(elementRef.value, {
         x: x * 0.3,
         y: y * 0.3,
         duration: 0.3,
@@ -77,7 +78,7 @@ const handlers: Record<
       });
     },
     onLeave: () => {
-      gsap.to(btnRef.value, {
+      gsap.to(elementRef.value, {
         x: 0,
         y: 0,
         duration: 0.5,
@@ -101,7 +102,7 @@ const handlers: Record<
   },
   "btn-3d-press": {
     onDown: () => {
-      gsap.to(btnRef.value, {
+      gsap.to(elementRef.value, {
         scale: 0.95,
         rotateX: 10,
         boxShadow: "0 2px 10px rgba(0,0,0,0.3)",
@@ -110,7 +111,7 @@ const handlers: Record<
       });
     },
     onUp: () => {
-      gsap.to(btnRef.value, {
+      gsap.to(elementRef.value, {
         scale: 1,
         rotateX: 0,
         boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
@@ -119,9 +120,51 @@ const handlers: Record<
       });
     },
   },
+  // Card effects (for future use)
+  "card-lift": {
+    onEnter: () => {
+      gsap.to(elementRef.value, {
+        y: -10,
+        boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    },
+    onLeave: () => {
+      gsap.to(elementRef.value, {
+        y: 0,
+        boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    },
+  },
+  "card-tilt": {
+    onMove: (e: MouseEvent) => {
+      if (!elementRef.value) return;
+      const rect = elementRef.value.getBoundingClientRect();
+      const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+      const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+
+      gsap.to(elementRef.value, {
+        rotateX: y * -15,
+        rotateY: x * 15,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    },
+    onLeave: () => {
+      gsap.to(elementRef.value, {
+        rotateX: 0,
+        rotateY: 0,
+        duration: 0.5,
+        ease: "elastic.out(1, 0.5)",
+      });
+    },
+  },
 };
 
-const currentHandlers = computed(() => handlers[props.effect.id] || {});
+const currentHandlers = computed(() => handlers[props.effect.id] || handlers["btn-scale"]);
 
 const onMouseEnter = (e: MouseEvent) => currentHandlers.value.onEnter?.(e);
 const onMouseLeave = (e: MouseEvent) => {
@@ -132,6 +175,10 @@ const onMouseMove = (e: MouseEvent) => currentHandlers.value.onMove?.(e);
 const onClick = (e: MouseEvent) => currentHandlers.value.onClick?.(e);
 const onMouseDown = (e: MouseEvent) => currentHandlers.value.onDown?.(e);
 const onMouseUp = (e: MouseEvent) => currentHandlers.value.onUp?.(e);
+
+// Determine element type and styles based on effect category
+const isButton = computed(() => props.effect.category === "button");
+const isCard = computed(() => props.effect.category === "card");
 
 // Get instruction text based on effect
 const instruction = computed(() => {
@@ -146,8 +193,12 @@ const instruction = computed(() => {
       return "Батырмаға hover жасаңыз";
     case "btn-3d-press":
       return "Батырманы басып ұстаңыз";
+    case "card-lift":
+      return "Карточкаға hover жасаңыз";
+    case "card-tilt":
+      return "Курсорды карточка үстінде қозғаңыз";
     default:
-      return "Батырмамен әрекеттесіңіз";
+      return "Элементке hover жасаңыз";
   }
 });
 </script>
@@ -169,9 +220,10 @@ const instruction = computed(() => {
         "
       />
 
-      <!-- Interactive Button -->
+      <!-- Button Element -->
       <button
-        ref="btnRef"
+        v-if="isButton"
+        ref="elementRef"
         type="button"
         class="relative overflow-hidden px-8 py-4 bg-gsap-green text-black font-bold rounded-xl text-lg shadow-lg"
         :style="{
@@ -203,6 +255,35 @@ const instruction = computed(() => {
 
         <span class="relative z-10">{{ effect.defaultText }}</span>
       </button>
+
+      <!-- Card Element -->
+      <div
+        v-else-if="isCard"
+        ref="elementRef"
+        class="relative w-64 h-40 bg-gsap-bg-secondary rounded-xl shadow-lg flex items-center justify-center cursor-pointer"
+        :style="{
+          transformStyle: 'preserve-3d',
+          perspective: '1000px',
+        }"
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave"
+        @mousemove="onMouseMove"
+      >
+        <span class="text-gsap-text-primary font-bold text-xl">{{ effect.defaultText }}</span>
+      </div>
+
+      <!-- Generic Element (fallback) -->
+      <div
+        v-else
+        ref="elementRef"
+        class="relative px-8 py-6 bg-gsap-green text-black font-bold rounded-xl text-xl shadow-lg cursor-pointer"
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave"
+        @mousemove="onMouseMove"
+        @click="onClick"
+      >
+        {{ effect.defaultText }}
+      </div>
 
       <!-- Instruction -->
       <p class="mt-6 text-gsap-text-muted text-sm">
