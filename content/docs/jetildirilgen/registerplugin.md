@@ -103,51 +103,7 @@ gsap.registerPlugin(ScrollTrigger);
 // Енді кез келген файлда қолдануға болады
 ```
 
-## Framework-тарда
-
-### Nuxt.js
-
-```typescript
-// plugins/gsap.client.ts
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Flip } from "gsap/Flip";
-
-export default defineNuxtPlugin(() => {
-  gsap.registerPlugin(ScrollTrigger, Flip);
-
-  return {
-    provide: {
-      gsap,
-      ScrollTrigger,
-    },
-  };
-});
-```
-
-### Next.js
-
-```javascript
-// app/layout.js немесе _app.js
-"use client";
-
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLayoutEffect } from "react";
-
-gsap.registerPlugin(ScrollTrigger);
-
-export default function RootLayout({ children }) {
-  useLayoutEffect(() => {
-    // ScrollTrigger refresh
-    ScrollTrigger.refresh();
-  }, []);
-
-  return <>{children}</>;
-}
-```
-
-### Vue.js
+## Vue.js-те қолдану
 
 ```javascript
 // main.js
@@ -277,12 +233,10 @@ gsap.to(".box", {
 ### SSR қателері
 
 ```javascript
-// Nuxt/Next.js-те
+// SSR қолдайтын фреймворктарда
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
-
-// Немесе .client.ts файлын қолдану (Nuxt)
 ```
 
 ## Кеңестер

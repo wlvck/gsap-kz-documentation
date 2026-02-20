@@ -15,7 +15,7 @@ ScrollTrigger-де көптеген параметрлер бар. Бұл бет
 scrollTrigger: {
   trigger: ".box",        // CSS селектор
   trigger: element,       // DOM элемент
-  trigger: ref.current,   // React ref
+  trigger: boxRef.value,  // Vue ref
 }
 ```
 

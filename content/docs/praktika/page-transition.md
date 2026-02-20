@@ -210,33 +210,7 @@ document.querySelectorAll("a").forEach((link) => {
 });
 ```
 
-## Nuxt/Vue Router
-
-```javascript
-// plugins/page-transition.client.ts
-export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.hook("page:start", () => {
-    // Бет ауысу басталғанда
-    gsap.to(".page-content", {
-      opacity: 0,
-      y: -30,
-      duration: 0.3,
-    });
-  });
-
-  nuxtApp.hook("page:finish", () => {
-    // Жаңа бет жүктелгенде
-    gsap.from(".page-content", {
-      opacity: 0,
-      y: 30,
-      duration: 0.5,
-      delay: 0.1,
-    });
-  });
-});
-```
-
-### Vue transition компоненті
+## Vue Router transition
 
 ```vue
 <template>

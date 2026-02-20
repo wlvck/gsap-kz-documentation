@@ -39,7 +39,7 @@ Elastic easing-тегі тербеліс биіктігі. Үлкен ампли
 
 ### Cleanup
 
-Анимацияларды жою процесі. React/Vue компоненттерде маңызды.
+Анимацияларды жою процесі. Vue компоненттерде маңызды.
 
 ### Context
 
@@ -117,7 +117,7 @@ gsap.to(".box", { x: 100, force3D: true });
 
 ### Hook
 
-React/Vue-дағы lifecycle әдістері. GSAP cleanup үшін маңызды.
+Vue-дағы lifecycle әдістері. GSAP cleanup үшін маңызды.
 
 ## I
 

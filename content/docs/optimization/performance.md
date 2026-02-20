@@ -211,7 +211,7 @@ ScrollTrigger.killAll();
 ### Context қолдану
 
 ```javascript
-// React/Vue компоненттерде
+// Vue компоненттерде
 const ctx = gsap.context(() => {
   gsap.to(".box", { x: 100 });
   ScrollTrigger.create({ ... });

@@ -5,7 +5,7 @@ description: GSAP context - анимацияларды топтау, скопт�
 
 # gsap.context()
 
-**gsap.context()** — анимацияларды топтауға, скоптауға және бір әрекетпен тазалауға мүмкіндік береді. React, Vue сияқты фреймворктарда өте пайдалы.
+**gsap.context()** — анимацияларды топтауға, скоптауға және бір әрекетпен тазалауға мүмкіндік береді. Vue сияқты фреймворктарда өте пайдалы.
 
 ## Неге context қажет?
 
@@ -91,34 +91,6 @@ ctx.revert();
 ctx.kill();
 ```
 
-## React-та қолдану
-
-```jsx
-import { useLayoutEffect, useRef } from "react";
-import gsap from "gsap";
-
-function MyComponent() {
-  const containerRef = useRef();
-
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.to(".box", { x: 100 });
-      gsap.to(".title", { opacity: 1 });
-    }, containerRef);
-
-    // Cleanup
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <div ref={containerRef}>
-      <div className="box">Box</div>
-      <h1 className="title">Title</h1>
-    </div>
-  );
-}
-```
-
 ## Vue-да қолдану
 
 ```vue
@@ -147,27 +119,6 @@ onUnmounted(() => {
     <h1 class="title">Title</h1>
   </div>
 </template>
-```
-
-## Nuxt-та қолдану
-
-```vue
-<script setup>
-import gsap from "gsap";
-
-const container = ref(null);
-let ctx;
-
-onMounted(() => {
-  ctx = gsap.context(() => {
-    gsap.to(".box", { x: 100 });
-  }, container.value);
-});
-
-onUnmounted(() => {
-  ctx?.revert();
-});
-</script>
 ```
 
 ## Параметрлер

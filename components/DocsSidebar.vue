@@ -94,10 +94,7 @@ const navigation: NavGroup[] = [
   {
     title: "Фреймворктар",
     key: "freimworktar",
-    items: [
-      { title: "React", to: "/docs/freimworktar/react" },
-      { title: "Vue", to: "/docs/freimworktar/vue" },
-    ],
+    items: [{ title: "Vue", to: "/docs/freimworktar/vue" }],
   },
   {
     title: "SVG Анимация",
@@ -215,13 +212,13 @@ watch(
   <aside
     :class="[
       'fixed top-0 left-0 z-40 h-full w-72 bg-gsap-bg-secondary border-r border-gsap-border',
-      'transform transition-transform duration-300 ease-in-out',
+      'transform transition-transform duration-300 ease-in-out flex flex-col',
       'lg:translate-x-0',
       isOpen ? 'translate-x-0' : '-translate-x-full',
     ]"
   >
     <!-- Logo -->
-    <div class="flex items-center gap-3 px-6 py-6 border-b border-gsap-border">
+    <div class="flex items-center gap-3 px-6 py-6 border-b border-gsap-border shrink-0">
       <NuxtLink to="/" class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-lg bg-gsap-green flex items-center justify-center">
           <span class="text-gsap-bg-primary font-bold text-lg">G</span>
@@ -234,12 +231,12 @@ watch(
     </div>
 
     <!-- Search -->
-    <div class="px-4 py-4 border-b border-gsap-border">
+    <div class="px-4 py-4 border-b border-gsap-border shrink-0">
       <DocsSearch />
     </div>
 
     <!-- Navigation -->
-    <nav class="px-4 py-4 overflow-y-auto h-[calc(100%-88px-72px-60px)]">
+    <nav class="px-4 py-4 overflow-y-auto flex-1 min-h-0">
       <div v-for="group in navigation" :key="group.key" class="mb-2">
         <!-- Group Header (Collapsible) -->
         <button
@@ -298,9 +295,7 @@ watch(
     </nav>
 
     <!-- Footer -->
-    <div
-      class="absolute bottom-0 left-0 right-0 px-6 py-4 border-t border-gsap-border bg-gsap-bg-secondary"
-    >
+    <div class="px-6 py-4 border-t border-gsap-border bg-gsap-bg-secondary shrink-0">
       <a
         href="https://github.com"
         target="_blank"

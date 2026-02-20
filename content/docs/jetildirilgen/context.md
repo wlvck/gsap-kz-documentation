@@ -5,7 +5,7 @@ description: gsap.context() арқылы анимацияларды топтау
 
 # GSAP Context
 
-`gsap.context()` — анимацияларды топтап, бірге басқаруға мүмкіндік береді. React, Vue сияқты фреймворктарда өте пайдалы.
+`gsap.context()` — анимацияларды топтап, бірге басқаруға мүмкіндік береді. Vue сияқты фреймворктарда өте пайдалы.
 
 ## Негізгі қолдану
 
@@ -77,34 +77,6 @@ const ctx = gsap.context(() => {
 const ctx = gsap.context(() => {
   gsap.to(".box", { x: 100 });
 }, "#section1");
-```
-
-## React-та қолдану
-
-```jsx
-import { useLayoutEffect, useRef } from "react";
-import gsap from "gsap";
-
-function MyComponent() {
-  const containerRef = useRef();
-
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".box", { opacity: 0, y: 50 });
-      gsap.to(".circle", { rotation: 360, repeat: -1 });
-    }, containerRef);
-
-    // Cleanup — компонент жойылғанда
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <div ref={containerRef}>
-      <div className="box">Box</div>
-      <div className="circle">Circle</div>
-    </div>
-  );
-}
 ```
 
 ## Vue-да қолдану

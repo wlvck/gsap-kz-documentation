@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
   gsap.to(".box", { x: 100 });
 });
 
-// Немесе Vue/React-та
+// Немесе Vue-да
 onMounted(() => {
   gsap.to(".box", { x: 100 });
 });
@@ -67,10 +67,7 @@ ReferenceError: document is not defined
 ### Шешім
 
 ```javascript
-// Nuxt-та .client.ts файлы қолдану
-// plugins/gsap.client.ts
-
-// Немесе тексеру
+// SSR қолдайтын фреймворктарда window тексеру
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
@@ -131,23 +128,27 @@ fetch("/api/content").then((data) => {
 ### Қате
 
 ```javascript
-// React компонентінде cleanup жоқ
-useEffect(() => {
+// Vue компонентінде cleanup жоқ
+onMounted(() => {
   gsap.to(".box", { x: 100, repeat: -1 });
   // Компонент unmount болғанда анимация тоқтамайды
-}, []);
+});
 ```
 
 ### Шешім
 
 ```javascript
-useEffect(() => {
-  const ctx = gsap.context(() => {
+let ctx;
+
+onMounted(() => {
+  ctx = gsap.context(() => {
     gsap.to(".box", { x: 100, repeat: -1 });
   });
+});
 
-  return () => ctx.revert(); // Cleanup
-}, []);
+onUnmounted(() => {
+  ctx?.revert(); // Cleanup
+});
 ```
 
 ## 7. Selector қатесі

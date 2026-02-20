@@ -179,31 +179,6 @@ const ctx = gsap.context(() => {
 ctx.revert();
 ```
 
-## React-та қолдану
-
-```jsx
-import { useLayoutEffect } from "react";
-import gsap from "gsap";
-
-function ResponsiveComponent() {
-  useLayoutEffect(() => {
-    const mm = gsap.matchMedia();
-
-    mm.add("(min-width: 800px)", () => {
-      gsap.to(".box", { x: 200 });
-    });
-
-    mm.add("(max-width: 799px)", () => {
-      gsap.to(".box", { x: 100 });
-    });
-
-    return () => mm.revert();
-  }, []);
-
-  return <div className="box">Responsive Box</div>;
-}
-```
-
 ## Vue-да қолдану
 
 ```vue
@@ -271,4 +246,4 @@ mm.add(
 
 ## Келесі қадам
 
-[React](/docs/freimworktar/react) немесе [Vue](/docs/freimworktar/vue) фреймворкінде GSAP қолдануды үйреніңіз.
+[Vue](/docs/freimworktar/vue) фреймворкінде GSAP қолдануды үйреніңіз.
