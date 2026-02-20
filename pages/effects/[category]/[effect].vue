@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getEffect, getCategoryMeta, getEffectsByCategory } from "~/data/effects";
-import type { EffectCategory } from "~/types/effects";
+import type { EffectCategory, PlaygroundType } from "~/types/effects";
 
 definePageMeta({
   layout: "effects",
@@ -13,6 +13,11 @@ const effectId = computed(() => route.params.effect as string);
 const effect = computed(() => getEffect(category.value, effectId.value));
 const categoryMeta = computed(() => getCategoryMeta(category.value));
 const categoryEffects = computed(() => getEffectsByCategory(category.value));
+
+// Determine which playground component to use
+const playgroundType = computed<PlaygroundType>(() => {
+  return effect.value?.playgroundType || "text";
+});
 
 // Find prev/next effects for navigation
 const currentIndex = computed(() =>
@@ -81,8 +86,9 @@ const breadcrumbs = computed(() => [
         </p>
       </header>
 
-      <!-- Effect Playground -->
-      <EffectsEffectPlayground :effect="effect" />
+      <!-- Effect Playground - dynamically loads based on playgroundType -->
+      <EffectsPlaygroundsButtonPlayground v-if="playgroundType === 'button'" :effect="effect" />
+      <EffectsEffectPlayground v-else :effect="effect" />
 
       <!-- Navigation -->
       <div class="mt-8 flex items-center justify-between gap-4">

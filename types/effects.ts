@@ -18,6 +18,8 @@ export interface EffectCode {
   css: string;
 }
 
+export type PlaygroundType = "text" | "button" | "hover" | "scroll" | "loading" | "default";
+
 export interface Effect {
   id: string;
   name: string;
@@ -27,6 +29,7 @@ export interface Effect {
   descriptionKz: string;
   code: EffectCode;
   defaultText: string;
+  playgroundType?: PlaygroundType;
 }
 
 export interface CategoryMeta {

@@ -9,6 +9,7 @@ export const buttonEffects: Effect[] = [
     description: "Scale button on hover",
     descriptionKz: "Hover кезінде батырманы үлкейту",
     defaultText: "Батырма",
+    playgroundType: "button",
     code: {
       vue: `<template>
   <button
@@ -54,6 +55,7 @@ const onLeave = () => {
     description: "Material design ripple effect",
     descriptionKz: "Material design толқын эффектісі",
     defaultText: "Батырма",
+    playgroundType: "button",
     code: {
       vue: `<template>
   <button
@@ -106,6 +108,7 @@ const onClick = (e: MouseEvent) => {
     description: "Button follows cursor like magnet",
     descriptionKz: "Батырма курсорды магнит сияқты ұстайды",
     defaultText: "Магнит",
+    playgroundType: "button",
     code: {
       vue: `<template>
   <button
@@ -157,6 +160,7 @@ const onLeave = () => {
     description: "Shine sweep across button",
     descriptionKz: "Батырма бойынша жарық өтеді",
     defaultText: "Жарқырау",
+    playgroundType: "button",
     code: {
       vue: `<template>
   <button
@@ -204,6 +208,7 @@ const onEnter = () => {
     description: "3D button press effect",
     descriptionKz: "3D батырма басу эффектісі",
     defaultText: "3D Батырма",
+    playgroundType: "button",
     code: {
       vue: `<template>
   <button
