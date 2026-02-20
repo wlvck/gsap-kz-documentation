@@ -84,16 +84,29 @@ const highlightVue = (code: string): string => {
 };
 
 const highlightJS = (code: string): string => {
-  // Strings first (to avoid conflicts)
-  code = code.replace(/('[^']*')/g, '<span class="hl-string">$1</span>');
-  code = code.replace(/(&quot;[^&]*&quot;)/g, '<span class="hl-string">$1</span>');
-  code = code.replace(/(`[^`]*`)/g, '<span class="hl-string">$1</span>');
+  // Use placeholder system to protect already-highlighted content
+  // This prevents keywords like "class" from matching inside span tags
+  const placeholders: string[] = [];
+  const addPlaceholder = (content: string): string => {
+    const index = placeholders.length;
+    placeholders.push(content);
+    return `__HL_PLACEHOLDER_${index}__`;
+  };
 
-  // Comments
-  code = code.replace(/(\/\/.*$)/gm, '<span class="hl-comment">$1</span>');
-  code = code.replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="hl-comment">$1</span>');
+  // Strings - wrap and protect with placeholders
+  code = code.replace(/('[^']*')/g, (m) => addPlaceholder(`<span class="hl-string">${m}</span>`));
+  code = code.replace(/(&quot;[^&]*&quot;)/g, (m) =>
+    addPlaceholder(`<span class="hl-string">${m}</span>`)
+  );
+  code = code.replace(/(`[^`]*`)/g, (m) => addPlaceholder(`<span class="hl-string">${m}</span>`));
 
-  // Keywords
+  // Comments - wrap and protect with placeholders
+  code = code.replace(/(\/\/.*$)/gm, (m) => addPlaceholder(`<span class="hl-comment">${m}</span>`));
+  code = code.replace(/(\/\*[\s\S]*?\*\/)/g, (m) =>
+    addPlaceholder(`<span class="hl-comment">${m}</span>`)
+  );
+
+  // Keywords - now safe since strings/comments are placeholders
   const keywords =
     "\\b(import|export|from|const|let|var|function|return|if|else|for|while|class|new|this|async|await|default|true|false|null|undefined|of|in)\\b";
   code = code.replace(new RegExp(keywords, "g"), '<span class="hl-keyword">$1</span>');
@@ -111,6 +124,9 @@ const highlightJS = (code: string): string => {
 
   // Arrow functions
   code = code.replace(/(=&gt;)/g, '<span class="hl-keyword">$1</span>');
+
+  // Restore placeholders
+  code = code.replace(/__HL_PLACEHOLDER_(\d+)__/g, (_, index) => placeholders[parseInt(index)]);
 
   return code;
 };
