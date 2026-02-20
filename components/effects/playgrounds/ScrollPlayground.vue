@@ -410,21 +410,18 @@ const onMouseMove = (e: MouseEvent) => {
       <!-- Scrollable container -->
       <div
         ref="containerRef"
-        class="h-[400px] overflow-y-auto bg-gsap-bg-tertiary"
-        style="scroll-behavior: smooth"
+        class="relative h-[400px] overflow-y-auto isolate"
+        style="
+          scroll-behavior: smooth;
+          overscroll-behavior: contain;
+          background-color: #1c1e1d;
+          background-image:
+            linear-gradient(rgba(42, 45, 43, 0.3) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(42, 45, 43, 0.3) 1px, transparent 1px);
+          background-size: 20px 20px;
+        "
         @mousemove="onMouseMove"
       >
-        <!-- Grid Background -->
-        <div
-          class="absolute inset-0 opacity-10 pointer-events-none"
-          style="
-            background-image:
-              linear-gradient(#2a2d2b 1px, transparent 1px),
-              linear-gradient(90deg, #2a2d2b 1px, transparent 1px);
-            background-size: 20px 20px;
-          "
-        />
-
         <!-- Top spacer -->
         <div class="h-[300px] flex items-center justify-center">
           <p class="text-gsap-text-muted">Төменге скролл жасаңыз</p>
