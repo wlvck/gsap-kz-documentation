@@ -10,6 +10,19 @@ const elementRef = ref<HTMLElement | null>(null);
 const rippleRef = ref<HTMLElement | null>(null);
 const shineRef = ref<HTMLElement | null>(null);
 const lineRef = ref<HTMLElement | null>(null);
+const bgRef = ref<HTMLElement | null>(null);
+const borderRef = ref<HTMLElement | null>(null);
+const iconRef = ref<HTMLElement | null>(null);
+const line1Ref = ref<HTMLElement | null>(null);
+const line2Ref = ref<HTMLElement | null>(null);
+const line3Ref = ref<HTMLElement | null>(null);
+const checkRef = ref<HTMLElement | null>(null);
+
+// State for stateful buttons
+const loading = ref(false);
+const success = ref(false);
+const error = ref(false);
+const isMenuOpen = ref(false);
 
 // Generic hover effect handlers
 const handlers: Record<
@@ -182,6 +195,157 @@ const handlers: Record<
       });
     },
   },
+  // New button effects
+  "btn-bg-slide": {
+    onEnter: () => {
+      if (!bgRef.value) return;
+      gsap.to(bgRef.value, {
+        xPercent: 0,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    },
+    onLeave: () => {
+      if (!bgRef.value) return;
+      gsap.to(bgRef.value, {
+        xPercent: 100,
+        duration: 0.3,
+        ease: "power2.in",
+      });
+    },
+  },
+  "btn-border": {
+    onEnter: () => {
+      if (!borderRef.value) return;
+      gsap.to(borderRef.value, {
+        clipPath: "inset(0 0% 0 0)",
+        duration: 0.4,
+        ease: "power2.out",
+      });
+    },
+    onLeave: () => {
+      if (!borderRef.value) return;
+      gsap.to(borderRef.value, {
+        clipPath: "inset(0 100% 0 0)",
+        duration: 0.4,
+        ease: "power2.in",
+      });
+    },
+  },
+  "btn-click": {
+    onClick: () => {
+      gsap
+        .timeline()
+        .to(elementRef.value, {
+          scale: 0.9,
+          duration: 0.1,
+          ease: "power2.in",
+        })
+        .to(elementRef.value, {
+          scale: 1,
+          duration: 0.4,
+          ease: "elastic.out(1, 0.4)",
+        });
+    },
+  },
+  "btn-loading": {
+    onClick: () => {
+      loading.value = true;
+      const spinner = elementRef.value?.querySelector(".spinner-icon");
+      if (spinner) {
+        gsap.to(spinner, {
+          rotation: 360 * 3,
+          duration: 2,
+          ease: "none",
+          onComplete: () => {
+            loading.value = false;
+            gsap.set(spinner, { rotation: 0 });
+          },
+        });
+      }
+    },
+  },
+  "btn-success": {
+    onClick: () => {
+      success.value = true;
+      nextTick(() => {
+        if (checkRef.value) {
+          gsap.fromTo(
+            checkRef.value,
+            { scale: 0, rotation: -180 },
+            {
+              scale: 1,
+              rotation: 0,
+              duration: 0.5,
+              ease: "back.out(1.7)",
+              onComplete: () => {
+                setTimeout(() => {
+                  success.value = false;
+                }, 1500);
+              },
+            }
+          );
+        }
+      });
+    },
+  },
+  "btn-error": {
+    onClick: () => {
+      error.value = true;
+      gsap.to(elementRef.value, {
+        x: [-10, 10, -10, 10, 0],
+        duration: 0.4,
+        ease: "power2.inOut",
+        onComplete: () => {
+          setTimeout(() => {
+            error.value = false;
+          }, 1500);
+        },
+      });
+    },
+  },
+  "btn-icon-rotate": {
+    onEnter: () => {
+      if (!iconRef.value) return;
+      gsap.to(iconRef.value, {
+        rotation: 360,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    },
+    onLeave: () => {
+      if (!iconRef.value) return;
+      gsap.to(iconRef.value, {
+        rotation: 0,
+        duration: 0.3,
+        ease: "power2.in",
+      });
+    },
+  },
+  "btn-icon-morph": {
+    onClick: () => {
+      isMenuOpen.value = !isMenuOpen.value;
+      if (isMenuOpen.value) {
+        gsap.to(line1Ref.value, { y: 8, rotation: 45, duration: 0.3 });
+        gsap.to(line2Ref.value, { opacity: 0, duration: 0.2 });
+        gsap.to(line3Ref.value, { y: -8, rotation: -45, duration: 0.3 });
+      } else {
+        gsap.to(line1Ref.value, { y: 0, rotation: 0, duration: 0.3 });
+        gsap.to(line2Ref.value, { opacity: 1, duration: 0.2 });
+        gsap.to(line3Ref.value, { y: 0, rotation: 0, duration: 0.3 });
+      }
+    },
+  },
+  "btn-icon-bounce": {
+    onEnter: () => {
+      if (!iconRef.value) return;
+      gsap.to(iconRef.value, {
+        y: [0, 5, 0, 3, 0],
+        duration: 0.6,
+        ease: "power2.out",
+      });
+    },
+  },
 };
 
 const currentHandlers = computed(() => handlers[props.effect.id] || handlers["btn-scale"]);
@@ -214,6 +378,24 @@ const instruction = computed(() => {
       return "Батырмаға hover жасаңыз";
     case "btn-3d-press":
       return "Батырманы басып ұстаңыз";
+    case "btn-bg-slide":
+      return "Батырмаға hover жасаңыз";
+    case "btn-border":
+      return "Батырмаға hover жасаңыз";
+    case "btn-click":
+      return "Батырманы басыңыз";
+    case "btn-loading":
+      return "Батырманы басыңыз - жүктелу анимациясы";
+    case "btn-success":
+      return "Батырманы басыңыз - сәтті орындалу";
+    case "btn-error":
+      return "Батырманы басыңыз - қате анимациясы";
+    case "btn-icon-rotate":
+      return "Батырмаға hover жасаңыз - иконка айналады";
+    case "btn-icon-morph":
+      return "Батырманы басыңыз - иконка өзгереді";
+    case "btn-icon-bounce":
+      return "Батырмаға hover жасаңыз - иконка секіреді";
     case "card-lift":
       return "Карточкаға hover жасаңыз";
     case "card-tilt":
@@ -224,6 +406,15 @@ const instruction = computed(() => {
       return "Элементке hover жасаңыз";
   }
 });
+
+// Determine which special elements are needed
+const needsBgSlide = computed(() => props.effect.id === "btn-bg-slide");
+const needsBorder = computed(() => props.effect.id === "btn-border");
+const needsIcon = computed(() => ["btn-icon-rotate", "btn-icon-bounce"].includes(props.effect.id));
+const needsIconMorph = computed(() => props.effect.id === "btn-icon-morph");
+const isLoadingBtn = computed(() => props.effect.id === "btn-loading");
+const isSuccessBtn = computed(() => props.effect.id === "btn-success");
+const isErrorBtn = computed(() => props.effect.id === "btn-error");
 </script>
 
 <template>
@@ -248,11 +439,21 @@ const instruction = computed(() => {
         v-if="isButton"
         ref="elementRef"
         type="button"
-        class="relative overflow-hidden px-8 py-4 bg-gsap-green text-black font-bold rounded-xl text-lg shadow-lg"
+        class="relative overflow-hidden px-8 py-4 font-bold rounded-xl text-lg shadow-lg"
+        :class="[
+          needsBgSlide || needsBorder
+            ? 'bg-transparent text-gsap-text-primary border-2 border-gsap-green'
+            : isErrorBtn && error
+              ? 'bg-red-500 text-white'
+              : isSuccessBtn && success
+                ? 'bg-green-600 text-white'
+                : 'bg-gsap-green text-black',
+        ]"
         :style="{
           transformStyle: effect.id === 'btn-3d-press' ? 'preserve-3d' : undefined,
           perspective: effect.id === 'btn-3d-press' ? '500px' : undefined,
         }"
+        :disabled="isLoadingBtn && loading"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
         @mousemove="onMouseMove"
@@ -276,7 +477,72 @@ const instruction = computed(() => {
           style="transform: translateX(-100%)"
         />
 
-        <span class="relative z-10">{{ effect.defaultText }}</span>
+        <!-- Background slide element -->
+        <span
+          v-if="needsBgSlide"
+          ref="bgRef"
+          class="absolute inset-0 bg-gsap-green pointer-events-none"
+          style="transform: translateX(-100%)"
+        />
+
+        <!-- Border animation element -->
+        <span
+          v-if="needsBorder"
+          ref="borderRef"
+          class="absolute inset-0 border-2 border-gsap-green rounded-xl pointer-events-none"
+          style="clip-path: inset(0 100% 0 0)"
+        />
+
+        <!-- Icon for icon effects -->
+        <span v-if="needsIcon" class="flex items-center gap-2">
+          <span ref="iconRef" class="text-xl">{{
+            effect.id === "btn-icon-rotate" ? "↻" : "↓"
+          }}</span>
+          <span class="relative z-10">{{ effect.defaultText }}</span>
+        </span>
+
+        <!-- Icon morph (hamburger to X) -->
+        <span v-else-if="needsIconMorph" class="flex items-center gap-2">
+          <span class="relative w-6 h-6">
+            <span ref="line1Ref" class="absolute w-6 h-0.5 bg-current top-1 left-0" />
+            <span
+              ref="line2Ref"
+              class="absolute w-6 h-0.5 bg-current top-1/2 -translate-y-1/2 left-0"
+            />
+            <span ref="line3Ref" class="absolute w-6 h-0.5 bg-current bottom-1 left-0" />
+          </span>
+          <span class="relative z-10">{{ effect.defaultText }}</span>
+        </span>
+
+        <!-- Loading button -->
+        <span v-else-if="isLoadingBtn" class="relative min-w-[100px]">
+          <span :class="{ 'opacity-0': loading }">{{ effect.defaultText }}</span>
+          <span v-if="loading" class="absolute inset-0 flex items-center justify-center">
+            <span
+              class="spinner-icon w-5 h-5 border-2 border-black/30 border-t-black rounded-full"
+            />
+          </span>
+        </span>
+
+        <!-- Success button -->
+        <span v-else-if="isSuccessBtn" class="relative min-w-[100px]">
+          <span :class="{ 'opacity-0': success }">{{ effect.defaultText }}</span>
+          <span
+            v-if="success"
+            ref="checkRef"
+            class="absolute inset-0 flex items-center justify-center text-2xl"
+          >
+            ✓
+          </span>
+        </span>
+
+        <!-- Error button -->
+        <span v-else-if="isErrorBtn">
+          {{ error ? "Қате!" : effect.defaultText }}
+        </span>
+
+        <!-- Default text -->
+        <span v-else class="relative z-10">{{ effect.defaultText }}</span>
       </button>
 
       <!-- Text Link Element (hover-underline) -->

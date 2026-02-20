@@ -254,12 +254,12 @@
 - [x] parallax-multi, parallax-bg, parallax-mouse
 - [x] pin-animation, horizontal-scroll
 
-### Button (Батырма) — 5/14 done
+### Button (Батырма) — 14/14 done ✅
 
 - [x] btn-scale, btn-bg-slide, btn-border, btn-ripple, btn-magnetic
-- [ ] btn-shine, btn-3d-press
-- [ ] btn-click, btn-loading, btn-success, btn-error
-- [ ] btn-icon-rotate, btn-icon-morph, btn-icon-bounce
+- [x] btn-shine, btn-3d-press
+- [x] btn-click, btn-loading, btn-success, btn-error
+- [x] btn-icon-rotate, btn-icon-morph, btn-icon-bounce
 
 ### Loading (Жүктелу) — 5/14 done
 
