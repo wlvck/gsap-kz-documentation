@@ -1969,7 +1969,7 @@ onMounted(() => {
         <div
           ref="cursorRef"
           class="absolute w-8 h-8 bg-gsap-green rounded-full pointer-events-none"
-          style="opacity: 0; transform: scale(0)"
+          style="left: 0; top: 0; opacity: 0; transform: scale(0)"
         />
         <span class="text-gsap-text-primary text-xl">Move cursor here</span>
       </div>
@@ -1986,12 +1986,12 @@ onMounted(() => {
         <div
           ref="cursorRef"
           class="absolute w-2 h-2 bg-gsap-green rounded-full pointer-events-none"
-          style="opacity: 0; transform: scale(0)"
+          style="left: 0; top: 0; opacity: 0; transform: scale(0)"
         />
         <div
           ref="cursorFollowerRef"
           class="absolute w-10 h-10 border-2 border-gsap-green rounded-full pointer-events-none"
-          style="opacity: 0; transform: scale(0)"
+          style="left: 0; top: 0; opacity: 0; transform: scale(0)"
         />
         <span class="text-gsap-text-primary text-xl">Dual cursor effect</span>
       </div>
@@ -2023,7 +2023,7 @@ onMounted(() => {
         <div
           ref="cursorRef"
           class="absolute w-24 h-24 pointer-events-none"
-          style="opacity: 0; transform: scale(0)"
+          style="left: 0; top: 0; opacity: 0; transform: scale(0)"
         >
           <svg viewBox="0 0 100 100" class="w-full h-full">
             <defs>
@@ -2049,7 +2049,7 @@ onMounted(() => {
         <div
           ref="cursorRef"
           class="absolute w-20 h-20 bg-gsap-green rounded-full pointer-events-none mix-blend-difference"
-          style="opacity: 0; transform: scale(0)"
+          style="left: 0; top: 0; opacity: 0; transform: scale(0)"
         />
         <span class="text-gsap-bg-primary text-2xl font-bold">Blend mode cursor</span>
       </div>
@@ -2072,7 +2072,7 @@ onMounted(() => {
             }
           "
           class="absolute w-2 h-2 bg-gsap-green rounded-full pointer-events-none"
-          :style="{ opacity: 1 - i * 0.08 }"
+          :style="{ left: 0, top: 0, opacity: 1 - i * 0.08 }"
         />
         <span class="text-gsap-text-primary text-xl">Trail effect</span>
       </div>
