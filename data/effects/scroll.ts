@@ -9,6 +9,7 @@ export const scrollEffects: Effect[] = [
     description: "Fade in when element enters viewport",
     descriptionKz: "Элемент экранға кіргенде пайда болу",
     defaultText: "GSAP Қазақша құжаттама",
+    playgroundType: "scroll",
     code: {
       vue: `<template>
   <div ref="triggerRef" class="min-h-[200vh] flex items-center justify-center">
@@ -59,6 +60,7 @@ onUnmounted(() => {
     description: "Slide up when element enters viewport",
     descriptionKz: "Элемент экранға кіргенде жоғары сырғу",
     defaultText: "GSAP Қазақша құжаттама",
+    playgroundType: "scroll",
     code: {
       vue: `<template>
   <div ref="triggerRef" class="min-h-[200vh] flex items-center justify-center">
@@ -110,6 +112,7 @@ onUnmounted(() => {
     description: "Simple parallax effect on scroll",
     descriptionKz: "Скролл кезінде қарапайым параллакс эффект",
     defaultText: "GSAP Қазақша құжаттама",
+    playgroundType: "scroll",
     code: {
       vue: `<template>
   <div ref="containerRef" class="h-[300vh] relative">
@@ -163,6 +166,7 @@ onUnmounted(() => {
     description: "Pin element while scrolling",
     descriptionKz: "Скролл кезінде элементті бекіту",
     defaultText: "GSAP Қазақша құжаттама",
+    playgroundType: "scroll",
     code: {
       vue: `<template>
   <div>
@@ -221,6 +225,7 @@ onUnmounted(() => {
     description: "Progress bar based on scroll position",
     descriptionKz: "Скролл позициясына байланысты прогресс бар",
     defaultText: "100",
+    playgroundType: "scroll",
     code: {
       vue: `<template>
   <div>

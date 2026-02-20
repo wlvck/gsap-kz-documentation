@@ -9,6 +9,7 @@ export const loadingEffects: Effect[] = [
     description: "Animated loading spinner",
     descriptionKz: "Анимациялы жүктеу спиннері",
     defaultText: "Жүктелуде",
+    playgroundType: "loading",
     code: {
       vue: `<template>
   <div class="flex flex-col items-center gap-4">
@@ -51,6 +52,7 @@ onUnmounted(() => {
     description: "Animated progress bar",
     descriptionKz: "Анимациялы прогресс бары",
     defaultText: "75",
+    playgroundType: "loading",
     code: {
       vue: `<template>
   <div class="w-64">
@@ -94,6 +96,7 @@ onMounted(() => {
     description: "Skeleton loading animation",
     descriptionKz: "Скелетон жүктеу анимациясы",
     defaultText: "Контент",
+    playgroundType: "loading",
     code: {
       vue: `<template>
   <div class="space-y-4 w-64">
@@ -143,6 +146,7 @@ onUnmounted(() => {
     description: "Bouncing dots loading animation",
     descriptionKz: "Секіретін нүктелер анимациясы",
     defaultText: "Жүктелуде",
+    playgroundType: "loading",
     code: {
       vue: `<template>
   <div class="flex items-center gap-2">
@@ -193,6 +197,7 @@ onUnmounted(() => {
     description: "Pulsing loading animation",
     descriptionKz: "Пульсациялық жүктеу анимациясы",
     defaultText: "Жүктелуде",
+    playgroundType: "loading",
     code: {
       vue: `<template>
   <div class="relative flex items-center justify-center">
