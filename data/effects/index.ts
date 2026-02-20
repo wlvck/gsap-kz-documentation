@@ -4,6 +4,7 @@ import { textEffects } from "./text";
 import { scrollEffects } from "./scroll";
 import { buttonEffects } from "./button";
 import { loadingEffects } from "./loading";
+import { imageEffects } from "./image";
 
 // All effects registry
 const allEffects: Effect[] = [
@@ -11,6 +12,7 @@ const allEffects: Effect[] = [
   ...scrollEffects,
   ...buttonEffects,
   ...loadingEffects,
+  ...imageEffects,
 ];
 
 // Get all effects

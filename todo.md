@@ -268,13 +268,13 @@
 - [x] page-fade, page-slide, page-curtain, page-circle, page-diagonal
 - [x] lazy-reveal, placeholder, image-lazy
 
-### Image (Сурет) — 0/17
+### Image (Сурет) — 17/17 done ✅
 
-- [ ] image-fade, image-clip, image-mask, image-slide, image-curtain
-- [ ] image-zoom-hover, image-pan-hover, image-tilt
-- [ ] image-overlay, image-caption
-- [ ] slider-basic, slider-infinite, slider-draggable
-- [ ] lightbox, masonry-reveal, image-crossfade, before-after
+- [x] image-fade, image-clip, image-mask, image-slide, image-curtain
+- [x] image-zoom-hover, image-pan-hover, image-tilt
+- [x] image-overlay, image-caption
+- [x] slider-basic, slider-infinite, slider-draggable
+- [x] lightbox, masonry-reveal, image-crossfade, before-after
 
 ### Card (Карточка) — 0/13
 

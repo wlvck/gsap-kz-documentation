@@ -97,6 +97,7 @@ const breadcrumbs = computed(() => [
         v-else-if="playgroundType === 'scroll'"
         :effect="effect"
       />
+      <EffectsPlaygroundsImagePlayground v-else-if="playgroundType === 'image'" :effect="effect" />
       <EffectsEffectPlayground v-else :effect="effect" />
 
       <!-- Navigation -->
