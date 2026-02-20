@@ -2106,16 +2106,25 @@ onMounted(() => {
       </label>
 
       <!-- Micro: Toggle -->
-      <div
+      <button
         v-else-if="isToggle"
-        class="flex items-center gap-4 cursor-pointer"
+        type="button"
+        class="flex items-center gap-4 cursor-pointer bg-transparent border-none"
         @click="toggleSwitch"
       >
-        <div ref="toggleTrackRef" class="w-14 h-7 bg-gsap-border rounded-full p-0.5">
-          <div ref="toggleThumbRef" class="w-6 h-6 bg-gsap-text-primary rounded-full" />
+        <div
+          ref="toggleTrackRef"
+          class="w-14 h-7 bg-gsap-border rounded-full p-0.5 pointer-events-none"
+        >
+          <div
+            ref="toggleThumbRef"
+            class="w-6 h-6 bg-gsap-text-primary rounded-full pointer-events-none"
+          />
         </div>
-        <span class="text-gsap-text-primary">{{ isToggleOn ? "ON" : "OFF" }}</span>
-      </div>
+        <span class="text-gsap-text-primary pointer-events-none">{{
+          isToggleOn ? "ON" : "OFF"
+        }}</span>
+      </button>
 
       <!-- Micro: Select -->
       <div v-else-if="isSelect" class="relative w-64">
