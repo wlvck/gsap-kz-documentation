@@ -62,23 +62,43 @@ const escapeHtml = (str: string): string => {
 };
 
 const highlightVue = (code: string): string => {
-  // Comments
-  code = code.replace(/(&lt;!--[\s\S]*?--&gt;)/g, '<span class="hl-comment">$1</span>');
+  // Use placeholder system to protect already-highlighted content
+  const placeholders: string[] = [];
+  const addPlaceholder = (content: string): string => {
+    const index = placeholders.length;
+    placeholders.push(content);
+    return `__HL_VUE_${index}__`;
+  };
 
-  // Mustache interpolation first
-  code = code.replace(/(\{\{[\s\S]*?\}\})/g, '<span class="hl-mustache">$1</span>');
+  // Comments - protect with placeholder
+  code = code.replace(/(&lt;!--[\s\S]*?--&gt;)/g, (m) =>
+    addPlaceholder(`<span class="hl-comment">${m}</span>`)
+  );
 
-  // Tags
-  code = code.replace(/(&lt;\/?)([\w-]+)/g, '$1<span class="hl-tag">$2</span>');
+  // Mustache interpolation - protect with placeholder
+  code = code.replace(/(\{\{[\s\S]*?\}\})/g, (m) =>
+    addPlaceholder(`<span class="hl-mustache">${m}</span>`)
+  );
 
-  // Vue directives
-  code = code.replace(/\s(v-[\w-]+|:[\w-]+|@[\w-]+)/g, ' <span class="hl-directive">$1</span>');
+  // Tags - protect with placeholder to prevent "class" in span from matching attributes regex
+  code = code.replace(/(&lt;\/?)([\w-]+)/g, (_, bracket, tag) =>
+    addPlaceholder(`${bracket}<span class="hl-tag">${tag}</span>`)
+  );
+
+  // Vue directives - protect with placeholder
+  code = code.replace(
+    /\s(v-[\w-]+|:[\w-]+|@[\w-]+)/g,
+    (_, dir) => ` ${addPlaceholder(`<span class="hl-directive">${dir}</span>`)}`
+  );
 
   // Attributes
   code = code.replace(/\s([\w-]+)(=)/g, ' <span class="hl-attr">$1</span>$2');
 
   // Attribute values
   code = code.replace(/(=)(&quot;[^&]*&quot;)/g, '$1<span class="hl-string">$2</span>');
+
+  // Restore placeholders
+  code = code.replace(/__HL_VUE_(\d+)__/g, (_, index) => placeholders[parseInt(index)]);
 
   return code;
 };
