@@ -3,6 +3,9 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { Effect } from "~/types/effects";
 
+// Register plugin once at module level
+gsap.registerPlugin(ScrollTrigger);
+
 const props = defineProps<{
   effect: Effect;
 }>();
@@ -14,18 +17,28 @@ const progressRef = ref<HTMLElement | null>(null);
 let scrollTriggerInstance: ScrollTrigger | null = null;
 let animation: gsap.core.Tween | null = null;
 
-const setupAnimation = () => {
-  if (!containerRef.value || !elementRef.value) return;
-
-  // Clean up previous
+const cleanupAnimations = () => {
+  // Kill all ScrollTriggers associated with this container
+  ScrollTrigger.getAll().forEach((st) => {
+    if (st.scroller === containerRef.value) {
+      st.kill();
+    }
+  });
   if (scrollTriggerInstance) {
     scrollTriggerInstance.kill();
+    scrollTriggerInstance = null;
   }
   if (animation) {
     animation.kill();
+    animation = null;
   }
+};
 
-  gsap.registerPlugin(ScrollTrigger);
+const setupAnimation = () => {
+  if (!containerRef.value || !elementRef.value) return;
+
+  // Clean up previous animations
+  cleanupAnimations();
 
   switch (props.effect.id) {
     case "scroll-fade-in":
@@ -285,6 +298,9 @@ const setupAnimation = () => {
       });
       break;
   }
+
+  // Refresh ScrollTrigger to recalculate positions
+  ScrollTrigger.refresh();
 };
 
 const resetScroll = () => {
@@ -304,12 +320,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  if (scrollTriggerInstance) {
-    scrollTriggerInstance.kill();
-  }
-  if (animation) {
-    animation.kill();
-  }
+  cleanupAnimations();
 });
 
 watch(
@@ -410,9 +421,8 @@ const onMouseMove = (e: MouseEvent) => {
       <!-- Scrollable container -->
       <div
         ref="containerRef"
-        class="relative h-[400px] overflow-y-auto isolate"
+        class="relative h-[400px] overflow-y-scroll isolate"
         style="
-          scroll-behavior: smooth;
           overscroll-behavior: contain;
           background-color: #1c1e1d;
           background-image:
