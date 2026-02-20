@@ -260,18 +260,27 @@ const handlers: Record<
   "btn-loading": {
     onClick: () => {
       loading.value = true;
-      const spinner = elementRef.value?.querySelector(".spinner-icon");
-      if (spinner) {
-        gsap.to(spinner, {
-          rotation: 360 * 3,
-          duration: 2,
-          ease: "none",
-          onComplete: () => {
-            loading.value = false;
+      nextTick(() => {
+        const spinner = elementRef.value?.querySelector(".spinner-icon");
+        if (spinner) {
+          gsap.to(spinner, {
+            rotation: 360 * 3,
+            duration: 2,
+            ease: "none",
+            repeat: -1,
+            onComplete: () => {
+              loading.value = false;
+              gsap.set(spinner, { rotation: 0 });
+            },
+          });
+          // Auto-stop after 2 seconds for demo purposes
+          setTimeout(() => {
+            gsap.killTweensOf(spinner);
             gsap.set(spinner, { rotation: 0 });
-          },
-        });
-      }
+            loading.value = false;
+          }, 2000);
+        }
+      });
     },
   },
   "btn-success": {
