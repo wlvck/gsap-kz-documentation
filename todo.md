@@ -315,10 +315,10 @@
 - [x] toast, tooltip, modal, popover
 - [x] copy-feedback, like-heart, bookmark
 
-### 3D / Advanced — 0/5
+### 3D / Advanced — 5/5 done ✅
 
-- [ ] 3d-card-flip, 3d-carousel, perspective-scroll
-- [ ] 3d-text, parallax-3d
+- [x] 3d-card-flip, 3d-carousel, perspective-scroll
+- [x] 3d-text, parallax-3d
 
 ---
 

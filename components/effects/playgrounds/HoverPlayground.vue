@@ -628,6 +628,12 @@ const handlers: Record<
   "copy-feedback": {},
   "like-heart": {},
   bookmark: {},
+  // 3D effects - most handled in template with specific logic
+  "3d-card-flip": {},
+  "3d-carousel": {},
+  "perspective-scroll": {},
+  "3d-text": {},
+  "parallax-3d": {},
 };
 
 const currentHandlers = computed(() => handlers[props.effect.id] || handlers["btn-scale"]);
@@ -762,6 +768,15 @@ const instruction = computed(() => {
       return "Жүрекшені басыңыз";
     case "bookmark":
       return "Бетбелгіні басыңыз";
+    // 3D effects
+    case "3d-card-flip":
+      return "3D карточканы басыңыз";
+    case "3d-carousel":
+      return "Батырмаларды басып карусельді айналдырыңыз";
+    case "3d-text":
+      return "Тінтуірді мәтін үстінде жылжытыңыз";
+    case "parallax-3d":
+      return "Тінтуірді аймақта жылжытыңыз";
     default:
       return "Элементке hover жасаңыз";
   }
@@ -802,6 +817,12 @@ const isPopover = computed(() => props.effect.id === "popover");
 const isCopyFeedback = computed(() => props.effect.id === "copy-feedback");
 const isLikeHeart = computed(() => props.effect.id === "like-heart");
 const isBookmarkEffect = computed(() => props.effect.id === "bookmark");
+
+// 3D computed
+const is3dCardFlip = computed(() => props.effect.id === "3d-card-flip");
+const is3dCarousel = computed(() => props.effect.id === "3d-carousel");
+const is3dText = computed(() => props.effect.id === "3d-text");
+const isParallax3d = computed(() => props.effect.id === "parallax-3d");
 
 // Accordion state
 const accordionItems = [
@@ -937,6 +958,15 @@ const heartRef = ref<HTMLElement | null>(null);
 const heartCountRef = ref<HTMLElement | null>(null);
 const bookmarkSvgRef = ref<HTMLElement | null>(null);
 const bookmarkPathRef = ref<SVGPathElement | null>(null);
+
+// 3D effect state
+const is3dFlipped = ref(false);
+const carouselAngle = ref(0);
+const textLayersRef = ref<HTMLElement | null>(null);
+const layer1Ref = ref<HTMLElement | null>(null);
+const layer2Ref = ref<HTMLElement | null>(null);
+const layer3Ref = ref<HTMLElement | null>(null);
+const carouselRef = ref<HTMLElement | null>(null);
 
 const onCursorMove = (e: MouseEvent) => {
   if (!cursorContainerRef.value) return;
@@ -1206,6 +1236,69 @@ const toggleBookmarkAnim = () => {
     gsap.to(bookmarkSvgRef.value, { scale: 0.9, duration: 0.1 });
     gsap.to(bookmarkSvgRef.value, { scale: 1, duration: 0.2, delay: 0.1 });
   }
+};
+
+// 3D effect handlers
+const flip3dCard = () => {
+  is3dFlipped.value = !is3dFlipped.value;
+  gsap.to(elementRef.value, {
+    rotateY: is3dFlipped.value ? 180 : 0,
+    duration: 0.8,
+    ease: "power2.inOut",
+  });
+};
+
+const rotateCarousel = (direction: number) => {
+  carouselAngle.value += 72 * direction; // 360 / 5 items = 72 degrees
+  gsap.to(carouselRef.value, {
+    rotateY: carouselAngle.value,
+    duration: 0.6,
+    ease: "power2.out",
+  });
+};
+
+const on3dTextMove = (e: MouseEvent) => {
+  if (!cursorContainerRef.value || !textLayersRef.value) return;
+  const rect = cursorContainerRef.value.getBoundingClientRect();
+  const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+  const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+
+  gsap.to(textLayersRef.value, {
+    rotateX: y * -20,
+    rotateY: x * 20,
+    duration: 0.3,
+    ease: "power2.out",
+  });
+};
+
+const on3dTextLeave = () => {
+  if (!textLayersRef.value) return;
+  gsap.to(textLayersRef.value, {
+    rotateX: 0,
+    rotateY: 0,
+    duration: 0.5,
+    ease: "elastic.out(1, 0.5)",
+  });
+};
+
+const onParallax3dMove = (e: MouseEvent) => {
+  if (!cursorContainerRef.value) return;
+  const rect = cursorContainerRef.value.getBoundingClientRect();
+  const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+  const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+
+  gsap.to(layer1Ref.value, { x: x * 60, y: y * 60, duration: 0.4, ease: "power2.out" });
+  gsap.to(layer2Ref.value, { x: x * 30, y: y * 30, duration: 0.4, ease: "power2.out" });
+  gsap.to(layer3Ref.value, { x: x * 10, y: y * 10, duration: 0.4, ease: "power2.out" });
+};
+
+const onParallax3dLeave = () => {
+  gsap.to([layer1Ref.value, layer2Ref.value, layer3Ref.value], {
+    x: 0,
+    y: 0,
+    duration: 0.6,
+    ease: "elastic.out(1, 0.5)",
+  });
 };
 
 onMounted(() => {
@@ -2171,6 +2264,126 @@ onMounted(() => {
           <path ref="bookmarkPathRef" d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
         </svg>
       </button>
+
+      <!-- 3D: Card Flip -->
+      <div v-else-if="is3dCardFlip" class="w-72 h-44 cursor-pointer" style="perspective: 1000px">
+        <div
+          ref="elementRef"
+          class="relative w-full h-full"
+          style="transform-style: preserve-3d"
+          @click="flip3dCard"
+        >
+          <div
+            class="absolute inset-0 bg-gsap-green rounded-xl flex flex-col items-center justify-center"
+            style="backface-visibility: hidden"
+          >
+            <h3 class="text-black font-bold text-xl">Front Side</h3>
+            <p class="text-black/70 mt-2">Click to flip</p>
+          </div>
+          <div
+            class="absolute inset-0 bg-gsap-bg-secondary border-2 border-gsap-green rounded-xl flex flex-col items-center justify-center"
+            style="backface-visibility: hidden; transform: rotateY(180deg)"
+          >
+            <h3 class="text-gsap-text-primary font-bold text-xl">Back Side</h3>
+            <p class="text-gsap-text-muted mt-2">Click to flip back</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3D: Carousel -->
+      <div v-else-if="is3dCarousel" class="flex flex-col items-center" style="perspective: 1000px">
+        <div ref="carouselRef" class="relative w-36 h-24" style="transform-style: preserve-3d">
+          <div
+            v-for="i in 5"
+            :key="i"
+            class="absolute w-36 h-24 flex items-center justify-center rounded-lg font-bold text-black"
+            :style="{
+              transform: `rotateY(${(i - 1) * 72}deg) translateZ(150px)`,
+              background: `linear-gradient(135deg, #0ae448, #0ba934)`,
+              backfaceVisibility: 'hidden',
+            }"
+          >
+            Item {{ i }}
+          </div>
+        </div>
+        <div class="flex gap-4 mt-20">
+          <button
+            class="px-4 py-2 bg-gsap-bg-secondary border-2 border-gsap-green text-gsap-text-primary rounded-lg text-xl hover:bg-gsap-green hover:text-black"
+            @click="rotateCarousel(-1)"
+          >
+            ←
+          </button>
+          <button
+            class="px-4 py-2 bg-gsap-bg-secondary border-2 border-gsap-green text-gsap-text-primary rounded-lg text-xl hover:bg-gsap-green hover:text-black"
+            @click="rotateCarousel(1)"
+          >
+            →
+          </button>
+        </div>
+      </div>
+
+      <!-- 3D: Text Effect -->
+      <div
+        v-else-if="is3dText"
+        ref="cursorContainerRef"
+        class="w-full h-48 flex items-center justify-center cursor-pointer"
+        style="perspective: 500px"
+        @mousemove="on3dTextMove"
+        @mouseleave="on3dTextLeave"
+      >
+        <div
+          ref="textLayersRef"
+          class="relative text-5xl font-bold"
+          style="transform-style: preserve-3d"
+        >
+          <span
+            v-for="i in 8"
+            :key="i"
+            class="absolute top-0 left-0 whitespace-nowrap"
+            :style="{
+              transform: `translateZ(${(i - 1) * -3}px)`,
+              opacity: i === 1 ? 1 : 1 - (i - 1) * 0.12,
+              color: i === 1 ? '#0ae448' : `rgba(10, 228, 72, ${1 - (i - 1) * 0.12})`,
+            }"
+          >
+            GSAP
+          </span>
+          <span
+            class="relative text-gsap-green"
+            style="text-shadow: 0 0 20px rgba(10, 228, 72, 0.5)"
+          >
+            GSAP
+          </span>
+        </div>
+      </div>
+
+      <!-- 3D: Parallax Layers -->
+      <div
+        v-else-if="isParallax3d"
+        ref="cursorContainerRef"
+        class="relative w-full h-64 bg-gsap-bg-primary rounded-xl overflow-hidden cursor-pointer"
+        @mousemove="onParallax3dMove"
+        @mouseleave="onParallax3dLeave"
+      >
+        <div ref="layer1Ref" class="absolute inset-0">
+          <div class="absolute w-16 h-16 bg-gsap-green rounded-full top-1/5 left-1/5 opacity-60" />
+          <div class="absolute w-10 h-10 bg-gsap-green-dark top-3/5 right-1/4 opacity-50" />
+        </div>
+        <div ref="layer2Ref" class="absolute inset-0">
+          <div
+            class="absolute top-1/4 right-1/3 w-0 h-0 border-l-6 border-r-6 border-b-12 border-l-transparent border-r-transparent border-b-gsap-green opacity-40"
+          />
+          <div class="absolute w-8 h-8 bg-gsap-green rotate-45 bottom-1/3 left-1/3 opacity-30" />
+        </div>
+        <div ref="layer3Ref" class="absolute inset-0 flex items-center justify-center">
+          <h2
+            class="text-gsap-text-primary text-3xl font-bold"
+            style="text-shadow: 0 0 30px rgba(10, 228, 72, 0.5)"
+          >
+            3D PARALLAX
+          </h2>
+        </div>
+      </div>
 
       <!-- Generic Element (fallback) -->
       <div

@@ -11,6 +11,7 @@ import { containerEffects } from "./container";
 import { svgEffects } from "./svg";
 import { cursorEffects } from "./cursor";
 import { microEffects } from "./micro";
+import { threeDEffects } from "./3d";
 
 // All effects registry
 const allEffects: Effect[] = [
@@ -25,6 +26,7 @@ const allEffects: Effect[] = [
   ...svgEffects,
   ...cursorEffects,
   ...microEffects,
+  ...threeDEffects,
 ];
 
 // Get all effects
